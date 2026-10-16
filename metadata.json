@@ -1,0 +1,6 @@
+{
+  "name": "Spearhead Command",
+  "description": "Tactical tabletop companion for Warhammer Age of Sigmar: Spearhead. Track battle rounds, twist cards, battle tactics, victory points, objective control, and faction warscrolls.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
