@@ -147,6 +147,23 @@ export const FactionBrowser: React.FC = () => {
                 </div>
               </div>
 
+              {/* Regiment Abilities */}
+              {activeFaction.regimentAbilities && activeFaction.regimentAbilities.length > 0 && (
+                <div>
+                  <h4 className="font-cinzel text-xs font-bold text-sky-400 uppercase tracking-wider mb-2">
+                    Regiment Abilities
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {activeFaction.regimentAbilities.map((ra, idx) => (
+                      <div key={idx} className="rounded-lg border border-zinc-800 bg-zinc-950/60 p-3">
+                        <span className="block text-xs font-bold text-zinc-200 mb-1">{ra.name}</span>
+                        <p className="text-xs text-zinc-400 leading-relaxed">{ra.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Enhancements (Hero Traits & Artefacts) */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>

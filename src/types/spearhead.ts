@@ -54,6 +54,10 @@ export interface SpearheadFaction {
     name: string;
     description: string;
   }[];
+  regimentAbilities?: {
+    name: string;
+    description: string;
+  }[];
   heroTraits: FactionEnhancement[];
   artefacts: FactionEnhancement[];
   units: SpearheadUnit[];
