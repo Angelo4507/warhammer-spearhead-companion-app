@@ -157,10 +157,14 @@ export const SetupMatchModal: React.FC<SetupMatchModalProps> = ({
                   onChange={e => handleP1FactionChange(e.target.value)}
                   className="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 focus:border-blue-500 focus:outline-none"
                 >
-                  {SPEARHEAD_FACTIONS.map(f => (
-                    <option key={f.id} value={f.id}>
-                      {f.name} ({f.subTitle})
-                    </option>
+                  {(['ORDER', 'CHAOS', 'DEATH', 'DESTRUCTION'] as const).map(alliance => (
+                    <optgroup key={alliance} label={`── ${alliance} ──`}>
+                      {SPEARHEAD_FACTIONS.filter(f => f.grandAlliance === alliance).map(f => (
+                        <option key={f.id} value={f.id}>
+                          {f.name} - {f.subTitle}
+                        </option>
+                      ))}
+                    </optgroup>
                   ))}
                 </select>
               </div>
@@ -228,10 +232,14 @@ export const SetupMatchModal: React.FC<SetupMatchModalProps> = ({
                   onChange={e => handleP2FactionChange(e.target.value)}
                   className="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 focus:border-rose-500 focus:outline-none"
                 >
-                  {SPEARHEAD_FACTIONS.map(f => (
-                    <option key={f.id} value={f.id}>
-                      {f.name} ({f.subTitle})
-                    </option>
+                  {(['ORDER', 'CHAOS', 'DEATH', 'DESTRUCTION'] as const).map(alliance => (
+                    <optgroup key={alliance} label={`── ${alliance} ──`}>
+                      {SPEARHEAD_FACTIONS.filter(f => f.grandAlliance === alliance).map(f => (
+                        <option key={f.id} value={f.id}>
+                          {f.name} - {f.subTitle}
+                        </option>
+                      ))}
+                    </optgroup>
                   ))}
                 </select>
               </div>

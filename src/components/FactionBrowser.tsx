@@ -2,44 +2,66 @@ import React, { useState } from 'react';
 import { SPEARHEAD_FACTIONS } from '../data/spearheadData';
 import { GrandAlliance, SpearheadFaction, SpearheadUnit } from '../types/spearhead';
 import { UnitWarscrollModal } from './UnitWarscrollModal';
-import { Shield, Sword, Heart, Zap, Sparkles, ChevronRight, User } from 'lucide-react';
+import { Shield, Sword, Heart, Zap, Sparkles, ChevronRight, User, Search } from 'lucide-react';
 import battleBannerImage from '../assets/images/spearhead_battle_banner_1791480631970.jpg';
 
 export const FactionBrowser: React.FC = () => {
   const [selectedAlliance, setSelectedAlliance] = useState<GrandAlliance | 'ALL'>('ALL');
   const [activeFactionId, setActiveFactionId] = useState<string>(SPEARHEAD_FACTIONS[0].id);
   const [inspectingUnit, setInspectingUnit] = useState<SpearheadUnit | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
-  const factions = SPEARHEAD_FACTIONS.filter(
-    f => selectedAlliance === 'ALL' || f.grandAlliance === selectedAlliance
-  );
+  const factions = SPEARHEAD_FACTIONS.filter(f => {
+    const matchesAlliance = selectedAlliance === 'ALL' || f.grandAlliance === selectedAlliance;
+    const q = searchQuery.toLowerCase().trim();
+    if (!q) return matchesAlliance;
+    const matchesQuery =
+      f.name.toLowerCase().includes(q) ||
+      f.subTitle.toLowerCase().includes(q) ||
+      f.units.some(u => u.name.toLowerCase().includes(q));
+    return matchesAlliance && matchesQuery;
+  });
 
   const activeFaction =
     SPEARHEAD_FACTIONS.find(f => f.id === activeFactionId) || factions[0] || SPEARHEAD_FACTIONS[0];
 
   return (
     <div className="space-y-6">
-      {/* Alliance filter tabs */}
-      <div className="flex flex-wrap items-center gap-1.5 p-1 bg-zinc-900 border border-zinc-800 rounded-lg">
-        {(['ALL', 'ORDER', 'CHAOS', 'DEATH', 'DESTRUCTION'] as const).map(alliance => (
-          <button
-            key={alliance}
-            onClick={() => {
-              setSelectedAlliance(alliance);
-              const firstInAlliance = SPEARHEAD_FACTIONS.find(
-                f => alliance === 'ALL' || f.grandAlliance === alliance
-              );
-              if (firstInAlliance) setActiveFactionId(firstInAlliance.id);
-            }}
-            className={`px-3.5 py-1.5 text-xs font-semibold rounded-md transition-colors ${
-              selectedAlliance === alliance
-                ? 'bg-amber-500 text-zinc-950 font-bold'
-                : 'text-zinc-400 hover:text-zinc-200'
-            }`}
-          >
-            {alliance}
-          </button>
-        ))}
+      {/* Alliance filter tabs & Search */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-1.5 p-1 bg-zinc-900 border border-zinc-800 rounded-lg">
+          {(['ALL', 'ORDER', 'CHAOS', 'DEATH', 'DESTRUCTION'] as const).map(alliance => (
+            <button
+              key={alliance}
+              onClick={() => {
+                setSelectedAlliance(alliance);
+                const firstInAlliance = SPEARHEAD_FACTIONS.find(
+                  f => alliance === 'ALL' || f.grandAlliance === alliance
+                );
+                if (firstInAlliance) setActiveFactionId(firstInAlliance.id);
+              }}
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-md transition-colors ${
+                selectedAlliance === alliance
+                  ? 'bg-amber-500 text-zinc-950 font-bold'
+                  : 'text-zinc-400 hover:text-zinc-200'
+              }`}
+            >
+              {alliance}
+            </button>
+          ))}
+        </div>
+
+        {/* Search input */}
+        <div className="relative min-w-[240px]">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            placeholder="Search army or warscroll..."
+            className="w-full bg-zinc-900 border border-zinc-800 rounded-lg pl-9 pr-3 py-1.5 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-500"
+          />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">

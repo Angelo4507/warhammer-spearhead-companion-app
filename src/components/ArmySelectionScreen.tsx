@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { SPEARHEAD_FACTIONS } from '../data/spearheadData';
 import { GrandAlliance, SpearheadFaction } from '../types/spearhead';
-import { Swords, Shield, Flame, Leaf, Check, Sparkles, User, ChevronRight, Crown } from 'lucide-react';
+import { Swords, Shield, Flame, Leaf, Check, Sparkles, User, ChevronRight, Crown, Search } from 'lucide-react';
 import battleBannerImage from '../assets/images/spearhead_battle_banner_1791480631970.jpg';
 
 interface ArmySelectionScreenProps {
@@ -27,6 +27,7 @@ export const ArmySelectionScreen: React.FC<ArmySelectionScreenProps> = ({
 }) => {
   const [selectedAlliance, setSelectedAlliance] = useState<GrandAlliance | 'ALL'>('ALL');
   const [realm, setRealm] = useState<'Aqshy' | 'Ghyran'>('Aqshy');
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   // Player 1 (User's Army)
   const [p1FactionId, setP1FactionId] = useState<string>(SPEARHEAD_FACTIONS[0].id);
@@ -46,9 +47,17 @@ export const ArmySelectionScreen: React.FC<ArmySelectionScreenProps> = ({
   const p1Faction = SPEARHEAD_FACTIONS.find(f => f.id === p1FactionId) || SPEARHEAD_FACTIONS[0];
   const p2Faction = SPEARHEAD_FACTIONS.find(f => f.id === p2FactionId) || SPEARHEAD_FACTIONS[1];
 
-  const filteredFactions = SPEARHEAD_FACTIONS.filter(
-    f => selectedAlliance === 'ALL' || f.grandAlliance === selectedAlliance
-  );
+  const filteredFactions = SPEARHEAD_FACTIONS.filter(f => {
+    const matchesAlliance = selectedAlliance === 'ALL' || f.grandAlliance === selectedAlliance;
+    const q = searchQuery.toLowerCase().trim();
+    if (!q) return matchesAlliance;
+    return (
+      matchesAlliance &&
+      (f.name.toLowerCase().includes(q) ||
+        f.subTitle.toLowerCase().includes(q) ||
+        f.units.some(u => u.name.toLowerCase().includes(q)))
+    );
+  });
 
   const handleSelectP1Faction = (faction: SpearheadFaction) => {
     setP1FactionId(faction.id);
@@ -148,22 +157,36 @@ export const ArmySelectionScreen: React.FC<ArmySelectionScreenProps> = ({
               </p>
             </div>
 
-            {/* Grand Alliance filter tabs */}
-            <div className="flex flex-wrap items-center gap-1.5 p-1 bg-zinc-900 border border-zinc-800 rounded-lg">
-              {(['ALL', 'ORDER', 'CHAOS', 'DEATH', 'DESTRUCTION'] as const).map(alliance => (
-                <button
-                  key={alliance}
-                  type="button"
-                  onClick={() => setSelectedAlliance(alliance)}
-                  className={`px-3 py-1 text-xs font-semibold rounded-md transition-colors ${
-                    selectedAlliance === alliance
-                      ? 'bg-amber-500 text-zinc-950 font-bold'
-                      : 'text-zinc-400 hover:text-zinc-200'
-                  }`}
-                >
-                  {alliance}
-                </button>
-              ))}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+              {/* Grand Alliance filter tabs */}
+              <div className="flex flex-wrap items-center gap-1.5 p-1 bg-zinc-900 border border-zinc-800 rounded-lg">
+                {(['ALL', 'ORDER', 'CHAOS', 'DEATH', 'DESTRUCTION'] as const).map(alliance => (
+                  <button
+                    key={alliance}
+                    type="button"
+                    onClick={() => setSelectedAlliance(alliance)}
+                    className={`px-3 py-1 text-xs font-semibold rounded-md transition-colors ${
+                      selectedAlliance === alliance
+                        ? 'bg-amber-500 text-zinc-950 font-bold'
+                        : 'text-zinc-400 hover:text-zinc-200'
+                    }`}
+                  >
+                    {alliance}
+                  </button>
+                ))}
+              </div>
+
+              {/* Search input */}
+              <div className="relative min-w-[200px]">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-500" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                  placeholder="Search force or unit..."
+                  className="w-full bg-zinc-900 border border-zinc-800 rounded-lg pl-8 pr-3 py-1 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-500"
+                />
+              </div>
             </div>
           </div>
 
@@ -395,10 +418,14 @@ export const ArmySelectionScreen: React.FC<ArmySelectionScreenProps> = ({
                   }}
                   className="w-full rounded-lg border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 focus:border-rose-500 focus:outline-none"
                 >
-                  {SPEARHEAD_FACTIONS.map(f => (
-                    <option key={f.id} value={f.id}>
-                      {f.name} ({f.subTitle}) · {f.grandAlliance}
-                    </option>
+                  {(['ORDER', 'CHAOS', 'DEATH', 'DESTRUCTION'] as const).map(alliance => (
+                    <optgroup key={alliance} label={`── ${alliance} ──`}>
+                      {SPEARHEAD_FACTIONS.filter(f => f.grandAlliance === alliance).map(f => (
+                        <option key={f.id} value={f.id}>
+                          {f.name} ({f.subTitle})
+                        </option>
+                      ))}
+                    </optgroup>
                   ))}
                 </select>
               </div>
