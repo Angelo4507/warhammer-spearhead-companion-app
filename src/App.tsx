@@ -11,10 +11,11 @@ import { MatchTracker } from './components/MatchTracker';
 import { FactionBrowser } from './components/FactionBrowser';
 import { CardsBrowser } from './components/CardsBrowser';
 import { CoreRulesReference } from './components/CoreRulesReference';
+import { LandingPage } from './components/LandingPage';
 import { SetupMatchModal } from './components/SetupMatchModal';
+import { ArmySelectionScreen } from './components/ArmySelectionScreen';
 import { DiceRollerModal } from './components/DiceRollerModal';
 import { MatchHistoryModal } from './components/MatchHistoryModal';
-import { playSound } from './utils/soundEffects';
 
 function shuffleDeck(deck: BattleTacticCard[]): BattleTacticCard[] {
   const copy = [...deck];
@@ -121,22 +122,29 @@ function createInitialMatch(
 }
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'tracker' | 'factions' | 'cards' | 'rules'>('tracker');
-  const [soundEnabled, setSoundEnabled] = useState<boolean>(true);
+  // If no saved active match, land directly on the landing tab with option to create game!
+  const [currentMatch, setCurrentMatch] = useState<MatchState | null>(() => {
+    try {
+      const saved = localStorage.getItem('spearhead_active_match');
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return null;
+  });
+
+  const [activeTab, setActiveTab] = useState<'landing' | 'tracker' | 'factions' | 'cards' | 'rules'>(() => {
+    try {
+      const saved = localStorage.getItem('spearhead_active_match');
+      if (saved) return 'tracker';
+    } catch {}
+    return 'landing';
+  });
 
   // Modals
   const [isSetupOpen, setIsSetupOpen] = useState<boolean>(false);
   const [isDiceOpen, setIsDiceOpen] = useState<boolean>(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState<boolean>(false);
 
-  // Active match
-  const [currentMatch, setCurrentMatch] = useState<MatchState>(() => {
-    try {
-      const saved = localStorage.getItem('spearhead_active_match');
-      if (saved) return JSON.parse(saved);
-    } catch {}
-    return createInitialMatch();
-  });
+  const [isSelectingArmy, setIsSelectingArmy] = useState<boolean>(false);
 
   // Saved match history
   const [matchHistory, setMatchHistory] = useState<MatchState[]>(() => {
@@ -150,7 +158,11 @@ export default function App() {
   // Persist active match
   useEffect(() => {
     try {
-      localStorage.setItem('spearhead_active_match', JSON.stringify(currentMatch));
+      if (currentMatch) {
+        localStorage.setItem('spearhead_active_match', JSON.stringify(currentMatch));
+      } else {
+        localStorage.removeItem('spearhead_active_match');
+      }
     } catch {}
   }, [currentMatch]);
 
@@ -184,12 +196,38 @@ export default function App() {
       config.p2ArtefactId
     );
     setCurrentMatch(newMatch);
+    setIsSelectingArmy(false);
     setIsSetupOpen(false);
     setActiveTab('tracker');
   };
 
+  const handleCreateGame = () => {
+    setIsSelectingArmy(true);
+    setActiveTab('tracker');
+  };
+
+  const handleResumeGame = () => {
+    setIsSelectingArmy(false);
+    setActiveTab('tracker');
+  };
+
+  const handleCancelCurrentMatch = () => {
+    setCurrentMatch(null);
+    try {
+      localStorage.removeItem('spearhead_active_match');
+    } catch {}
+    setIsSelectingArmy(false);
+    setActiveTab('landing');
+  };
+
+  const handleDeleteHistoryMatch = (matchId: string) => {
+    setMatchHistory(prev => prev.filter(m => m.id !== matchId));
+  };
+
   const handleFinishMatch = () => {
-    setMatchHistory(prev => [currentMatch, ...prev]);
+    if (currentMatch) {
+      setMatchHistory(prev => [currentMatch, ...prev]);
+    }
     setIsHistoryOpen(true);
   };
 
@@ -206,22 +244,55 @@ export default function App() {
       <Header
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        onNewMatch={() => setIsSetupOpen(true)}
+        onNewMatch={handleCreateGame}
         onOpenDiceRoller={() => setIsDiceOpen(true)}
         onOpenHistory={() => setIsHistoryOpen(true)}
-        soundEnabled={soundEnabled}
-        setSoundEnabled={setSoundEnabled}
+        hasActiveMatch={!!currentMatch && !isSelectingArmy}
       />
 
       {/* Main Tabletop Viewport Frame */}
       <main className="flex-1 mx-auto w-full max-w-7xl px-4 sm:px-6 py-6">
-        {activeTab === 'tracker' && (
-          <MatchTracker
-            match={currentMatch}
-            setMatch={setCurrentMatch}
-            soundEnabled={soundEnabled}
-            onFinishMatch={handleFinishMatch}
+        {activeTab === 'landing' && (
+          <LandingPage
+            currentMatch={currentMatch}
+            onCreateGame={handleCreateGame}
+            onResumeGame={handleResumeGame}
+            onCancelMatch={handleCancelCurrentMatch}
+            onNavigateTab={(tab) => {
+              if (tab === 'tracker') {
+                if (!currentMatch) {
+                  setIsSelectingArmy(true);
+                } else {
+                  setIsSelectingArmy(false);
+                }
+              }
+              setActiveTab(tab);
+            }}
+            onOpenDiceRoller={() => setIsDiceOpen(true)}
+            onOpenHistory={() => setIsHistoryOpen(true)}
           />
+        )}
+
+        {activeTab === 'tracker' && (
+          !currentMatch || isSelectingArmy ? (
+            <ArmySelectionScreen
+              onStartMatch={handleStartNewMatch}
+              isInitialSetup={!currentMatch}
+              onCancel={() => {
+                setIsSelectingArmy(false);
+                if (!currentMatch) {
+                  setActiveTab('landing');
+                }
+              }}
+            />
+          ) : (
+            <MatchTracker
+              match={currentMatch}
+              setMatch={setCurrentMatch as React.Dispatch<React.SetStateAction<MatchState>>}
+              onFinishMatch={handleFinishMatch}
+              onCancelMatch={handleCancelCurrentMatch}
+            />
+          )
         )}
 
         {activeTab === 'factions' && <FactionBrowser />}
@@ -241,13 +312,11 @@ export default function App() {
         isOpen={isSetupOpen}
         onClose={() => setIsSetupOpen(false)}
         onStartMatch={handleStartNewMatch}
-        soundEnabled={soundEnabled}
       />
 
       <DiceRollerModal
         isOpen={isDiceOpen}
         onClose={() => setIsDiceOpen(false)}
-        soundEnabled={soundEnabled}
       />
 
       <MatchHistoryModal
@@ -255,6 +324,7 @@ export default function App() {
         onClose={() => setIsHistoryOpen(false)}
         matches={matchHistory}
         onClearHistory={handleClearHistory}
+        onDeleteMatch={handleDeleteHistoryMatch}
       />
     </div>
   );

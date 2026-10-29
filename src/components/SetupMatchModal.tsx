@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { SPEARHEAD_FACTIONS } from '../data/spearheadData';
 import { SpearheadFaction } from '../types/spearhead';
 import { X, Flame, Leaf, Swords, Shield, Sparkles } from 'lucide-react';
-import { playSound } from '../utils/soundEffects';
 
 interface SetupMatchModalProps {
   isOpen: boolean;
@@ -18,14 +17,12 @@ interface SetupMatchModalProps {
     p2HeroTraitId: string;
     p2ArtefactId: string;
   }) => void;
-  soundEnabled: boolean;
 }
 
 export const SetupMatchModal: React.FC<SetupMatchModalProps> = ({
   isOpen,
   onClose,
   onStartMatch,
-  soundEnabled
 }) => {
   const [realm, setRealm] = useState<'Aqshy' | 'Ghyran'>('Aqshy');
   const [p1Name, setP1Name] = useState<string>('Commander 1');
@@ -62,7 +59,6 @@ export const SetupMatchModal: React.FC<SetupMatchModalProps> = ({
   };
 
   const handleBegin = () => {
-    if (soundEnabled) playSound('roundAdvance');
     onStartMatch({
       realm,
       p1Name,

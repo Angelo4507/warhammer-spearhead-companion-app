@@ -1,7 +1,7 @@
 # Spearhead Command ⚔️
 ### The Ultimate Tabletop Companion App for Warhammer Age of Sigmar: Spearhead
 
-"Spearhead Command is an unofficial, fan-made companion app and is in no way endorsed, sponsored, or affiliated with Games Workshop Limited. Warhammer, Warhammer Age of Sigmar, Spearhead, and all associated logos, names, races, and miniatures are trademarks or registered trademarks of Games Workshop Limited."
+Inspired by **Void Command** for Warhammer 40,000 Kill Team, **Spearhead Command** is a dedicated tabletop companion app designed for tournament and casual Warhammer Age of Sigmar players to run games swiftly without flipping through cards, battlepacks, and rulebooks.
 
 ---
 

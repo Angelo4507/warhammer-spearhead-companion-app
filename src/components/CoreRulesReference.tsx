@@ -34,11 +34,19 @@ export const CoreRulesReference: React.FC = () => {
             </div>
 
             <div className="rounded-lg border border-zinc-800 bg-zinc-950/40 p-3">
-              <span className="block font-bold text-zinc-100 mb-1">Scoring Each Turn</span>
-              <ul className="list-disc list-inside space-y-1 text-zinc-400">
-                <li><strong className="text-zinc-200">Hold 1:</strong> Score +1 VP if you control at least 1 objective marker at the end of your turn.</li>
-                <li><strong className="text-zinc-200">Hold More:</strong> Score +1 VP if you control more objective markers than your opponent at the end of your turn.</li>
-                <li><strong className="text-zinc-200">Battle Tactic:</strong> Score the listed VP (+1 or +2 VP) on your active chosen Battle Tactic card if completed by end of turn.</li>
+              <span className="block font-bold text-zinc-100 mb-1">Scoring Each Round (Max 3 VP Each)</span>
+              <ul className="list-disc list-inside space-y-1.5 text-zinc-400">
+                <li>
+                  <strong className="text-zinc-200">Primary Objectives (Max 3 VP / round):</strong>
+                  <ul className="list-circle list-inside pl-4 mt-0.5 space-y-0.5 text-zinc-400">
+                    <li><strong className="text-zinc-300">Hold 1 (+1 VP):</strong> Control ≥ 1 objective marker at the end of your turn.</li>
+                    <li><strong className="text-zinc-300">Hold 2+ (+1 VP):</strong> Control ≥ 2 objective markers at the end of your turn.</li>
+                    <li><strong className="text-zinc-300">Hold More (+1 VP):</strong> Control more objective markers than your opponent.</li>
+                  </ul>
+                </li>
+                <li>
+                  <strong className="text-zinc-200">Secondary Objectives (Max 3 VP / round):</strong> Score active Battle Tactic cards completed during your turn (up to a maximum cap of 3 VP per round).
+                </li>
               </ul>
             </div>
 

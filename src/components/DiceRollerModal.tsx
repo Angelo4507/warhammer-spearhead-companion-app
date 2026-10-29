@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 import { X, RotateCcw, Dices } from 'lucide-react';
-import { playSound } from '../utils/soundEffects';
 
 interface DiceRollerModalProps {
   isOpen: boolean;
   onClose: () => void;
-  soundEnabled: boolean;
 }
 
 export const DiceRollerModal: React.FC<DiceRollerModalProps> = ({
   isOpen,
   onClose,
-  soundEnabled,
 }) => {
   const [numDice, setNumDice] = useState<number>(6);
   const [target, setTarget] = useState<number>(3);
@@ -22,7 +19,6 @@ export const DiceRollerModal: React.FC<DiceRollerModalProps> = ({
   if (!isOpen) return null;
 
   const handleRoll = () => {
-    if (soundEnabled) playSound('diceRoll');
     setIsRolling(true);
     setTimeout(() => {
       const rolls: number[] = [];
@@ -35,14 +31,12 @@ export const DiceRollerModal: React.FC<DiceRollerModalProps> = ({
   };
 
   const handleRerollOnes = () => {
-    if (soundEnabled) playSound('diceRoll');
     setDiceResults(prev =>
       prev.map(d => (d === 1 ? Math.floor(Math.random() * 6) + 1 : d))
     );
   };
 
   const handleRerollMisses = () => {
-    if (soundEnabled) playSound('diceRoll');
     setDiceResults(prev =>
       prev.map(d => {
         const modified = Math.max(1, Math.min(6, d + modifier));
