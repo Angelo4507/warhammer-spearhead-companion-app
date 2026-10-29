@@ -183,7 +183,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               </span>
             </div>
             <h3 className="font-cinzel text-lg font-bold text-zinc-100 group-hover:text-sky-300 transition-colors mb-1.5 flex items-center justify-between">
-              <span>Warscroll Database</span>
+              <span>Factions Database</span>
               <ChevronRight className="h-4 w-4 text-zinc-500 group-hover:text-sky-400 transition-transform group-hover:translate-x-1" />
             </h3>
             <p className="text-xs text-zinc-400 leading-relaxed mb-4">

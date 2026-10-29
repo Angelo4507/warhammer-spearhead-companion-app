@@ -68,7 +68,7 @@ export const Header: React.FC<HeaderProps> = ({
                 : 'text-zinc-400 hover:text-zinc-200'
             }`}
           >
-            Warscrolls
+            Factions
           </button>
           <button
             onClick={() => handleTabClick('cards')}
@@ -148,7 +148,7 @@ export const Header: React.FC<HeaderProps> = ({
             activeTab === 'factions' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40' : 'text-zinc-400 hover:text-zinc-200'
           }`}
         >
-          Warscrolls
+          Factions
         </button>
         <button
           onClick={() => handleTabClick('cards')}

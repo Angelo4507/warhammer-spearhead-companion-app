@@ -57,6 +57,10 @@ export const ArmySelectionScreen: React.FC<ArmySelectionScreenProps> = ({
         f.subTitle.toLowerCase().includes(q) ||
         f.units.some(u => u.name.toLowerCase().includes(q)))
     );
+  }).sort((a, b) => {
+    const nameDiff = a.name.localeCompare(b.name);
+    if (nameDiff !== 0) return nameDiff;
+    return a.subTitle.localeCompare(b.subTitle);
   });
 
   const handleSelectP1Faction = (faction: SpearheadFaction) => {

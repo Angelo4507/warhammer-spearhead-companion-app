@@ -20,6 +20,10 @@ export const FactionBrowser: React.FC = () => {
       f.subTitle.toLowerCase().includes(q) ||
       f.units.some(u => u.name.toLowerCase().includes(q));
     return matchesAlliance && matchesQuery;
+  }).sort((a, b) => {
+    const nameDiff = a.name.localeCompare(b.name);
+    if (nameDiff !== 0) return nameDiff;
+    return a.subTitle.localeCompare(b.subTitle);
   });
 
   const activeFaction =
