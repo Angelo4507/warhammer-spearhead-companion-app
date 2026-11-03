@@ -150,6 +150,42 @@ export const CoreRulesReference: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Spearhead Reinforcements Rule */}
+        <div className="md:col-span-2 rounded-xl border border-rose-900/60 bg-gradient-to-br from-zinc-900/90 via-rose-950/20 to-zinc-950/90 p-5 space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2.5 text-rose-400 font-cinzel text-sm font-bold">
+              <RefreshCw className="h-4 w-4 stroke-[2.5]" />
+              <span>Spearhead Reinforcements & Casualties</span>
+            </div>
+            <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-rose-950 border border-rose-600/70 text-rose-300">
+              Core Mechanic
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-zinc-300">
+            <div className="rounded-lg border border-zinc-800/80 bg-zinc-950/60 p-3 space-y-1">
+              <span className="block font-bold text-rose-300">Reinforcements Keyword</span>
+              <p className="text-zinc-400 text-xs leading-relaxed">
+                Units displaying the circular <strong className="text-rose-400">Reinforcements icon</strong> (such as Freeguild Steelhelms, Cavaliers, and Great Cannons) can be recalled to battle when slain. Heroes cannot be reinforced.
+              </p>
+            </div>
+
+            <div className="rounded-lg border border-zinc-800/80 bg-zinc-950/60 p-3 space-y-1">
+              <span className="block font-bold text-rose-300">Returning to Battle</span>
+              <p className="text-zinc-400 text-xs leading-relaxed">
+                When a reinforcement unit is completely destroyed, use the <strong className="text-zinc-200">Call Reinforcements</strong> action in the battle tracker to return a replacement unit to the battlefield at full starting health.
+              </p>
+            </div>
+
+            <div className="rounded-lg border border-zinc-800/80 bg-zinc-950/60 p-3 space-y-1">
+              <span className="block font-bold text-rose-300">Deployment on Return</span>
+              <p className="text-zinc-400 text-xs leading-relaxed">
+                Reinforcement units re-enter the battlefield wholly within 6" of your battlefield edge (or your designated deployment territory) and more than 9" from enemy units.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

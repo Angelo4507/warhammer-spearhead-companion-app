@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { SPEARHEAD_FACTIONS } from '../data/spearheadData';
 import { GrandAlliance, SpearheadFaction } from '../types/spearhead';
-import { Swords, Shield, Flame, Leaf, Check, Sparkles, User, ChevronRight, Crown, Search } from 'lucide-react';
+import { Swords, Shield, Flame, Leaf, Check, Sparkles, User, ChevronRight, Crown, Search, RotateCcw } from 'lucide-react';
+import { isUnitReinforceable } from './ReinforcementsBadge';
 import battleBannerImage from '../assets/images/spearhead_battle_banner_1791480631970.jpg';
 
 interface ArmySelectionScreenProps {
@@ -233,14 +234,25 @@ export const ArmySelectionScreen: React.FC<ArmySelectionScreenProps> = ({
                         Included Warscrolls:
                       </span>
                       <div className="flex flex-wrap gap-1">
-                        {faction.units.map(u => (
-                          <span
-                            key={u.id}
-                            className="text-[10px] bg-zinc-800/80 text-zinc-300 px-2 py-0.5 rounded border border-zinc-700/60 font-mono"
-                          >
-                            {u.name}
-                          </span>
-                        ))}
+                        {faction.units.map(u => {
+                          const reinforceable = isUnitReinforceable(u);
+                          return (
+                            <span
+                              key={u.id}
+                              title={reinforceable ? `${u.name} (Reinforcements: Can return when slain)` : u.name}
+                              className={`text-[10px] px-2 py-0.5 rounded border font-mono flex items-center gap-1 ${
+                                reinforceable
+                                  ? 'bg-rose-950/40 text-rose-200 border-rose-800/60'
+                                  : 'bg-zinc-800/80 text-zinc-300 border-zinc-700/60'
+                              }`}
+                            >
+                              {reinforceable && (
+                                <RotateCcw className="h-2.5 w-2.5 text-rose-400 shrink-0" />
+                              )}
+                              <span>{u.name}</span>
+                            </span>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>

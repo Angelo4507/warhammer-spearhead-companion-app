@@ -3,6 +3,7 @@ import { SPEARHEAD_FACTIONS } from '../data/spearheadData';
 import { GrandAlliance, SpearheadFaction, SpearheadUnit } from '../types/spearhead';
 import { UnitWarscrollModal } from './UnitWarscrollModal';
 import { Shield, Sword, Heart, Zap, Sparkles, ChevronRight, User, Search } from 'lucide-react';
+import { ReinforcementsBadge, isUnitReinforceable } from './ReinforcementsBadge';
 import battleBannerImage from '../assets/images/spearhead_battle_banner_1791480631970.jpg';
 
 export const FactionBrowser: React.FC = () => {
@@ -211,11 +212,16 @@ export const FactionBrowser: React.FC = () => {
                       onClick={() => setInspectingUnit(unit)}
                       className="text-left rounded-lg border border-zinc-800 bg-zinc-950/60 p-3 hover:border-amber-500/50 hover:bg-zinc-800/40 transition-colors"
                     >
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="font-cinzel text-xs font-bold text-zinc-100">{unit.name}</span>
-                        <span className="font-mono text-[10px] uppercase px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400">
-                          {unit.role}
-                        </span>
+                      <div className="flex items-center justify-between mb-2 gap-2">
+                        <span className="font-cinzel text-xs font-bold text-zinc-100 truncate">{unit.name}</span>
+                        <div className="flex items-center gap-1.5 shrink-0">
+                          {isUnitReinforceable(unit) && (
+                            <ReinforcementsBadge unit={unit} variant="icon" />
+                          )}
+                          <span className="font-mono text-[10px] uppercase px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400">
+                            {unit.role}
+                          </span>
+                        </div>
                       </div>
 
                       <div className="grid grid-cols-4 gap-1 text-center font-mono text-xs">
@@ -237,9 +243,12 @@ export const FactionBrowser: React.FC = () => {
                         </div>
                       </div>
 
-                      {unit.isReinforcement && (
-                        <div className="mt-2 text-[10px] text-amber-400 font-medium">
-                          ✦ Reinforcement: {unit.reinforcementNote || 'Arrives Round 3 or on return'}
+                      {isUnitReinforceable(unit) && (
+                        <div className="mt-2.5 pt-2 border-t border-zinc-900/80 flex items-center gap-1.5 text-[10px] text-rose-300">
+                          <ReinforcementsBadge unit={unit} variant="pill" showTooltip={false} />
+                          <span className="text-zinc-400 truncate text-[10px]">
+                            {unit.reinforcementNote || 'Can return after being slain'}
+                          </span>
                         </div>
                       )}
                     </button>

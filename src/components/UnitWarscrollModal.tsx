@@ -1,6 +1,7 @@
 import React from 'react';
 import { SpearheadUnit } from '../types/spearhead';
-import { X, Shield, Heart, Zap, Crosshair, Sword } from 'lucide-react';
+import { X, Heart, Zap, Sword } from 'lucide-react';
+import { ReinforcementsBadge, isUnitReinforceable } from './ReinforcementsBadge';
 
 interface UnitWarscrollModalProps {
   unit: SpearheadUnit | null;
@@ -17,14 +18,19 @@ export const UnitWarscrollModal: React.FC<UnitWarscrollModalProps> = ({
 }) => {
   if (!unit) return null;
 
+  const canReinforce = isUnitReinforceable(unit);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
       <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl border border-zinc-800 bg-zinc-900 shadow-2xl">
         {/* Header */}
         <div className="sticky top-0 z-10 flex items-center justify-between border-b border-zinc-800 bg-zinc-950/95 px-6 py-4 backdrop-blur-md">
-          <div>
-            <div className="text-[11px] font-semibold text-amber-400 tracking-wider uppercase">
-              Warscroll Reference · {unit.role}
+          <div className="flex-1 pr-4">
+            <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold text-amber-400 tracking-wider uppercase mb-0.5">
+              <span>Warscroll Reference · {unit.role}</span>
+              {canReinforce && (
+                <ReinforcementsBadge unit={unit} variant="badge" />
+              )}
             </div>
             <h2 className="font-cinzel text-xl font-bold text-zinc-100">{unit.name}</h2>
           </div>
@@ -37,8 +43,13 @@ export const UnitWarscrollModal: React.FC<UnitWarscrollModalProps> = ({
         </div>
 
         <div className="p-6 space-y-6">
+          {/* Reinforcements Banner */}
+          {canReinforce && (
+            <ReinforcementsBadge unit={unit} variant="banner" />
+          )}
+
           {/* Key Characteristics Bar */}
-          <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 text-center">
+          <div className={`grid ${unit.ward ? 'grid-cols-3 sm:grid-cols-6' : 'grid-cols-4 sm:grid-cols-6'} gap-2 text-center`}>
             <div className="rounded-lg border border-zinc-800 bg-zinc-950/60 p-2.5">
               <span className="block text-[10px] uppercase font-semibold text-zinc-500">Move</span>
               <span className="font-mono text-lg font-bold text-amber-400">{unit.move}</span>
@@ -51,14 +62,20 @@ export const UnitWarscrollModal: React.FC<UnitWarscrollModalProps> = ({
               <span className="block text-[10px] uppercase font-semibold text-zinc-500">Save</span>
               <span className="font-mono text-lg font-bold text-sky-400">{unit.save}</span>
             </div>
+            {unit.ward && (
+              <div className="rounded-lg border border-amber-900/40 bg-amber-950/20 p-2.5">
+                <span className="block text-[10px] uppercase font-semibold text-amber-400/80">Ward</span>
+                <span className="font-mono text-lg font-bold text-amber-300">{unit.ward}</span>
+              </div>
+            )}
             <div className="rounded-lg border border-zinc-800 bg-zinc-950/60 p-2.5">
               <span className="block text-[10px] uppercase font-semibold text-zinc-500">Control</span>
               <span className="font-mono text-lg font-bold text-indigo-400">{unit.control}</span>
             </div>
-            <div className="rounded-lg border border-zinc-800 bg-zinc-950/60 p-2.5 col-span-2 sm:col-span-2">
+            <div className={`rounded-lg border border-zinc-800 bg-zinc-950/60 p-2.5 ${unit.ward ? 'col-span-2 sm:col-span-1' : 'col-span-2 sm:col-span-2'}`}>
               <span className="block text-[10px] uppercase font-semibold text-zinc-500">Base / Count</span>
               <span className="font-mono text-xs font-medium text-zinc-300">
-                {unit.baseSize} · {unit.modelCount} Models
+                {unit.baseSize} · {unit.modelCount}M
               </span>
             </div>
           </div>

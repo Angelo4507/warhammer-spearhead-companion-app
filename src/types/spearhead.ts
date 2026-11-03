@@ -28,6 +28,7 @@ export interface SpearheadUnit {
   move: string;
   health: number;
   save: string;
+  ward?: string;
   control: number;
   isReinforcement?: boolean;
   reinforcementNote?: string;

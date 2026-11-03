@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MatchState, BattleTacticCard, SpearheadUnit } from '../types/spearhead';
 import { SPEARHEAD_FACTIONS, BATTLE_TACTICS_DECK, TWIST_CARDS } from '../data/spearheadData';
 import { UnitWarscrollModal } from './UnitWarscrollModal';
+import { ReinforcementsBadge, isUnitReinforceable } from './ReinforcementsBadge';
 import {
   Swords,
   Shield,
@@ -403,6 +404,38 @@ export const MatchTracker: React.FC<MatchTrackerProps> = ({
             }
           }
         }
+      };
+    });
+  };
+
+  const handleCallReinforcements = (player: 'P1' | 'P2', unitId: string, unitName: string) => {
+    setMatch(prev => {
+      const targetPlayerKey = player === 'P1' ? 'p1' : 'p2';
+      const targetPlayer = prev[targetPlayerKey];
+      const currentUnitData = targetPlayer.unitHealth[unitId];
+      if (!currentUnitData) return prev;
+
+      const newLog = {
+        round: prev.round,
+        text: `${targetPlayer.name} called Reinforcements: ${unitName} returned to the battlefield with full ${currentUnitData.maxHealth} HP!`,
+        timestamp: new Date().toLocaleTimeString()
+      };
+
+      return {
+        ...prev,
+        [targetPlayerKey]: {
+          ...targetPlayer,
+          unitHealth: {
+            ...targetPlayer.unitHealth,
+            [unitId]: {
+              ...currentUnitData,
+              currentHealth: currentUnitData.maxHealth,
+              isSlain: false,
+              isReinforced: true
+            }
+          }
+        },
+        roundLogs: [...prev.roundLogs, newLog]
       };
     });
   };
@@ -1298,29 +1331,36 @@ export const MatchTracker: React.FC<MatchTrackerProps> = ({
               };
               const healthPercent = Math.round((uHealth.currentHealth / uHealth.maxHealth) * 100);
 
+              const canReinforce = isUnitReinforceable(unit);
+
               return (
                 <div
                   key={unit.id}
                   className={`rounded-xl border p-4 transition-all ${
                     uHealth.isSlain
-                      ? 'border-zinc-800/60 bg-zinc-950/40 opacity-50'
+                      ? 'border-rose-900/40 bg-zinc-950/60'
                       : 'border-zinc-800 bg-zinc-950/80 hover:border-zinc-700'
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center justify-between mb-2 gap-2">
                     <button
                       onClick={() => {
                         setSelectedUnitForModal(unit);
                         setSelectedUnitHealth(uHealth.currentHealth);
                       }}
-                      className="text-left font-cinzel text-xs font-bold text-zinc-100 hover:text-amber-400 transition-colors flex items-center gap-1.5"
+                      className="text-left font-cinzel text-xs font-bold text-zinc-100 hover:text-amber-400 transition-colors flex items-center gap-1.5 truncate"
                     >
-                      <span>{unit.name}</span>
-                      <Eye className="h-3.5 w-3.5 text-zinc-500" />
+                      <span className="truncate">{unit.name}</span>
+                      <Eye className="h-3.5 w-3.5 text-zinc-500 shrink-0" />
                     </button>
-                    <span className="font-mono text-[10px] text-zinc-500 uppercase">
-                      {unit.role}
-                    </span>
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      {canReinforce && (
+                        <ReinforcementsBadge unit={unit} variant="icon" />
+                      )}
+                      <span className="font-mono text-[10px] text-zinc-400 uppercase px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800">
+                        {unit.role}
+                      </span>
+                    </div>
                   </div>
 
                   {/* Health gauge bar */}
@@ -1366,9 +1406,32 @@ export const MatchTracker: React.FC<MatchTrackerProps> = ({
                     </div>
                   </div>
 
-                  {unit.isReinforcement && (
-                    <div className="mt-2 text-[10px] text-amber-400 font-medium">
-                      ✦ {unit.reinforcementNote || 'Reinforcement'}
+                  {/* Reinforcements Actions & Status */}
+                  {canReinforce && (
+                    <div className="mt-2.5 pt-2 border-t border-zinc-800/80">
+                      {uHealth.isSlain ? (
+                        <button
+                          onClick={() => handleCallReinforcements(activePlayerTab, unit.id, unit.name)}
+                          className="w-full py-1.5 px-3 rounded-lg bg-rose-950/90 hover:bg-rose-900 border border-rose-600/80 text-rose-200 text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-md group cursor-pointer"
+                        >
+                          <RotateCcw className="h-3.5 w-3.5 text-rose-400 group-hover:-rotate-90 transition-transform" />
+                          <span>Call Reinforcements (Return Unit)</span>
+                        </button>
+                      ) : (
+                        <div className="flex items-center justify-between text-[10px] text-rose-300">
+                          <div className="flex items-center gap-1.5">
+                            <ReinforcementsBadge unit={unit} variant="pill" showTooltip={false} />
+                            <span className="text-zinc-400 truncate">
+                              {uHealth.isReinforced ? 'Reinforced Unit (Active)' : 'Can return when slain'}
+                            </span>
+                          </div>
+                          {uHealth.isReinforced && (
+                            <span className="text-[9px] font-mono uppercase px-1.5 py-0.2 rounded bg-rose-900/50 text-rose-300 border border-rose-800/60">
+                              Reinforced
+                            </span>
+                          )}
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>

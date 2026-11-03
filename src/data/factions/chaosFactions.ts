@@ -8,150 +8,255 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
     subTitle: 'Gnawfeast Clawpack',
     grandAlliance: 'CHAOS',
     accentColor: 'from-emerald-700 to-lime-600',
-    flavorQuote: 'Kill-slay the surface dwellers! Gnaw their bones, praise the Great Horned Rat!',
+    flavorQuote: '‘Man-things die. Short-things die. Aelf-things die. All things die. Our time now, yes-yes. Doom comes to gnaw on the surface world.’ — Clawlord Muskritt of Clan Fang',
     battleTraits: [
       {
-        name: 'The Endless Swarm',
-        description: 'When a Clanrats unit is completely destroyed, it enters Reserve as a REINFORCEMENT. At the end of your next movement phase, set up a new unit of 10 Clanrats wholly within 6" of any battlefield edge.'
+        name: 'The Lurking Vermintide',
+        description: 'Once Per Battle, Deployment Phase\nDeclare: Pick a friendly unit that has not been deployed to be the target.\nEffect: The target unit is set up in reserve in the tunnels below. Units in the tunnels below that have not used the ‘Gnawhole Ambush’ ability by the end of the third battle round are destroyed.\nKeywords: Deploy'
       },
       {
-        name: 'Scurry Away',
-        description: 'In the combat phase, after an enemy unit attacks a Skaven HERO, that Hero can immediately retreat up to D6" if not already in combat with another unit.'
+        name: 'Gnawhole Ambush',
+        description: 'Your Movement Phase\nDeclare: Pick a friendly unit that is in the tunnels below to use this ability.\nEffect: Set up that unit wholly within 6" of a corner of the battlefield and more than 9" from all enemy units.\nKeywords: Core'
+      }
+    ],
+    regimentAbilities: [
+      {
+        name: 'Warpstone-Laced Bullets',
+        description: 'Once Per Battle, Your Shooting Phase\nDeclare: Pick a ranged weapon a friendly unit is armed with.\nEffect: That weapon has Crit (Mortal) this phase.'
+      },
+      {
+        name: 'Too Quick to Hit-Hit',
+        description: 'Passive\nEffect: No mortal damage is inflicted on friendly units when they use Retreat abilities.'
       }
     ],
     heroTraits: [
       {
-        id: 'sk-ht-1',
-        name: 'Skitter-quick Leader',
+        id: 'sk-gf-ht1',
+        name: 'Lead the Seething Horde',
         type: 'Hero Trait',
-        effect: 'Add 2" to your General’s Move characteristic and +1 to retreat rolls.'
+        effect: 'Reaction: You declared the ‘Call for Reinforcements’ ability\nEffect: Instead of using the set-up instructions in the ‘Call for Reinforcements’ ability, the replacement unit can be set up wholly within 13" of this unit and not in combat.'
       },
       {
-        id: 'sk-ht-2',
-        name: 'Vicious Cutpurse',
+        id: 'sk-gf-ht2',
+        name: 'Skryre Connections',
         type: 'Hero Trait',
-        effect: 'In combat, unmodified hit rolls of 6 score 2 hits instead of 1.'
+        effect: 'Passive\nEffect: Your general’s Ratling Pistol has an Attacks characteristic of 2D6 instead of D6.'
       }
     ],
     artefacts: [
       {
-        id: 'sk-art-1',
-        name: 'Warpstone Talisman',
+        id: 'sk-gf-art1',
+        name: 'Warpstone Charm',
         type: 'Artefact of Power',
-        effect: 'The bearer gains a 5+ Ward save against all attacks.'
+        effect: 'Passive\nEffect: Subtract 1 from save rolls for enemy units in combat with your general.'
       },
       {
-        id: 'sk-art-2',
-        name: 'Foul Pendant of Pestilence',
+        id: 'sk-gf-art2',
+        name: 'Cloak of Stitched Victories',
         type: 'Artefact of Power',
-        effect: 'Enemy units within 3" of the bearer suffer -1 to their wound rolls in combat.'
+        effect: 'Passive\nEffect: Your general has Ward (5+).'
       }
     ],
     units: [
       {
-        id: 'sk-clawlord',
+        id: 'sk-gf-clawlord',
         name: 'Clawlord on Gnaw-beast',
         role: 'Hero',
         modelCount: 1,
         baseSize: '60mm',
-        move: '8"',
+        move: '9"',
         health: 7,
-        save: '3+',
+        save: '4+',
+        ward: '6+',
         control: 2,
         weapons: [
           {
-            name: 'War-halberd',
-            type: 'Melee',
-            range: '2"',
-            attacks: 5,
+            name: 'Ratling Pistol',
+            type: 'Ranged',
+            range: '10"',
+            attacks: 'D6',
             toHit: '3+',
             toWound: '3+',
+            rend: '-1',
+            damage: '1',
+            ability: 'Crit (Auto-wound), Shoot in Combat'
+          },
+          {
+            name: 'Warpforged Halberd',
+            type: 'Melee',
+            range: '1"',
+            attacks: 5,
+            toHit: '3+',
+            toWound: '4+',
             rend: '-1',
             damage: '2'
           },
           {
-            name: 'Gnaw-beast Fangs',
+            name: 'Gnaw-beast’s Chisel Fangs',
             type: 'Melee',
             range: '1"',
             attacks: 4,
             toHit: '4+',
             toWound: '3+',
             rend: '-1',
+            damage: 'D3',
+            ability: 'Companion'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Cornered Rat',
+            phase: 'Passive',
+            type: 'Passive',
+            effect: 'Passive\nEffect: While this unit is damaged, add 3 to the Attacks characteristic of its Warpforged Halberd.'
+          }
+        ],
+        keywords: ['CHAOS', 'SKAVEN', 'HERO', 'CAVALRY', 'WARD (6+)', 'CLAWLORD ON GNAW-BEAST']
+      },
+      {
+        id: 'sk-gf-grey-seer',
+        name: 'Grey Seer',
+        role: 'Hero',
+        modelCount: 1,
+        baseSize: '32mm',
+        move: '6"',
+        health: 5,
+        save: '6+',
+        control: 2,
+        weapons: [
+          {
+            name: 'Warpstone Staff',
+            type: 'Melee',
+            range: '1"',
+            attacks: 3,
+            toHit: '4+',
+            toWound: '4+',
+            rend: '-1',
             damage: 'D3'
           }
         ],
         abilities: [
           {
-            name: 'Cornered Fury',
-            phase: 'Combat',
-            type: 'Passive',
-            effect: 'Add 1 to attacks for each 2 wounds allocated to this model.'
+            name: 'Will of the Horned Rat',
+            phase: 'Hero',
+            type: 'Active',
+            effect: 'Your Hero Phase\nDeclare: Pick a friendly unit wholly within 13" of this unit to be the target, then roll a dice.\nEffect: On a 3+, add the roll to the target’s control score until the start of your next turn.'
+          },
+          {
+            name: 'Wither',
+            phase: 'Hero',
+            type: 'Active',
+            effect: 'Your Hero Phase\nDeclare: Pick a visible enemy unit within 13" of this unit to be the target, then make a casting roll of 2D6.\nEffect: On a 6+, inflict D3 mortal damage on the target.'
           }
         ],
-        keywords: ['CHAOS', 'SKAVEN', 'HERO', 'CLAWLORD', 'CAVALRY']
+        keywords: ['CHAOS', 'SKAVEN', 'HERO', 'WIZARD', 'INFANTRY', 'GREY SEER']
       },
       {
-        id: 'sk-clanrats',
-        name: 'Clanrats (Swarm Unit)',
-        role: 'Infantry',
-        modelCount: 20,
-        baseSize: '25mm',
+        id: 'sk-gf-warlock-engineer',
+        name: 'Warlock Engineer',
+        role: 'Hero',
+        modelCount: 1,
+        baseSize: '32mm',
         move: '6"',
-        health: 20,
+        health: 5,
         save: '5+',
-        control: 10,
-        isReinforcement: true,
-        reinforcementNote: 'Returns on destruction (Endless Swarm)',
+        control: 2,
         weapons: [
           {
-            name: 'Rusty Blades & Spears',
+            name: 'Warplock Musket',
+            type: 'Ranged',
+            range: '24"',
+            attacks: 2,
+            toHit: '3+',
+            toWound: '3+',
+            rend: '-2',
+            damage: 'D3',
+            ability: 'Crit (Auto-wound)'
+          },
+          {
+            name: 'Warpforged Dagger',
             type: 'Melee',
             range: '1"',
-            attacks: 20,
+            attacks: 3,
             toHit: '4+',
             toWound: '4+',
             rend: '0',
-            damage: '1'
+            damage: '2'
           }
         ],
         abilities: [
           {
-            name: 'Strength in Numbers',
-            phase: 'End of Turn',
-            type: 'Passive',
-            effect: 'While this unit has 10 or more models, it counts as having a Control characteristic of 15.'
+            name: 'More-more Warp Energy!',
+            phase: 'Shooting',
+            type: 'Active',
+            effect: 'Reaction: You declared a Shoot ability for this unit and it has not used a Move ability this turn\nEffect: Roll a dice. On a 2+, set the Damage characteristic of its Warplock Musket to 3 this phase. On a 1, inflict D3 mortal damage on this unit.'
           }
         ],
-        keywords: ['CHAOS', 'SKAVEN', 'INFANTRY', 'CLANRATS']
+        keywords: ['CHAOS', 'SKAVEN', 'HERO', 'INFANTRY', 'WARLOCK ENGINEER']
       },
       {
-        id: 'sk-jezzails',
-        name: 'Warplock Jezzails',
+        id: 'sk-gf-rat-ogors',
+        name: 'Rat Ogors',
         role: 'Infantry',
         modelCount: 3,
-        baseSize: '60x35mm',
-        move: '5"',
-        health: 6,
+        baseSize: '50mm',
+        move: '6"',
+        health: 4,
         save: '5+',
-        control: 3,
+        control: 1,
+        reinforcementNote: 'This unit has 2 Rat Ogors armed with Claws, Blades and Fangs, and 1 Rat Ogor armed with a Warpfire Gun and Claws, Blades and Fangs.',
         weapons: [
           {
-            name: 'Warplock Jezzail',
+            name: 'Warpfire Gun',
             type: 'Ranged',
-            range: '24"',
-            attacks: 3,
-            toHit: '3+',
-            toWound: '3+',
+            range: '10"',
+            attacks: '2D6',
+            toHit: '2+',
+            toWound: '4+',
             rend: '-2',
-            damage: '2',
-            ability: 'Sniper (Crit: Mortal)'
+            damage: '1',
+            ability: 'Shoot in Combat'
           },
           {
-            name: 'Pavise Dagger',
+            name: 'Claws, Blades and Fangs',
             type: 'Melee',
             range: '1"',
-            attacks: 3,
-            toHit: '5+',
+            attacks: 5,
+            toHit: '4+',
+            toWound: '3+',
+            rend: '-1',
+            damage: '2'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Unleashed Warp-fury',
+            phase: 'Combat',
+            type: 'Active',
+            effect: 'Any Combat Phase, Once Per Battle\nEffect: Inflict D3 mortal damage on this unit. Then, add 1 to the Attacks characteristic of its melee weapons this phase.'
+          }
+        ],
+        keywords: ['CHAOS', 'SKAVEN', 'INFANTRY', 'RAT OGORS']
+      },
+      {
+        id: 'sk-gf-clanrats-a',
+        name: 'Clanrats - Unit A',
+        role: 'Infantry',
+        modelCount: 10,
+        baseSize: '25mm',
+        move: '6"',
+        health: 1,
+        save: '5+',
+        control: 1,
+        isReinforcement: true,
+        reinforcementNote: 'Reinforcement unit (10 models)',
+        weapons: [
+          {
+            name: 'Rusty Blade',
+            type: 'Melee',
+            range: '1"',
+            attacks: 2,
+            toHit: '4+',
             toWound: '5+',
             rend: '0',
             damage: '1'
@@ -159,13 +264,47 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
         ],
         abilities: [
           {
-            name: 'Shield-Pavise',
-            phase: 'Passive',
-            type: 'Passive',
-            effect: 'If this unit did not move this turn, its save characteristic becomes 4+ and ranged attacks have +1 to hit.'
+            name: 'Seething Swarm',
+            phase: 'End of Turn',
+            type: 'Active',
+            effect: 'End of Any Turn\nEffect: You can return D3 slain models to this unit.'
           }
         ],
-        keywords: ['CHAOS', 'SKAVEN', 'INFANTRY', 'WARPLOCK JEZZAILS']
+        keywords: ['CHAOS', 'SKAVEN', 'INFANTRY', 'REINFORCEMENTS', 'CLANRATS']
+      },
+      {
+        id: 'sk-gf-clanrats-b',
+        name: 'Clanrats - Unit B',
+        role: 'Infantry',
+        modelCount: 10,
+        baseSize: '25mm',
+        move: '6"',
+        health: 1,
+        save: '5+',
+        control: 1,
+        isReinforcement: true,
+        reinforcementNote: 'Reinforcement unit (10 models)',
+        weapons: [
+          {
+            name: 'Rusty Blade',
+            type: 'Melee',
+            range: '1"',
+            attacks: 2,
+            toHit: '4+',
+            toWound: '5+',
+            rend: '0',
+            damage: '1'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Seething Swarm',
+            phase: 'End of Turn',
+            type: 'Active',
+            effect: 'End of Any Turn\nEffect: You can return D3 slain models to this unit.'
+          }
+        ],
+        keywords: ['CHAOS', 'SKAVEN', 'INFANTRY', 'REINFORCEMENTS', 'CLANRATS']
       }
     ]
   },
@@ -177,62 +316,68 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
     subTitle: 'Warpspark Clawpack',
     grandAlliance: 'CHAOS',
     accentColor: 'from-lime-600 to-green-800',
-    flavorQuote: 'Harness the emerald lightning of pure Warpstone! Fire the cannons, fry the man-things!',
+    flavorQuote: '‘Remove the limiters! Blast-kill them all, now-now!’ — Grey Seer Snikskreech',
     battleTraits: [
       {
-        name: 'Warpstone Overload',
-        description: 'Before shooting with the Warp Lightning Cannon or Stormfiends, you can overload weapons: add +2 Attacks, but roll a D6 on a 1 take D3 mortal wounds.'
+        name: 'Always Three Clawsteps Ahead',
+        description: 'Once Per Phase, Enemy Movement Phase\nDeclare: Pick a friendly unit that is not in combat.\nEffect: That unit can use the ‘Normal Move’ ability as if it were your movement phase.'
+      }
+    ],
+    regimentAbilities: [
+      {
+        name: 'Warpstone-Laced Armour',
+        description: 'Once Per Battle, Reaction: Opponent declared an Attack ability and targeted your Stormfiends unit\nUsed By: Your Stormfiends unit.\nEffect: Your Stormfiends unit has Ward (4+) this phase.'
       },
       {
-        name: 'More-more Warp Lightning!',
-        description: 'Friendly Grey Seers add 1 to casting rolls for offensive spells.'
+        name: 'Endless Swarm of Rats',
+        description: 'Passive\nEffect: When a friendly Clanrats unit uses its ‘Seething Swarm’ ability, you can return D6 slain models to that unit instead of D3.'
       }
     ],
     heroTraits: [
       {
         id: 'sk-ws-ht1',
-        name: 'Master of the Arcane Bell',
+        name: 'Skilled Manipulator',
         type: 'Hero Trait',
-        effect: 'Your General can unbind 1 additional enemy spell and knows Warp Lightning.'
+        effect: 'Passive\nEffect: Your general has Ward (4+) while they are within 1" of any friendly Clanrats units.'
       },
       {
         id: 'sk-ws-ht2',
-        name: 'Scheming Craven',
+        name: 'Skitterleap',
         type: 'Hero Trait',
-        effect: 'While within 3" of a friendly Clanrats unit, pass wounds on 3+ to that unit instead.'
+        effect: 'Your Hero Phase\nDeclare: Make a casting roll of 2D6.\nEffect: On a 6+, remove your general from the battlefield and set them up again on the battlefield more than 6" from all enemy units. They cannot use Move abilities in the following movement phase.'
       }
     ],
     artefacts: [
       {
         id: 'sk-ws-art1',
-        name: 'Skitterleap Amulet',
+        name: 'Cage of Warp Lightning',
         type: 'Artefact of Power',
-        effect: 'Once per battle, teleport the bearer to any battlefield edge more than 9" from enemies.'
+        effect: 'Once Per Battle, Any Combat Phase\nDeclare: Pick a visible enemy unit within 6" of your general and roll a dice.\nEffect: On a 2+, the enemy unit has Strike-last this phase. On a 1, inflict 1 mortal damage on your general.'
       },
       {
         id: 'sk-ws-art2',
-        name: 'Warp-condenser Orb',
+        name: 'Scurry Away',
         type: 'Artefact of Power',
-        effect: 'Increase the damage of friendly warmachines within 6" by +1.'
+        effect: 'Any Combat Phase\nEffect: Roll a dice. On a 3+, this unit can immediately use the ‘Retreat’ ability as if it were your movement phase. If it does so, no mortal damage is inflicted on it.'
       }
     ],
     units: [
       {
-        id: 'sk-greyseer',
+        id: 'sk-ws-grey-seer',
         name: 'Grey Seer',
         role: 'Hero',
         modelCount: 1,
         baseSize: '32mm',
         move: '6"',
         health: 5,
-        save: '5+',
+        save: '6+',
         control: 2,
         weapons: [
           {
             name: 'Warpstone Staff',
             type: 'Melee',
-            range: '2"',
-            attacks: 2,
+            range: '1"',
+            attacks: 3,
             toHit: '4+',
             toWound: '4+',
             rend: '-1',
@@ -241,21 +386,90 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
         ],
         abilities: [
           {
-            name: 'Warp Lightning',
+            name: 'Will of the Horned Rat',
             phase: 'Hero',
             type: 'Active',
-            effect: 'Roll 6 dice: for each 4+, target enemy unit within 18" suffers 1 mortal wound.'
+            effect: 'Your Hero Phase\nDeclare: Pick a friendly unit wholly within 13" of this unit to be the target, then roll a dice.\nEffect: On a 3+, add the roll to the target’s control score until the start of your next turn.'
+          },
+          {
+            name: 'Wither',
+            phase: 'Hero',
+            type: 'Active',
+            effect: 'Your Hero Phase\nDeclare: Pick a visible enemy unit within 13" of this unit to be the target, then make a casting roll of 2D6.\nEffect: On a 6+, inflict D3 mortal damage on the target.'
           }
         ],
-        keywords: ['CHAOS', 'SKAVEN', 'HERO', 'WIZARD', 'GREY SEER']
+        keywords: ['CHAOS', 'SKAVEN', 'HERO', 'WIZARD', 'INFANTRY', 'GREY SEER']
       },
       {
-        id: 'sk-cannon',
+        id: 'sk-ws-stormfiends',
+        name: 'Stormfiends',
+        role: 'Infantry',
+        modelCount: 3,
+        baseSize: '60mm',
+        move: '6"',
+        health: 6,
+        save: '4+',
+        control: 2,
+        reinforcementNote: 'This unit has 1 Stormfiend armed with Shock Gauntlets, 1 Stormfiend armed with Windlaunchers and Clubbing Blows, and 1 Stormfiend armed with Ratling Cannons and Clubbing Blows.',
+        weapons: [
+          {
+            name: 'Ratling Cannons',
+            type: 'Ranged',
+            range: '15"',
+            attacks: '3D6',
+            toHit: '4+',
+            toWound: '3+',
+            rend: '-1',
+            damage: '1'
+          },
+          {
+            name: 'Windlaunchers',
+            type: 'Ranged',
+            range: '15"',
+            attacks: 3,
+            toHit: '4+',
+            toWound: '3+',
+            rend: '-2',
+            damage: 'D3'
+          },
+          {
+            name: 'Shock Gauntlets',
+            type: 'Melee',
+            range: '1"',
+            attacks: 4,
+            toHit: '4+',
+            toWound: '2+',
+            rend: '-1',
+            damage: '2'
+          },
+          {
+            name: 'Clubbing Blows',
+            type: 'Melee',
+            range: '1"',
+            attacks: 4,
+            toHit: '4+',
+            toWound: '2+',
+            rend: '0',
+            damage: '2'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Shock Gauntlets',
+            phase: 'Passive',
+            type: 'Passive',
+            effect: 'Passive\nEffect: Each time an attack made with this unit’s Shock Gauntlets scores a critical hit, that attack scores D6 hits instead of 1 (make a wound roll for each hit).'
+          }
+        ],
+        keywords: ['CHAOS', 'SKAVEN', 'INFANTRY', 'STORMFIENDS']
+      },
+      {
+        id: 'sk-ws-warp-lightning-cannon',
         name: 'Warp Lightning Cannon',
         role: 'Warmachine',
         modelCount: 1,
         baseSize: '120x92mm',
-        move: '4"',
+        move: '3"',
         health: 8,
         save: '4+',
         control: 2,
@@ -263,19 +477,20 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
           {
             name: 'Warp Lightning Blast',
             type: 'Ranged',
-            range: '24"',
-            attacks: 6,
-            toHit: '3+',
-            toWound: '3+',
-            rend: '-2',
-            damage: '2'
+            range: '20"',
+            attacks: '2D6',
+            toHit: '4+',
+            toWound: '-',
+            rend: '0',
+            damage: '1',
+            ability: 'Mortal Damage (See below)'
           },
           {
-            name: 'Crew Claws',
+            name: 'Crew’s Teeth and Knives',
             type: 'Melee',
             range: '1"',
-            attacks: 3,
-            toHit: '5+',
+            attacks: 'D6',
+            toHit: '4+',
             toWound: '5+',
             rend: '0',
             damage: '1'
@@ -283,56 +498,81 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
         ],
         abilities: [
           {
-            name: 'Overcharged Blast',
-            phase: 'Shooting',
-            type: 'Active',
-            effect: 'Roll a D6 before firing. On a 1, cannon suffers 2 mortal wounds. On 2-6, attacks inflict Crit (Mortal).'
+            name: 'Warp Lightning Blast',
+            phase: 'Passive',
+            type: 'Passive',
+            effect: 'Passive\nEffect: Each attack made with this weapon in a single phase must target the same enemy unit. Each hit inflicts 1 mortal damage on the target and the attack sequence ends.'
           }
         ],
         keywords: ['CHAOS', 'SKAVEN', 'WARMACHINE', 'WARP LIGHTNING CANNON']
       },
       {
-        id: 'sk-stormfiends',
-        name: 'Stormfiends with Shock Gauntlets',
-        role: 'Monster',
-        modelCount: 3,
-        baseSize: '60mm',
+        id: 'sk-ws-clanrats-a',
+        name: 'Clanrats - Unit A',
+        role: 'Infantry',
+        modelCount: 10,
+        baseSize: '25mm',
         move: '6"',
-        health: 18,
-        save: '4+',
-        control: 3,
+        health: 1,
+        save: '5+',
+        control: 1,
+        isReinforcement: true,
+        reinforcementNote: 'Reinforcement unit (10 models)',
         weapons: [
           {
-            name: 'Ratling Cannons',
-            type: 'Ranged',
-            range: '12"',
-            attacks: 9,
-            toHit: '4+',
-            toWound: '3+',
-            rend: '-1',
-            damage: '1'
-          },
-          {
-            name: 'Shock Gauntlets',
+            name: 'Rusty Blade',
             type: 'Melee',
             range: '1"',
-            attacks: 6,
+            attacks: 2,
             toHit: '4+',
-            toWound: '3+',
-            rend: '-2',
-            damage: '2',
-            ability: 'Crit (Mortal D3)'
+            toWound: '5+',
+            rend: '0',
+            damage: '1'
           }
         ],
         abilities: [
           {
-            name: 'Brutal Hull',
-            phase: 'Combat',
-            type: 'Passive',
-            effect: 'Ward save 5+ against missile weapons.'
+            name: 'Seething Swarm',
+            phase: 'End of Turn',
+            type: 'Active',
+            effect: 'End of Any Turn\nEffect: You can return D3 slain models to this unit.'
           }
         ],
-        keywords: ['CHAOS', 'SKAVEN', 'MONSTER', 'STORMFIENDS']
+        keywords: ['CHAOS', 'SKAVEN', 'INFANTRY', 'REINFORCEMENTS', 'CLANRATS']
+      },
+      {
+        id: 'sk-ws-clanrats-b',
+        name: 'Clanrats - Unit B',
+        role: 'Infantry',
+        modelCount: 10,
+        baseSize: '25mm',
+        move: '6"',
+        health: 1,
+        save: '5+',
+        control: 1,
+        isReinforcement: true,
+        reinforcementNote: 'Reinforcement unit (10 models)',
+        weapons: [
+          {
+            name: 'Rusty Blade',
+            type: 'Melee',
+            range: '1"',
+            attacks: 2,
+            toHit: '4+',
+            toWound: '5+',
+            rend: '0',
+            damage: '1'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Seething Swarm',
+            phase: 'End of Turn',
+            type: 'Active',
+            effect: 'End of Any Turn\nEffect: You can return D3 slain models to this unit.'
+          }
+        ],
+        keywords: ['CHAOS', 'SKAVEN', 'INFANTRY', 'REINFORCEMENTS', 'CLANRATS']
       }
     ]
   },
@@ -344,43 +584,49 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
     subTitle: 'Crixxit’s Kill-Pack',
     grandAlliance: 'CHAOS',
     accentColor: 'from-emerald-900 to-zinc-800',
-    flavorQuote: 'From the shadows they leap with weeping blades coated in deadly virulent venom.',
+    flavorQuote: "Challenging, this one. Man-things know they are hunted, so they hide-cower. But Crixxit finds them. Now… where is payment? – Deathmaster Crixxit",
     battleTraits: [
       {
-        name: 'Death from the Shadows',
-        description: 'Eshin units can be set up hidden in reserve and emerge anywhere more than 6" from enemy units outside enemy territory.'
+        name: 'Cloaked in Shadow',
+        description: 'Once Per Turn (Army), Any Combat Phase: Declare: Pick a friendly Hero to use this ability. Then, pick a different friendly unit that has 2 or more models to be the target. Effect: Make a shadow-travel roll of D6. On a 3+, remove the Hero using this ability from the battlefield and set them up again wholly within 6" of the target. They can be set up in combat with any enemy units that are already in combat.'
+      }
+    ],
+    regimentAbilities: [
+      {
+        name: 'Way of the Skittering Shade',
+        description: 'Once Per Battle (Army), Your Movement Phase: Declare: Pick a friendly unit that is wholly within 6" of a battlefield edge to be the target. Effect: Remove the target from the battlefield and set it up again wholly within 3" of a battlefield edge and more than 6" from all enemy units.'
       },
       {
-        name: 'Weeping Blades',
-        description: 'Unmodified hit rolls of 6 inflict double damage.'
+        name: 'Way of the Fiendish Claw',
+        description: 'Once Per Battle (Army), Any Combat Phase: Declare: Pick a friendly Hero to be the target. Effect: The target has Strike-first for the rest of the turn.'
       }
     ],
     heroTraits: [
       {
         id: 'sk-cr-ht1',
-        name: 'Master Assassin',
+        name: 'Master of Shadows',
         type: 'Hero Trait',
-        effect: 'General deals +2 Damage against enemy HERO units in combat.'
+        effect: 'Passive: When your general uses the ‘Cloaked in Shadow’ ability, add 1 to the shadow-travel roll.'
       },
       {
         id: 'sk-cr-ht2',
-        name: 'Vanish in Smoke',
+        name: 'Murderous Acrobatics',
         type: 'Hero Trait',
-        effect: 'When targeted by enemy attacks, roll a D6. On a 4+, attacker suffers -1 to hit.'
+        effect: 'Passive: When your general uses the ‘Charge’ ability, they can pass through enemy models.'
       }
     ],
     artefacts: [
       {
         id: 'sk-cr-art1',
-        name: 'Fellblade Shard',
+        name: 'Just Another Shadow',
         type: 'Artefact of Power',
-        effect: 'Bearer’s attacks have Rend -3 and Damage 3.'
+        effect: 'Passive: While your general is wholly within the combat range of a friendly unit that has 3 or more models, your general has Ward (4+).'
       },
       {
         id: 'sk-cr-art2',
-        name: 'Shadow Cloak',
+        name: 'Death Screech',
         type: 'Artefact of Power',
-        effect: 'Cannot be selected as a target for enemy ranged attacks beyond 12".'
+        effect: 'Any Combat Phase: Declare: Pick an enemy unit within 6" of your general to be the target. Effect: Roll a dice. On a 3+, for the rest of the turn, subtract 1 from hit rolls for the target’s attacks.'
       }
     ],
     units: [
@@ -390,115 +636,183 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
         role: 'Hero',
         modelCount: 1,
         baseSize: '32mm',
-        move: '8"',
-        health: 5,
-        save: '4+',
+        move: '7"',
+        health: 6,
+        save: '5+',
         control: 2,
+        isReinforcement: false,
         weapons: [
           {
-            name: 'Weeping Blades & Throwing Stars',
+            name: 'The Blades of Thirteen Cuts',
             type: 'Melee',
             range: '1"',
-            attacks: 6,
-            toHit: '3+',
-            toWound: '3+',
+            attacks: 13,
+            toHit: '2+',
+            toWound: '4+',
             rend: '-1',
-            damage: '2'
+            damage: '1',
+            ability: 'Crit (Mortal)'
           }
         ],
         abilities: [
           {
-            name: 'Hidden Killer',
-            phase: 'Movement',
+            name: 'Go-Go, Hunt Them Down',
+            phase: 'Hero',
             type: 'Active',
-            effect: 'Can hide inside a friendly Gutter Runner unit and reveal during any combat phase to strike first.'
+            effect: 'Your Hero Phase: Declare: Pick a visible friendly Gutter Runners unit wholly within 12" of this unit to be the target. Then, roll a dice. Effect: On a 3+, add 1 to charge rolls for the target for the rest of the turn.'
           }
         ],
-        keywords: ['CHAOS', 'SKAVEN', 'HERO', 'ESHIN', 'DEATHMASTER']
+        keywords: ['CHAOS', 'SKAVEN', 'CLANS ESHIN', 'HERO', 'INFANTRY', 'WARD (5+)', 'DEATHMASTER CRIXXIT']
       },
       {
-        id: 'sk-gutter-runners',
-        name: 'Gutter Runners',
+        id: 'sk-deathmaster',
+        name: 'Deathmaster',
+        role: 'Hero',
+        modelCount: 1,
+        baseSize: '32mm',
+        move: '7"',
+        health: 5,
+        save: '5+',
+        control: 2,
+        isReinforcement: false,
+        weapons: [
+          {
+            name: 'Weeping Blade',
+            type: 'Melee',
+            range: '1"',
+            attacks: 5,
+            toHit: '3+',
+            toWound: '4+',
+            rend: '-1',
+            damage: 'D3',
+            ability: 'Anti-Hero (+1 Rend), Crit (Mortal)'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Shadowy Killers',
+            phase: 'Passive',
+            type: 'Passive',
+            effect: 'Passive: If the unmodified hit roll for an attack that targets this unit is 1-4, the attack fails and the attack sequence ends.'
+          }
+        ],
+        keywords: ['CHAOS', 'SKAVEN', 'CLANS ESHIN', 'HERO', 'INFANTRY', 'WARD (6+)', 'DEATHMASTER']
+      },
+      {
+        id: 'sk-gutter-runners-1',
+        name: 'Gutter Runners (Squad 1)',
         role: 'Infantry',
         modelCount: 5,
         baseSize: '25mm',
-        move: '8"',
+        move: '7"',
         health: 5,
-        save: '5+',
-        control: 4,
+        save: '6+',
+        control: 1,
+        isReinforcement: true,
+        reinforcementNote: 'Can be returned via Reinforcements when slain. Has 1 Bomb Rat token.',
         weapons: [
           {
-            name: 'Throwing Stars',
-            type: 'Ranged',
-            range: '12"',
-            attacks: 10,
-            toHit: '4+',
-            toWound: '4+',
-            rend: '0',
-            damage: '1'
-          },
-          {
-            name: 'Punch Daggers',
+            name: 'Eshin Specialist Blades',
             type: 'Melee',
             range: '1"',
-            attacks: 10,
+            attacks: 3,
             toHit: '3+',
             toWound: '4+',
-            rend: '0',
-            damage: '1'
+            rend: '-1',
+            damage: '1',
+            ability: 'Crit (Mortal)'
           }
         ],
         abilities: [
           {
-            name: 'Sneaky Infiltrators',
-            phase: 'Movement',
+            name: 'Bomb Rats',
+            phase: 'Charge',
             type: 'Active',
-            effect: 'Can run and shoot in the same turn.'
+            effect: 'Once Per Turn (Army), Your Charge Phase: Declare: You can only use this ability if this unit has a Bomb Rat token. Pick an enemy unit within 9" of this unit to be the target. Then, roll a dice. Effect: On a 3+, inflict 1 mortal damage on the target. On a 1-2, remove this unit’s Bomb Rat token from the battlefield.'
           }
         ],
-        keywords: ['CHAOS', 'SKAVEN', 'INFANTRY', 'ESHIN', 'GUTTER RUNNERS']
+        keywords: ['CHAOS', 'SKAVEN', 'CLANS ESHIN', 'INFANTRY', 'REINFORCEMENTS', 'WARD (6+)', 'GUTTER RUNNERS']
       },
       {
-        id: 'sk-rat-ogors',
-        name: 'Rat Ogors',
-        role: 'Monster',
-        modelCount: 2,
-        baseSize: '50mm',
-        move: '6"',
-        health: 12,
-        save: '5+',
-        control: 3,
+        id: 'sk-gutter-runners-2',
+        name: 'Gutter Runners (Squad 2)',
+        role: 'Infantry',
+        modelCount: 5,
+        baseSize: '25mm',
+        move: '7"',
+        health: 5,
+        save: '6+',
+        control: 1,
+        isReinforcement: true,
+        reinforcementNote: 'Can be returned via Reinforcements when slain. Has 1 Bomb Rat token.',
         weapons: [
           {
-            name: 'Warpfire Gun',
-            type: 'Ranged',
-            range: '8"',
-            attacks: 6,
-            toHit: '4+',
-            toWound: '3+',
-            rend: '-1',
-            damage: '1'
-          },
-          {
-            name: 'Crushing Fists & Jaws',
+            name: 'Eshin Specialist Blades',
             type: 'Melee',
             range: '1"',
-            attacks: 8,
+            attacks: 3,
             toHit: '3+',
-            toWound: '3+',
+            toWound: '4+',
             rend: '-1',
-            damage: '2'
+            damage: '1',
+            ability: 'Crit (Mortal)'
           }
         ],
         abilities: [
           {
-            name: 'Rabid Savagery',
-            phase: 'Combat',
-            type: 'Passive',
-            effect: 'Add 1 to attack characteristics on turns they made a charge move.'
+            name: 'Bomb Rats',
+            phase: 'Charge',
+            type: 'Active',
+            effect: 'Once Per Turn (Army), Your Charge Phase: Declare: You can only use this ability if this unit has a Bomb Rat token. Pick an enemy unit within 9" of this unit to be the target. Then, roll a dice. Effect: On a 3+, inflict 1 mortal damage on the target. On a 1-2, remove this unit’s Bomb Rat token from the battlefield.'
           }
         ],
-        keywords: ['CHAOS', 'SKAVEN', 'MONSTER', 'MOULDER', 'RAT OGORS']
+        keywords: ['CHAOS', 'SKAVEN', 'CLANS ESHIN', 'INFANTRY', 'REINFORCEMENTS', 'WARD (6+)', 'GUTTER RUNNERS']
+      },
+      {
+        id: 'sk-night-runners',
+        name: 'Night Runners',
+        role: 'Infantry',
+        modelCount: 10,
+        baseSize: '25mm',
+        move: '7"',
+        health: 10,
+        save: '6+',
+        control: 1,
+        isReinforcement: true,
+        reinforcementNote: 'Can be returned via Reinforcements when slain',
+        weapons: [
+          {
+            name: 'Slings and Poisoned Stars',
+            type: 'Ranged',
+            range: '10"',
+            attacks: 2,
+            toHit: '4+',
+            toWound: '4+',
+            rend: '0',
+            damage: '1',
+            ability: 'Crit (Auto-wound), Shoot in Combat'
+          },
+          {
+            name: 'Poisoned Blades',
+            type: 'Melee',
+            range: '1"',
+            attacks: 2,
+            toHit: '4+',
+            toWound: '5+',
+            rend: '0',
+            damage: '1',
+            ability: 'Crit (Mortal)'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Smoke Bombs',
+            phase: 'Combat',
+            type: 'Active',
+            effect: 'Once Per Turn (Army), Any Combat Phase: Declare: This unit can only use this ability if it is in combat. Roll a dice. Effect: On a 4+, this unit can immediately use the ‘Retreat’ ability as if it were your movement phase.'
+          }
+        ],
+        keywords: ['CHAOS', 'SKAVEN', 'CLANS ESHIN', 'INFANTRY', 'REINFORCEMENTS', 'WARD (6+)', 'NIGHT RUNNERS']
       }
     ]
   },
@@ -510,61 +824,75 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
     subTitle: 'Bloodbound Gore Pilgrims',
     grandAlliance: 'CHAOS',
     accentColor: 'from-red-800 to-rose-900',
-    flavorQuote: 'BLOOD FOR THE BLOOD GOD! SKULLS FOR THE SKULL THRONE! Khorne cares not from whence the blood flows!',
+    flavorQuote: '‘BLOOD FOR THE BLOOD GOD! SKULLS FOR THE SKULL THRONE!’ — Battle cry loosed from uncounted throats since time immemorial',
     battleTraits: [
       {
-        name: 'Blood Tithe',
-        description: 'Every time a unit is completely destroyed, gain 1 Blood Tithe point. Spend Tithe points to grant friendly units 5+ Ward or extra attacks.'
+        name: 'The Blood Tithe',
+        description: 'Passive.\nEffect: Each time a unit is destroyed during the battle, you receive 1 blood tithe point.'
       },
       {
-        name: 'Locus of Rage',
-        description: 'Friendly Khorne units wholly within 12" of the Bloodsecrator add 1 to their melee attack characteristic.'
+        name: 'Murderlust',
+        description: 'Once Per Turn, Any Hero Phase.\nDeclare: Spend 1 blood tithe point and pick up to D3 friendly units.\nEffect: Each of those units can move D6" (roll for each).'
+      },
+      {
+        name: 'Heads Must Roll',
+        description: 'Once Per Turn, Any Hero Phase.\nDeclare: Spend 3 blood tithe points and pick up to 3 friendly units.\nEffect: Add 1 to the Rend characteristic of those units’ melee weapons until the start of your next turn.'
+      }
+    ],
+    regimentAbilities: [
+      {
+        name: 'Favoured of Khorne',
+        description: 'Once Per Turn, Start of Your Turn.\nEffect: Roll a dice. On a 2+, you receive 1 blood tithe point.'
+      },
+      {
+        name: 'Blood-Woken Runes',
+        description: 'Passive.\nEffect: Friendly units have Ward (5+) if they have used a Fight ability in the same phase.'
       }
     ],
     heroTraits: [
       {
         id: 'kh-gp-ht1',
-        name: 'High Priest of Slaughter',
+        name: 'Headhunter',
         type: 'Hero Trait',
-        effect: 'Add 1 to chanting rolls for your Slaughterpriest prayers.'
+        effect: 'Any Combat Phase.\nDeclare: Pick an enemy Hero in combat with your general.\nEffect: Your general has Strike-first this phase, but all attacks made by them this phase must target that enemy Hero.'
       },
       {
         id: 'kh-gp-ht2',
-        name: 'Brazen Frenzy',
+        name: 'Unholy Flames',
         type: 'Hero Trait',
-        effect: 'Your General fights first in combat if they completed a charge this turn.'
+        effect: 'Your Hero Phase.\nDeclare: Pick a visible friendly unit wholly within 16" of your general, then make a chanting roll of D6.\nEffect: On a 4+, add 1 to the Rend characteristic of that unit’s melee weapons until the start of your next turn.'
       }
     ],
     artefacts: [
       {
         id: 'kh-gp-art1',
-        name: 'Blood-forged Collar',
+        name: 'The Crimson Plate',
         type: 'Artefact of Power',
-        effect: 'The bearer unbinds spells on a 2+ and deals D3 mortal wounds to the caster.'
+        effect: 'Passive.\nEffect: Your general has Ward (5+).'
       },
       {
         id: 'kh-gp-art2',
-        name: 'Trophy of Skulls',
+        name: 'Resanguination',
         type: 'Artefact of Power',
-        effect: 'Improve the bearer’s Rend by 1 and Damage by 1.'
+        effect: 'Your Hero Phase.\nDeclare: Pick a visible friendly unit wholly within 16" of your general, then make a chanting roll of D6.\nEffect: On a 3+, Heal (D3) that unit.'
       }
     ],
     units: [
       {
         id: 'kh-slaughterpriest',
-        name: 'Slaughterpriest with Hackblade',
+        name: 'Slaughterpriest',
         role: 'Hero',
         modelCount: 1,
         baseSize: '40mm',
         move: '5"',
         health: 6,
-        save: '4+',
+        save: '5+',
         control: 2,
         weapons: [
           {
-            name: 'Hackblade & Wrath-hammer',
+            name: 'Hackblade and Wrath-hammer',
             type: 'Melee',
-            range: '1"',
+            range: '2"',
             attacks: 4,
             toHit: '3+',
             toWound: '3+',
@@ -577,60 +905,78 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
             name: 'Blood Boil',
             phase: 'Hero',
             type: 'Active',
-            effect: 'Chant prayer on 3+: pick 1 enemy unit within 16"; it suffers D3 mortal wounds.'
+            effect: 'Your Hero Phase.\nDeclare: Pick a visible enemy unit within 16" of this unit to be the target, then make a chanting roll of D6.\nEffect: On a 4+, inflict D3 mortal damage on the target.'
+          },
+          {
+            name: 'Blood Sacrifice',
+            phase: 'Hero',
+            type: 'Active',
+            effect: 'Your Hero Phase.\nDeclare: Pick a friendly unit within this unit’s combat range to be the target.\nEffect: Roll a dice. On a 2+, inflict D3 mortal damage on the target and you gain 1 blood tithe point.'
           }
         ],
-        keywords: ['CHAOS', 'BLADES OF KHORNE', 'HERO', 'PRIEST', 'SLAUGHTERPRIEST']
+        keywords: ['CHAOS', 'BLADES OF KHORNE', 'HERO', 'PRIEST', 'INFANTRY', 'SLAUGHTERPRIEST']
       },
       {
-        id: 'kh-bloodsecrator',
-        name: 'Bloodsecrator',
-        role: 'Hero',
-        modelCount: 1,
-        baseSize: '32mm',
-        move: '5"',
+        id: 'kh-skullcrushers',
+        name: 'Mighty Skullcrushers',
+        role: 'Cavalry',
+        modelCount: 3,
+        baseSize: '90x52mm',
+        move: '8"',
         health: 5,
-        save: '4+',
+        save: '2+',
         control: 2,
         weapons: [
           {
-            name: 'Meatripper Axe',
+            name: 'Bloodglaive',
             type: 'Melee',
-            range: '1"',
+            range: '2"',
             attacks: 3,
             toHit: '3+',
             toWound: '3+',
             rend: '-1',
-            damage: '2'
+            damage: '1',
+            ability: 'Charge (+1 Damage)'
+          },
+          {
+            name: 'Juggernaut’s Brazen Hooves',
+            type: 'Melee',
+            range: '1"',
+            attacks: 2,
+            toHit: '4+',
+            toWound: '3+',
+            rend: '-1',
+            damage: 'D3',
+            ability: 'Companion'
           }
         ],
         abilities: [
           {
-            name: 'Rage of Khorne Icon',
-            phase: 'Hero',
+            name: 'Brass Stampede',
+            phase: 'Charge',
             type: 'Active',
-            effect: 'Plant the icon: friendly units within 12" cannot be battleshocked and add 1 to Attacks.'
+            effect: 'Your Charge Phase.\nDeclare: If this unit charged this phase, pick an enemy unit within 1" of it to be the target, then roll a dice.\nEffect: On a 2+, inflict 1 mortal damage on the target.'
           }
         ],
-        keywords: ['CHAOS', 'BLADES OF KHORNE', 'HERO', 'BLOODSECRATOR']
+        keywords: ['CHAOS', 'BLADES OF KHORNE', 'CAVALRY', 'MIGHTY SKULLCRUSHERS']
       },
       {
-        id: 'kh-blood-warriors',
-        name: 'Blood Warriors',
+        id: 'kh-blood-warriors-1',
+        name: 'Blood Warriors (Unit A)',
         role: 'Infantry',
         modelCount: 5,
         baseSize: '32mm',
         move: '5"',
-        health: 10,
-        save: '4+',
-        control: 5,
+        health: 2,
+        save: '3+',
+        control: 1,
         weapons: [
           {
-            name: 'Goreaxes',
+            name: 'Goreaxe and Gorefist',
             type: 'Melee',
             range: '1"',
-            attacks: 10,
-            toHit: '3+',
+            attacks: 3,
+            toHit: '4+',
             toWound: '3+',
             rend: '-1',
             damage: '1'
@@ -638,13 +984,78 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
         ],
         abilities: [
           {
-            name: 'No Respite Without Bloodshed',
-            phase: 'Combat',
+            name: 'No Respite',
+            phase: 'Passive',
             type: 'Passive',
-            effect: 'Models slain in combat can still make melee attacks before being removed.'
+            effect: 'Passive.\nEffect: Each time a model in this unit is slain, you can pick an enemy unit in combat with this unit and roll a dice. On a 4+, inflict 1 mortal damage on that enemy unit.'
           }
         ],
         keywords: ['CHAOS', 'BLADES OF KHORNE', 'INFANTRY', 'BLOOD WARRIORS']
+      },
+      {
+        id: 'kh-blood-warriors-2',
+        name: 'Blood Warriors (Unit B)',
+        role: 'Infantry',
+        modelCount: 5,
+        baseSize: '32mm',
+        move: '5"',
+        health: 2,
+        save: '3+',
+        control: 1,
+        weapons: [
+          {
+            name: 'Goreaxe and Gorefist',
+            type: 'Melee',
+            range: '1"',
+            attacks: 3,
+            toHit: '4+',
+            toWound: '3+',
+            rend: '-1',
+            damage: '1'
+          }
+        ],
+        abilities: [
+          {
+            name: 'No Respite',
+            phase: 'Passive',
+            type: 'Passive',
+            effect: 'Passive.\nEffect: Each time a model in this unit is slain, you can pick an enemy unit in combat with this unit and roll a dice. On a 4+, inflict 1 mortal damage on that enemy unit.'
+          }
+        ],
+        keywords: ['CHAOS', 'BLADES OF KHORNE', 'INFANTRY', 'BLOOD WARRIORS']
+      },
+      {
+        id: 'kh-bloodreavers',
+        name: 'Bloodreavers',
+        role: 'Infantry',
+        modelCount: 10,
+        baseSize: '32mm',
+        move: '5"',
+        health: 1,
+        save: '6+',
+        control: 1,
+        isReinforcement: true,
+        weapons: [
+          {
+            name: 'Reaver Blades',
+            type: 'Melee',
+            range: '1"',
+            attacks: 2,
+            toHit: '4+',
+            toWound: '3+',
+            rend: '0',
+            damage: '1'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Frenzied Devotion',
+            phase: 'End of Turn',
+            type: 'Active',
+            effect: 'End of Any Turn.\nEffect: If this unit is within 8" of your general, you can return D3 slain models to this unit.'
+          }
+        ],
+        keywords: ['CHAOS', 'BLADES OF KHORNE', 'INFANTRY', 'REINFORCEMENTS', 'BLOODREAVERS']
       }
     ]
   },
@@ -656,142 +1067,191 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
     subTitle: 'Fangs of the Blood God',
     grandAlliance: 'CHAOS',
     accentColor: 'from-red-900 to-amber-800',
-    flavorQuote: 'Daemons forged of pure murderous wrath materialize to reap skulls in an unstoppable stampede.',
+    flavorQuote: '‘He comes. I hear him. The Gnashing One, the Time-Render, the Bane that Howls in the Night. Take up blades. Red work to do.’ — Packlord Kar',
     battleTraits: [
       {
-        name: 'Hellforged Charge',
-        description: 'Bloodcrushers and Flesh Hounds add +1 to wound rolls on the turn they complete a charge.'
+        name: 'The Quarry',
+        description: 'Start of Battle Round.\nEffect: If no enemy units are the quarry, pick an enemy unit to be the quarry (you can pick an enemy unit in reserve).'
       },
       {
-        name: 'Daemonic Murderers',
-        description: 'Unmodified hit rolls of 6 with Hellblades inflict 1 mortal wound in addition to normal damage.'
+        name: 'Blood-Drenched',
+        description: 'Once Per Turn, End of Any Turn.\nDeclare: Pick a friendly unit that slew any enemy models using a Fight ability this turn to be the target.\nEffect: For the rest of the battle, the target’s melee weapons have Crit (Mortal).'
+      }
+    ],
+    regimentAbilities: [
+      {
+        name: 'The Scent of Blood',
+        description: 'Passive.\nEffect: Add 1 to hit rolls and add 1 to wound rolls for combat attacks that target an enemy unit that had any damage points allocated to it this turn.'
+      },
+      {
+        name: 'Savagery Upon Savagery',
+        description: 'Once Per Battle, Any Combat Phase.\nDeclare: Pick a friendly unit in combat to be the target.\nEffect: For the rest of the turn, add 1 to the Attacks characteristic of the target’s melee weapons. If the target is a Hero, add D3 to the Attacks characteristic of its melee weapons instead.'
       }
     ],
     heroTraits: [
       {
         id: 'kh-bg-ht1',
-        name: 'Herald of Slaughter',
+        name: 'Killing Pounce',
         type: 'Hero Trait',
-        effect: 'Friendly daemons within 8" add 1 to their charge rolls.'
+        effect: 'Once Per Battle, Any Charge Phase.\nEffect: For the rest of the turn, when making charge rolls for your general, you can roll an additional dice, to a maximum of 3, but if you do, they must finish that charge in combat with the quarry.'
       },
       {
         id: 'kh-bg-ht2',
-        name: 'Brass-clad Fury',
+        name: 'Evasive Hunter',
         type: 'Hero Trait',
-        effect: 'Bearer gains a 5+ Ward save and adds 1 to Health.'
+        effect: 'Passive.\nEffect: Subtract 1 from hit rolls and wound rolls for shooting attacks that target your general.'
       }
     ],
     artefacts: [
       {
         id: 'kh-bg-art1',
-        name: 'Blade of the Blood Throne',
+        name: 'Sustained by Gore',
         type: 'Artefact of Power',
-        effect: 'Bearer’s weapon deals 3 damage instead of 2.'
+        effect: 'End of Any Turn.\nEffect: Heal (D3) your general.'
       },
       {
         id: 'kh-bg-art2',
-        name: 'Collar of Khorne',
+        name: 'Furious Bites',
         type: 'Artefact of Power',
-        effect: 'Bearer can unbind 2 spells per turn with a +1 bonus.'
+        effect: 'End of Any Turn.\nEffect: If your general is in combat with the quarry, inflict D3 mortal damage on the quarry.'
       }
     ],
     units: [
       {
-        id: 'kh-bloodmaster',
-        name: 'Bloodmaster, Herald of Khorne',
+        id: 'kh-karanak',
+        name: 'Karanak',
         role: 'Hero',
         modelCount: 1,
-        baseSize: '32mm',
-        move: '6"',
-        health: 5,
-        save: '4+',
+        baseSize: '75x42mm',
+        move: '8"',
+        health: 7,
+        save: '5+',
+        ward: '6+',
         control: 2,
         weapons: [
           {
-            name: 'Blade of Blood',
+            name: 'Savage Maws and Goreslick Claws',
             type: 'Melee',
-            range: '1"',
-            attacks: 5,
-            toHit: '3+',
+            range: '2"',
+            attacks: 6,
+            toHit: '4+',
             toWound: '3+',
             rend: '-1',
-            damage: '2'
+            damage: '2',
+            ability: 'Anti-Hero (+1 Rend)'
           }
         ],
         abilities: [
           {
-            name: 'Blood-glory',
-            phase: 'Combat',
+            name: 'Stalk the Prey',
+            phase: 'Hero',
             type: 'Active',
-            effect: 'Pick 1 friendly Bloodletter unit within 12"; their attacks inflict Crit (Mortal).'
+            effect: 'Any Hero Phase.\nEffect: This unit can move D6". It cannot end that move in combat unless it was in combat at the start of that move and, if there is an enemy quarry on the battlefield, it must end that move closer to the quarry.'
           }
         ],
-        keywords: ['CHAOS', 'BLADES OF KHORNE', 'HERO', 'DAEMON', 'BLOODMASTER']
+        keywords: ['CHAOS', 'BLADES OF KHORNE', 'HERO', 'BEAST', 'WARD (6+)', 'KARANAK']
       },
       {
-        id: 'kh-bloodletters',
-        name: 'Bloodletters of Khorne',
-        role: 'Infantry',
-        modelCount: 10,
-        baseSize: '32mm',
-        move: '6"',
-        health: 10,
-        save: '5+',
-        control: 5,
+        id: 'kh-flesh-hounds-1',
+        name: 'Flesh Hounds (Pack A)',
+        role: 'Cavalry',
+        modelCount: 5,
+        baseSize: '60x35mm',
+        move: '8"',
+        health: 2,
+        save: '6+',
+        ward: '6+',
+        control: 1,
+        isReinforcement: true,
         weapons: [
           {
-            name: 'Hellblades',
+            name: 'Blood-dark Claws',
             type: 'Melee',
             range: '1"',
-            attacks: 10,
-            toHit: '3+',
+            attacks: 4,
+            toHit: '4+',
             toWound: '3+',
-            rend: '-1',
-            damage: '1',
-            ability: 'Decapitating Blow'
+            rend: '0',
+            damage: '1'
           }
         ],
         abilities: [
           {
-            name: 'Murderous Stride',
+            name: 'Unflagging Hunters',
             phase: 'Charge',
             type: 'Passive',
-            effect: 'Unmodified 6s to hit inflict mortal wounds.'
+            effect: 'Passive.\nEffect: Add 1 to charge rolls for this unit.'
           }
         ],
-        keywords: ['CHAOS', 'BLADES OF KHORNE', 'INFANTRY', 'DAEMON', 'BLOODLETTERS']
+        keywords: ['CHAOS', 'BLADES OF KHORNE', 'BEAST', 'WARD (6+)', 'REINFORCEMENTS', 'FLESH HOUNDS']
       },
       {
-        id: 'kh-bloodcrushers',
-        name: 'Bloodcrushers',
+        id: 'kh-flesh-hounds-2',
+        name: 'Flesh Hounds (Pack B)',
         role: 'Cavalry',
-        modelCount: 3,
-        baseSize: '90x52mm',
+        modelCount: 5,
+        baseSize: '60x35mm',
         move: '8"',
-        health: 12,
-        save: '3+',
-        control: 3,
+        health: 2,
+        save: '6+',
+        ward: '6+',
+        control: 1,
+        isReinforcement: true,
         weapons: [
           {
-            name: 'Hellblade & Juggernaut Horns',
+            name: 'Blood-dark Claws',
             type: 'Melee',
             range: '1"',
-            attacks: 9,
-            toHit: '3+',
+            attacks: 4,
+            toHit: '4+',
             toWound: '3+',
-            rend: '-1',
-            damage: '2'
+            rend: '0',
+            damage: '1'
           }
         ],
         abilities: [
           {
-            name: 'Devastating Impact',
+            name: 'Unflagging Hunters',
             phase: 'Charge',
-            type: 'Active',
-            effect: 'Roll a D6 for each model on charge: on 3+, target takes D3 mortal wounds.'
+            type: 'Passive',
+            effect: 'Passive.\nEffect: Add 1 to charge rolls for this unit.'
           }
         ],
-        keywords: ['CHAOS', 'BLADES OF KHORNE', 'CAVALRY', 'DAEMON', 'BLOODCRUSHERS']
+        keywords: ['CHAOS', 'BLADES OF KHORNE', 'BEAST', 'WARD (6+)', 'REINFORCEMENTS', 'FLESH HOUNDS']
+      },
+      {
+        id: 'kh-claws-of-karanak',
+        name: 'Claws of Karanak',
+        role: 'Infantry',
+        modelCount: 8,
+        baseSize: '28.5mm',
+        move: '6"',
+        health: 1,
+        save: '5+',
+        control: 1,
+        isReinforcement: true,
+        weapons: [
+          {
+            name: 'Weapons of the Hunt',
+            type: 'Melee',
+            range: '1"',
+            attacks: 3,
+            toHit: '4+',
+            toWound: '3+',
+            rend: '0',
+            damage: '1',
+            ability: 'Crit (2 Hits)'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Pack Hunters',
+            phase: 'Combat',
+            type: 'Active',
+            effect: 'Any Combat Phase.\nDeclare: Pick an enemy unit in combat with both this unit and a friendly Flesh Hounds unit to be the target.\nEffect: For the rest of the turn, this unit’s combat attacks that target that enemy unit score critical hits on unmodified hit rolls of 5+.'
+          }
+        ],
+        keywords: ['CHAOS', 'BLADES OF KHORNE', 'INFANTRY', 'REINFORCEMENTS', 'CLAWS OF KARANAK']
       }
     ]
   },
@@ -803,66 +1263,93 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
     subTitle: 'Fluxblade Coven',
     grandAlliance: 'CHAOS',
     accentColor: 'from-blue-600 to-cyan-500',
-    flavorQuote: 'All is part of the Great Conspirator’s kaleidoscopic, shifting design. Change is the only constant.',
+    flavorQuote: '‘Fate consumes souls as hungrily as the fiercest inferno.’ — Xavistilix Silverstaff, Magister of Tzeentch',
     battleTraits: [
       {
-        name: 'Destiny Dice',
-        description: 'At the start of the battle, roll 9 D6s and place them in your Destiny pool. You can replace any hit, wound, save, run, or charge roll with a Destiny die.'
+        name: 'Masters of Destiny',
+        description: 'Once Per Battle, Start of First Battle Round.\nEffect: Roll 9 dice. These are your destiny dice. Keep them to one side.\n\nBefore making any of the following rolls for a friendly unit, you can spend 1 or more of your destiny dice to replace that roll:\n• Casting roll (spend 2)\n• Run roll (spend 1)\n• Charge roll (spend 2)\n• Hit roll (spend 1)\n• Wound roll (spend 1)\n• Save roll (spend 1)\n\nThe spent dice are treated as the result of the roll. A save roll substituted in this way cannot be modified by the attacking weapon’s Rend characteristic. If multiple dice are required, you must spend that number of destiny dice, and they replace the roll as a whole.'
+      }
+    ],
+    regimentAbilities: [
+      {
+        name: 'Transient Forms',
+        description: 'Passive\nEffect: Each time a friendly Kairic Acolytes model is slain by a combat attack, roll a dice. On a 4+, return 1 slain model to a friendly Tzaangors unit within 9" of that Kairic Acolytes model.'
       },
       {
-        name: 'Locus of Mutagenic Energy',
-        description: 'When an enemy unit is destroyed by a spell, roll a D6: on 4+, summon a Chaos Spawn or deal D3 mortal wounds.'
+        name: 'Eternal Conflagration',
+        description: 'Passive\nEffect: Add 1 to the Rend characteristic of ranged weapons used by friendly Flamers of Tzeentch units.'
       }
     ],
     heroTraits: [
       {
         id: 'tz-fc-ht1',
-        name: 'Cult Master of Change',
+        name: 'Shield of Fate',
         type: 'Hero Trait',
-        effect: 'Gain 1 additional Destiny Die each battle round.'
+        effect: 'Your Hero Phase.\nDeclare: Pick a friendly unit wholly within 18" of this unit to be the target.\nEffect: Make a casting roll of 2D6. If the roll is 6 or more, until the start of your next turn, the target has Ward (6+). If the target already has Ward (6+), it has Ward (5+) instead.'
       },
       {
         id: 'tz-fc-ht2',
-        name: 'Sorcerous Nexus',
+        name: 'Glimpse the Future',
         type: 'Hero Trait',
-        effect: 'Add 1 to casting, dispelling, and unbinding rolls for your General.'
+        effect: 'Your Hero Phase.\nDeclare: You can only use this ability if you have fewer than 6 destiny dice.\nEffect: Make a casting roll of 2D6. If the roll is 7 or more, roll a dice and add it to your destiny dice.'
       }
     ],
     artefacts: [
       {
         id: 'tz-fc-art1',
-        name: 'Warpfire Blade',
+        name: 'Daemonheart',
         type: 'Artefact of Power',
-        effect: 'Bearer’s melee attacks gain Rend -2 and mortal wound on 6s.'
+        effect: 'Once Per Battle, Any Combat Phase.\nDeclare: Pick an enemy unit within 1" of this unit to be the target.\nEffect: Inflict an amount of mortal damage on the target equal to the current battle round number.'
       },
       {
         id: 'tz-fc-art2',
-        name: 'Amulet of Fate',
+        name: 'Timeslip Pendant',
         type: 'Artefact of Power',
-        effect: 'Bearer gains a 5+ Ward save.'
+        effect: 'Once Per Battle, Any Combat Phase.\nDeclare: Pick an enemy unit within 9" of this unit to be the target.\nEffect: The target has the Strike-last effect for the rest of the phase.'
       }
     ],
     units: [
       {
-        id: 'tz-magister',
+        id: 'tz-fc-magister',
         name: 'Magister on Disc of Tzeentch',
         role: 'Hero',
         modelCount: 1,
         baseSize: '50mm',
-        move: '12"',
+        move: '14"',
         health: 6,
         save: '4+',
         control: 2,
         weapons: [
           {
-            name: 'Warpsteel Sword & Disc Blades',
+            name: 'Tzeentchian Runestaff',
+            type: 'Ranged',
+            range: '18"',
+            attacks: 1,
+            toHit: '3+',
+            toWound: '4+',
+            rend: '0',
+            damage: 'D3'
+          },
+          {
+            name: 'Warpsteel Sword',
             type: 'Melee',
             range: '1"',
-            attacks: 4,
+            attacks: 3,
             toHit: '3+',
+            toWound: '4+',
+            rend: '0',
+            damage: 'D3'
+          },
+          {
+            name: "Disc's Teeth and Horns",
+            type: 'Melee',
+            range: '1"',
+            attacks: 2,
+            toHit: '4+',
             toWound: '3+',
             rend: '-1',
-            damage: 'D3'
+            damage: 'D3',
+            ability: 'Companion'
           }
         ],
         abilities: [
@@ -870,38 +1357,39 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
             name: 'Bolt of Change',
             phase: 'Hero',
             type: 'Active',
-            effect: 'Roll a D6. On a 3+, target unit within 18" suffers D3 mortal wounds and turns into Spawn if slain.'
+            effect: 'Your Hero Phase.\nDeclare: Pick a visible enemy unit within 18" of this unit to be the target.\nEffect: Make a casting roll of 2D6. On a 6+, inflict D3 mortal damage on the target. If any models are slain by this ability, you can return 1 slain model to a friendly Tzaangors unit wholly within 18" of this unit.'
           }
         ],
-        keywords: ['CHAOS', 'DISCIPLES OF TZEENTCH', 'HERO', 'WIZARD', 'FLY', 'MAGISTER']
+        keywords: ['CHAOS', 'DISCIPLES OF TZEENTCH', 'HERO', 'WIZARD', 'CAVALRY', 'FLY', 'MAGISTER']
       },
       {
-        id: 'tz-pink-horrors',
-        name: 'Pink Horrors of Tzeentch',
+        id: 'tz-fc-flamers',
+        name: 'Flamers of Tzeentch',
         role: 'Infantry',
-        modelCount: 10,
+        modelCount: 3,
         baseSize: '32mm',
-        move: '5"',
-        health: 10,
+        move: '9"',
+        health: 2,
         save: '5+',
-        control: 5,
+        ward: '6+',
+        control: 1,
         weapons: [
           {
-            name: 'Magical Flames',
+            name: 'Wyrdflame',
             type: 'Ranged',
             range: '12"',
-            attacks: 10,
-            toHit: '4+',
+            attacks: 3,
+            toHit: '3+',
             toWound: '4+',
             rend: '0',
-            damage: '1'
+            damage: 'D3'
           },
           {
-            name: 'Grasping Hands',
+            name: 'Flaming Maws',
             type: 'Melee',
             range: '1"',
-            attacks: 10,
-            toHit: '4+',
+            attacks: 3,
+            toHit: '3+',
             toWound: '4+',
             rend: '0',
             damage: '1'
@@ -909,34 +1397,35 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
         ],
         abilities: [
           {
-            name: 'Split Again and Again',
-            phase: 'Passive',
+            name: 'Capricious Wyrdflame',
+            phase: 'Shooting',
             type: 'Passive',
-            effect: 'When a model is slain, roll a D6: on 4+, ignore the wound as it splits into Blue Horrors.'
+            effect: 'Passive\nEffect: Add 1 to hit rolls for this unit’s Wyrdflame attacks if the target unit has 5 or more models.'
           }
         ],
-        keywords: ['CHAOS', 'DISCIPLES OF TZEENTCH', 'INFANTRY', 'DAEMON', 'HORRORS']
+        keywords: ['CHAOS', 'DISCIPLES OF TZEENTCH', 'INFANTRY', 'FLY', 'WARD (6+)', 'FLAMERS OF TZEENTCH']
       },
       {
-        id: 'tz-screamers',
+        id: 'tz-fc-screamers',
         name: 'Screamers of Tzeentch',
         role: 'Cavalry',
         modelCount: 3,
         baseSize: '32mm',
         move: '14"',
-        health: 9,
+        health: 3,
         save: '5+',
-        control: 3,
+        ward: '6+',
+        control: 1,
         weapons: [
           {
-            name: 'Lamprey Biting Jaws',
+            name: 'Lamprey Bite',
             type: 'Melee',
             range: '1"',
-            attacks: 9,
-            toHit: '3+',
+            attacks: 3,
+            toHit: '4+',
             toWound: '3+',
             rend: '-1',
-            damage: '2'
+            damage: '1'
           }
         ],
         abilities: [
@@ -944,109 +1433,28 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
             name: 'Slashing Fins',
             phase: 'Movement',
             type: 'Active',
-            effect: 'Fly over an enemy unit: roll a D6 for each Screamer, on 4+ that unit suffers 1 mortal wound.'
+            effect: 'Your Movement Phase.\nDeclare: If this unit made a Normal move or Run move this phase, pick an enemy unit that this unit passed across to be the target.\nEffect: Roll a dice for each model in this unit. For each 4+, inflict 1 mortal damage on the target.'
           }
         ],
-        keywords: ['CHAOS', 'DISCIPLES OF TZEENTCH', 'FLY', 'CAVALRY', 'SCREAMERS']
-      }
-    ]
-  },
-
-  // 8b. DISCIPLES OF TZEENTCH - Tzaangor Warflock
-  {
-    id: 'tzeentch-tzaangor',
-    name: 'Disciples of Tzeentch',
-    subTitle: 'Tzaangor Warflock',
-    grandAlliance: 'CHAOS',
-    accentColor: 'from-blue-700 to-amber-600',
-    flavorQuote: 'Beastmen anointed with avian feathers and sorcerous blades hunt under skies charged with change.',
-    battleTraits: [
-      {
-        name: 'Avian Ferocity',
-        description: 'Tzaangor units add 1 to their hit rolls in combat if they made a charge move.'
+        keywords: ['CHAOS', 'DISCIPLES OF TZEENTCH', 'BEAST', 'FLY', 'WARD (6+)', 'SCREAMERS OF TZEENTCH']
       },
       {
-        name: 'Arcane Savagery',
-        description: 'While near a friendly wizard, Tzaangors add +1 to their melee wound rolls.'
-      }
-    ],
-    heroTraits: [
-      {
-        id: 'tz-tw-ht1',
-        name: 'Mutant Prophet',
-        type: 'Hero Trait',
-        effect: 'Add 2" to the Move characteristic of friendly Tzaangor units within 12".'
-      },
-      {
-        id: 'tz-tw-ht2',
-        name: 'Gilded Feathered Shroud',
-        type: 'Hero Trait',
-        effect: 'General gains a 5+ Ward save.'
-      }
-    ],
-    artefacts: [
-      {
-        id: 'tz-tw-art1',
-        name: 'Balehead Bow',
-        type: 'Artefact of Power',
-        effect: 'Bearer’s ranged weapons have Rend -2 and mortal wounds on 5+.'
-      },
-      {
-        id: 'tz-tw-art2',
-        name: 'Disc of Shifting Silver',
-        type: 'Artefact of Power',
-        effect: 'Add 2 to the General’s Health and +2 to Control.'
-      }
-    ],
-    units: [
-      {
-        id: 'tz-shaman',
-        name: 'Tzaangor Shaman on Disc',
-        role: 'Hero',
-        modelCount: 1,
-        baseSize: '40mm',
-        move: '12"',
-        health: 6,
-        save: '4+',
-        control: 2,
-        weapons: [
-          {
-            name: 'Staff of Change & Dagger',
-            type: 'Melee',
-            range: '2"',
-            attacks: 3,
-            toHit: '3+',
-            toWound: '3+',
-            rend: '-1',
-            damage: 'D3'
-          }
-        ],
-        abilities: [
-          {
-            name: 'Boon of Mutation',
-            phase: 'Hero',
-            type: 'Active',
-            effect: 'Roll a D6. On a 3+, pick 1 enemy unit within 12"; it suffers D3 mortal wounds.'
-          }
-        ],
-        keywords: ['CHAOS', 'DISCIPLES OF TZEENTCH', 'HERO', 'WIZARD', 'FLY', 'TZAANGOR SHAMAN']
-      },
-      {
-        id: 'tz-tzaangors',
-        name: 'Tzaangors with Savage Blades',
+        id: 'tz-fc-tzaangors-a',
+        name: 'Tzaangors - Unit A',
         role: 'Infantry',
-        modelCount: 10,
+        modelCount: 5,
         baseSize: '32mm',
         move: '6"',
-        health: 10,
+        health: 2,
         save: '5+',
-        control: 5,
+        control: 1,
+        isReinforcement: true,
         weapons: [
           {
-            name: 'Savage Blades & Beaks',
+            name: 'Savage Blade and Vicious Beak',
             type: 'Melee',
             range: '1"',
-            attacks: 20,
+            attacks: 2,
             toHit: '4+',
             toWound: '3+',
             rend: '0',
@@ -1055,41 +1463,309 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
         ],
         abilities: [
           {
-            name: 'Savage Mauling',
+            name: 'Long-Planned Strike',
             phase: 'Combat',
             type: 'Passive',
-            effect: 'Add 1 to attack characteristics if this unit has 6 or more models.'
+            effect: 'Passive\nEffect: While this unit is wholly within enemy territory, its melee weapons have Crit (2 Hits).'
           }
         ],
-        keywords: ['CHAOS', 'DISCIPLES OF TZEENTCH', 'INFANTRY', 'TZAANGORS']
+        keywords: ['CHAOS', 'DISCIPLES OF TZEENTCH', 'INFANTRY', 'REINFORCEMENTS', 'TZAANGORS']
       },
       {
-        id: 'tz-skyfires',
+        id: 'tz-fc-tzaangors-b',
+        name: 'Tzaangors - Unit B',
+        role: 'Infantry',
+        modelCount: 5,
+        baseSize: '32mm',
+        move: '6"',
+        health: 2,
+        save: '5+',
+        control: 1,
+        isReinforcement: true,
+        weapons: [
+          {
+            name: 'Savage Blade and Vicious Beak',
+            type: 'Melee',
+            range: '1"',
+            attacks: 2,
+            toHit: '4+',
+            toWound: '3+',
+            rend: '0',
+            damage: '1'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Long-Planned Strike',
+            phase: 'Combat',
+            type: 'Passive',
+            effect: 'Passive\nEffect: While this unit is wholly within enemy territory, its melee weapons have Crit (2 Hits).'
+          }
+        ],
+        keywords: ['CHAOS', 'DISCIPLES OF TZEENTCH', 'INFANTRY', 'REINFORCEMENTS', 'TZAANGORS']
+      },
+      {
+        id: 'tz-fc-acolytes',
+        name: 'Kairic Acolytes',
+        role: 'Infantry',
+        modelCount: 10,
+        baseSize: '32mm',
+        move: '5"',
+        health: 1,
+        save: '5+',
+        control: 1,
+        isReinforcement: true,
+        weapons: [
+          {
+            name: 'Sorcerous Bolts',
+            type: 'Ranged',
+            range: '18"',
+            attacks: 1,
+            toHit: '4+',
+            toWound: '3+',
+            rend: '0',
+            damage: '1'
+          },
+          {
+            name: 'Cursed Blade',
+            type: 'Melee',
+            range: '1"',
+            attacks: 2,
+            toHit: '4+',
+            toWound: '4+',
+            rend: '0',
+            damage: '1'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Gestalt Sorcery',
+            phase: 'Shooting',
+            type: 'Active',
+            effect: 'Your Shooting Phase.\nEffect: Make a casting roll of 2D6. On a 6+, for the rest of the phase, add 1 to the Rend characteristic of Sorcerous Bolts used by this unit.'
+          }
+        ],
+        keywords: ['CHAOS', 'DISCIPLES OF TZEENTCH', 'INFANTRY', 'REINFORCEMENTS', 'KAIRIC ACOLYTES']
+      }
+    ]
+  },
+
+  // 8b. DISCIPLES OF TZEENTCH - Tzaangor Warflock
+  {
+    id: 'tzeentch-warflock',
+    name: 'Disciples of Tzeentch',
+    subTitle: 'Tzaangor Warflock',
+    grandAlliance: 'CHAOS',
+    accentColor: 'from-cyan-600 to-indigo-800',
+    flavorQuote: '‘A sacred change is coming, city-dwellers. Kawaaaaark! Soon you shall be kin to us, remade to serve the Change God!’ — Shaman Takz’ykan',
+    battleTraits: [
+      {
+        name: 'Fated Arrival',
+        description: 'Your Movement Phase.\nDeclare: You can only use this ability from battle round 2 onwards. Pick your Tzaangor Enlightened unit if it has not been set up.\nEffect: Set up that unit wholly within friendly territory, within 1" of the battlefield edge and more than 6" from all enemy units.\n\nReserve Setup: Your Tzaangor Enlightened unit is not set up during deployment.'
+      },
+      {
+        name: 'Predict the Future',
+        description: 'Your Hero Phase.\nEffect: Look at up to 3 cards from the top of the battle tactic deck. You can return each of those cards face down to either the top or bottom of the battle tactic deck in any order.'
+      },
+      {
+        name: 'Cheat Destiny',
+        description: 'Reaction: You used a command on a battle tactic card.\nEffect: Instead of discarding that battle tactic card, return it face down to the bottom of the battle tactic deck.'
+      }
+    ],
+    regimentAbilities: [
+      {
+        name: 'Constant Flux',
+        description: 'Passive\nEffect: Subtract 1 from the Rend characteristic of weapons that target friendly units while you are the underdog.'
+      },
+      {
+        name: 'Arcane Ritualists',
+        description: 'Passive\nEffect: Add 1 to casting rolls for your general while they are wholly within 6" of another friendly unit.'
+      }
+    ],
+    heroTraits: [
+      {
+        id: 'tz-tw-ht1',
+        name: 'Predicted Strike',
+        type: 'Hero Trait',
+        effect: 'Once Per Battle, Enemy Movement Phase.\nDeclare: Pick a visible friendly unit wholly within 12" of this unit that is not in combat to be the target.\nEffect: Roll a D6. The target can move a distance up to the value of the roll. It cannot move into combat or end that move within enemy combat range.'
+      },
+      {
+        id: 'tz-tw-ht2',
+        name: 'Fold Reality',
+        type: 'Hero Trait',
+        effect: 'Your Hero Phase.\nDeclare: Pick a visible friendly unit wholly within 12" of this unit to be the target.\nEffect: Make a casting roll of 2D6. On a 6+, remove the target from the battlefield and set it up again wholly within 12" of your general and more than 6" from all enemy units.'
+      }
+    ],
+    artefacts: [
+      {
+        id: 'tz-tw-art1',
+        name: 'Infernal Gateway',
+        type: 'Artefact of Power',
+        effect: 'Your Hero Phase.\nDeclare: Pick a visible enemy unit within 18" of this unit to be the target.\nEffect: Make a casting roll of 2D6. On a 5+, roll 3 dice (or a number of dice equal to the number of discarded battle tactic cards in the battle tactic discard pile, whichever is higher). For each 4+, inflict 1 mortal damage on the target.'
+      },
+      {
+        id: 'tz-tw-art2',
+        name: 'Mutagenic Sorcery',
+        type: 'Artefact of Power',
+        effect: 'End of Any Turn.\nDeclare: Pick a visible enemy unit within 12" of this unit that is in combat with a friendly Tzaangors unit to be the target.\nEffect: Roll a D3. On a 2+:\n• Inflict an amount of mortal damage on the target equal to the roll.\n• Return 1 slain model to that friendly Tzaangors unit.'
+      }
+    ],
+    units: [
+      {
+        id: 'tz-tw-shaman',
+        name: 'Tzaangor Shaman',
+        role: 'Hero',
+        modelCount: 1,
+        baseSize: '40mm',
+        move: '14"',
+        health: 6,
+        save: '5+',
+        control: 2,
+        weapons: [
+          {
+            name: 'Staff of Change and Ritual Dagger',
+            type: 'Melee',
+            range: '1"',
+            attacks: 3,
+            toHit: '4+',
+            toWound: '3+',
+            rend: '-1',
+            damage: 'D3'
+          },
+          {
+            name: "Disc's Teeth and Horns",
+            type: 'Melee',
+            range: '1"',
+            attacks: 2,
+            toHit: '4+',
+            toWound: '3+',
+            rend: '-1',
+            damage: 'D3',
+            ability: 'Companion'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Mutative Aura',
+            phase: 'Hero',
+            type: 'Active',
+            effect: 'Your Hero Phase.\nDeclare: Pick a visible enemy unit within 18" of this unit to be the target.\nEffect: Make a casting roll of 2D6. On a 7+, until the start of your next turn, each time an unmodified hit roll of 1 is made for a combat attack by the target, inflict 1 mortal damage on the target after the attack sequence is resolved.'
+          }
+        ],
+        keywords: ['CHAOS', 'DISCIPLES OF TZEENTCH', 'HERO', 'WIZARD', 'CAVALRY', 'FLY', 'TZAANGOR SHAMAN']
+      },
+      {
+        id: 'tz-tw-enlightened',
+        name: 'Tzaangor Enlightened',
+        role: 'Cavalry',
+        modelCount: 3,
+        baseSize: '40mm',
+        move: '14"',
+        health: 4,
+        save: '4+',
+        control: 1,
+        weapons: [
+          {
+            name: 'Tzeentchian Spear and Vicious Beak',
+            type: 'Melee',
+            range: '1"',
+            attacks: 3,
+            toHit: '4+',
+            toWound: '3+',
+            rend: '-1',
+            damage: '2'
+          },
+          {
+            name: "Disc's Teeth and Horns",
+            type: 'Melee',
+            range: '1"',
+            attacks: 2,
+            toHit: '4+',
+            toWound: '3+',
+            rend: '-1',
+            damage: 'D3',
+            ability: 'Companion'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Deliver on Fate',
+            phase: 'Charge',
+            type: 'Passive',
+            effect: 'Passive\nEffect: Add 1 to charge rolls for this unit while you are the underdog.'
+          }
+        ],
+        keywords: ['CHAOS', 'DISCIPLES OF TZEENTCH', 'CAVALRY', 'FLY', 'TZAANGOR ENLIGHTENED']
+      },
+      {
+        id: 'tz-tw-skyfires',
         name: 'Tzaangor Skyfires',
         role: 'Cavalry',
         modelCount: 3,
         baseSize: '40mm',
-        move: '12"',
-        health: 9,
+        move: '14"',
+        health: 4,
         save: '4+',
-        control: 3,
+        control: 1,
         weapons: [
           {
-            name: 'Greatbow',
+            name: 'Arrow of Fate',
             type: 'Ranged',
-            range: '24"',
-            attacks: 3,
-            toHit: '3+',
+            range: '18"',
+            attacks: 2,
+            toHit: '4+',
             toWound: '3+',
-            rend: '-2',
-            damage: '2',
-            ability: 'Crit (Mortal)'
+            rend: '-1',
+            damage: '2'
           },
           {
-            name: 'Disc Teeth',
+            name: 'Bow Stave and Vicious Beak',
             type: 'Melee',
             range: '1"',
-            attacks: 6,
+            attacks: 1,
+            toHit: '4+',
+            toWound: '3+',
+            rend: '0',
+            damage: '1'
+          },
+          {
+            name: "Disc's Teeth and Horns",
+            type: 'Melee',
+            range: '1"',
+            attacks: 2,
+            toHit: '4+',
+            toWound: '3+',
+            rend: '-1',
+            damage: 'D3',
+            ability: 'Companion'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Destined Quarry',
+            phase: 'Shooting',
+            type: 'Active',
+            effect: 'Your Shooting Phase.\nDeclare: Pick an enemy unit that was damaged by attacks made by this unit this phase to be the target.\nEffect: For the rest of the turn, add 1 to hit rolls for combat attacks made by friendly units that target the target unit.'
+          }
+        ],
+        keywords: ['CHAOS', 'DISCIPLES OF TZEENTCH', 'CAVALRY', 'FLY', 'TZAANGOR SKYFIRES']
+      },
+      {
+        id: 'tz-tw-tzaangors',
+        name: 'Tzaangors',
+        role: 'Infantry',
+        modelCount: 10,
+        baseSize: '32mm',
+        move: '6"',
+        health: 2,
+        save: '5+',
+        control: 1,
+        weapons: [
+          {
+            name: 'Savage Blades and Vicious Beak',
+            type: 'Melee',
+            range: '1"',
+            attacks: 3,
             toHit: '4+',
             toWound: '3+',
             rend: '-1',
@@ -1098,13 +1774,13 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
         ],
         abilities: [
           {
-            name: 'Judgement of Fate',
-            phase: 'Shooting',
+            name: 'Eldritch Raiders',
+            phase: 'Combat',
             type: 'Passive',
-            effect: 'Unmodified 6s to hit with Greatbows inflict 2 mortal wounds and end the attack sequence.'
+            effect: 'Passive\nEffect: Add 1 to wound rolls for this unit’s melee attacks while it is wholly within enemy territory.'
           }
         ],
-        keywords: ['CHAOS', 'DISCIPLES OF TZEENTCH', 'FLY', 'CAVALRY', 'SKYFIRES']
+        keywords: ['CHAOS', 'DISCIPLES OF TZEENTCH', 'INFANTRY', 'TZAANGORS']
       }
     ]
   },
@@ -1116,204 +1792,58 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
     subTitle: 'Blades of the Lurid Dream',
     grandAlliance: 'CHAOS',
     accentColor: 'from-purple-800 to-pink-600',
-    flavorQuote: 'Excess in all sensations! The sweetest agony and the sharpest perfection for the Dark Prince.',
+    flavorQuote: '‘Swiftly, my paramours! The Dark Prince spies unfortunates stooped beneath the weight of reality. We must save them from their sanity!’ — Hiraxith of the Six Slicing Shards',
     battleTraits: [
       {
-        name: 'Euphoric Euphoria',
-        description: 'Generating Temptation dice: offer enemy players re-rolls. If they accept or decline, earn points to trigger Strike-First and +1 Attacks.'
+        name: 'Temptations of Slaanesh',
+        description: 'Passive\nEffect: At the start of each battle round, you receive 6 temptation dice. Each time your opponent makes a failed hit roll, a failed wound roll or a failed save roll, you can offer them a temptation dice. If they accept your offer, that roll is replaced with a 6. Rolls replaced in this way cannot be re-rolled or modified.\n\nEach time your opponent accepts your offer of a temptation dice, you gain D6 depravity points. Each time your opponent rejects your offer of a temptation dice, inflict D3 mortal damage on the unit for which the roll was made.\n\nYou cannot offer your opponent a temptation dice for the same enemy unit more than once per phase. At the end of the battle round, all remaining temptation dice are lost.'
       },
       {
-        name: 'Lurid Perfection',
-        description: 'Unmodified 6s to hit generate 1 additional hit roll.'
+        name: 'Depravity Table',
+        description: 'Passive\nEffect: All friendly units gain passive abilities from the table below based on the number of depravity points you have. These abilities are cumulative:\n• 12+ DP - Tantalising Torment: This unit can use a Run ability and still use Charge abilities later in the turn.\n• 18+ DP - Sadistic Spite: This unit’s melee weapons have Crit (Mortal).\n• 24+ DP - Oblivious Indulgence: This unit has Ward (5+).'
+      }
+    ],
+    regimentAbilities: [
+      {
+        name: 'Unparalleled Speed',
+        description: 'Once Per Battle, Any Combat Phase\nDeclare: Pick a friendly unit to use this ability.\nEffect: That unit has Strike-first this phase.'
+      },
+      {
+        name: 'Locus of Diversion',
+        description: 'Your Movement Phase\nDeclare: Pick a friendly unit to use this ability.\nEffect: For the rest of the turn, that unit can use Retreat ability and still use Shoot and/or Charge abilities later in the turn.'
       }
     ],
     heroTraits: [
       {
         id: 'sl-ld-ht1',
-        name: 'Artist of Agony',
+        name: 'Sceptre of Domination',
         type: 'Hero Trait',
-        effect: 'Add 1 to the Damage characteristic of the General’s melee weapons.'
+        effect: 'Any Combat Phase\nDeclare: Roll a dice for each enemy unit in combat with your general.\nEffect: On a 5+, the unit being rolled for has Strike-last this phase.'
       },
       {
         id: 'sl-ld-ht2',
-        name: 'Soporific Allure',
+        name: 'Cacophonic Choir',
         type: 'Hero Trait',
-        effect: 'Enemy units in combat with your General subtract 1 from their melee hit rolls.'
+        effect: 'Your Hero Phase\nDeclare: Make a casting roll of 2D6.\nEffect: On a 6+, make a cacophony roll of D6. Inflict D3 mortal damage on each enemy unit (roll for each) within 6" of your general that has a Control characteristic less than the cacophony roll.'
       }
     ],
     artefacts: [
       {
         id: 'sl-ld-art1',
-        name: 'Rod of Torment',
+        name: 'Twisted Mirror',
         type: 'Artefact of Power',
-        effect: 'Bearer inflicts D3 mortal wounds when an enemy fails a battleshock test.'
+        effect: 'Once Per Turn, Your Shooting Phase\nDeclare: Pick an enemy unit within 9" of your general and roll a dice.\nEffect: On a 4+, subtract 1 from save rolls for that unit until the start of your next turn.'
       },
       {
         id: 'sl-ld-art2',
-        name: 'Silken Shroud',
+        name: 'Pendant of Slaanesh',
         type: 'Artefact of Power',
-        effect: 'Bearer gains a 5+ Ward save.'
+        effect: 'Your Hero Phase\nEffect: Heal (D3) your general.'
       }
     ],
     units: [
       {
-        id: 'sl-lord-pain',
-        name: 'Lord of Pain',
-        role: 'Hero',
-        modelCount: 1,
-        baseSize: '40mm',
-        move: '6"',
-        health: 6,
-        save: '3+',
-        control: 2,
-        weapons: [
-          {
-            name: 'Soulpiercer Mace',
-            type: 'Melee',
-            range: '1"',
-            attacks: 5,
-            toHit: '3+',
-            toWound: '3+',
-            rend: '-1',
-            damage: '2'
-          }
-        ],
-        abilities: [
-          {
-            name: 'Share the Agony',
-            phase: 'Combat',
-            type: 'Passive',
-            effect: 'Each time a wound is allocated to this model, roll a D6. On 5+, the attacking unit suffers 1 mortal wound.'
-          }
-        ],
-        keywords: ['CHAOS', 'HEDONITES OF SLAANESH', 'HERO', 'LORD OF PAIN']
-      },
-      {
-        id: 'sl-myrmidesh',
-        name: 'Myrmidesh Painbringers',
-        role: 'Infantry',
-        modelCount: 5,
-        baseSize: '32mm',
-        move: '6"',
-        health: 10,
-        save: '3+',
-        control: 5,
-        weapons: [
-          {
-            name: 'Painbringer Blade',
-            type: 'Melee',
-            range: '1"',
-            attacks: 10,
-            toHit: '3+',
-            toWound: '3+',
-            rend: '-1',
-            damage: '1'
-          }
-        ],
-        abilities: [
-          {
-            name: 'Dance of the Decadent',
-            phase: 'Combat',
-            type: 'Passive',
-            effect: 'Reroll hit rolls of 1 while fighting an enemy unit with higher model count.'
-          }
-        ],
-        keywords: ['CHAOS', 'HEDONITES OF SLAANESH', 'INFANTRY', 'MYRMIDESH']
-      },
-      {
-        id: 'sl-blissbarb',
-        name: 'Blissbarb Archers',
-        role: 'Infantry',
-        modelCount: 10,
-        baseSize: '28mm',
-        move: '6"',
-        health: 10,
-        save: '6+',
-        control: 5,
-        weapons: [
-          {
-            name: 'Blissbarb Bow',
-            type: 'Ranged',
-            range: '18"',
-            attacks: 10,
-            toHit: '3+',
-            toWound: '4+',
-            rend: '0',
-            damage: '1'
-          },
-          {
-            name: 'Slickblade Dagger',
-            type: 'Melee',
-            range: '1"',
-            attacks: 10,
-            toHit: '4+',
-            toWound: '4+',
-            rend: '0',
-            damage: '1'
-          }
-        ],
-        abilities: [
-          {
-            name: 'Poisoned Needles',
-            phase: 'Shooting',
-            type: 'Passive',
-            effect: 'Can run and shoot in the same turn.'
-          }
-        ],
-        keywords: ['CHAOS', 'HEDONITES OF SLAANESH', 'INFANTRY', 'BLISSBARB']
-      }
-    ]
-  },
-
-  // 12b. HEDONITES OF SLAANESH - Epicurean Revellers
-  {
-    id: 'slaanesh-epicurean',
-    name: 'Hedonites of Slaanesh',
-    subTitle: 'Epicurean Revellers',
-    grandAlliance: 'CHAOS',
-    accentColor: 'from-fuchsia-800 to-indigo-900',
-    flavorQuote: 'Mounted upon darting Seekers, this court of revelry indulges in lightning strikes and intoxicating magic.',
-    battleTraits: [
-      {
-        name: 'Blinding Excess',
-        description: 'Enemy units targeting friendly Seeker cavalry suffer -1 to hit.'
-      },
-      {
-        name: 'Song of Seduction',
-        description: 'Friendly Shardspeakers can reduce enemy units’ Control to 0 for a battle round.'
-      }
-    ],
-    heroTraits: [
-      {
-        id: 'sl-er-ht1',
-        name: 'Mistress of Whispers',
-        type: 'Hero Trait',
-        effect: 'Add 1 to casting rolls for friendly spells.'
-      },
-      {
-        id: 'sl-er-ht2',
-        name: 'Swift-tongued Temptress',
-        type: 'Hero Trait',
-        effect: 'Generates 1 bonus Temptation Die each round.'
-      }
-    ],
-    artefacts: [
-      {
-        id: 'sl-er-art1',
-        name: 'Mirror of Vanity',
-        type: 'Artefact of Power',
-        effect: 'Reflects 1 mortal wound to attacker on save roll of 6.'
-      },
-      {
-        id: 'sl-er-art2',
-        name: 'Scent of Excess',
-        type: 'Artefact of Power',
-        effect: 'Friendly cavalry within 6" add +2" to Charge rolls.'
-      }
-    ],
-    units: [
-      {
-        id: 'sl-shardspeaker',
+        id: 'sl-ld-shardspeaker',
         name: 'Shardspeaker of Slaanesh',
         role: 'Hero',
         modelCount: 1,
@@ -1324,42 +1854,277 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
         control: 2,
         weapons: [
           {
-            name: 'Silver Claw & Mist',
+            name: 'Haze Staff',
             type: 'Melee',
             range: '1"',
             attacks: 3,
             toHit: '3+',
+            toWound: '4+',
+            rend: '-1',
+            damage: 'D3'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Vision of Damnation',
+            phase: 'Hero',
+            type: 'Active',
+            effect: 'Your Hero Phase\nDeclare: Make a casting roll of 2D6.\nEffect: On a 6+, roll 6 dice. For each 4+, you receive 1 depravity point.'
+          }
+        ],
+        keywords: ['CHAOS', 'HEDONITES OF SLAANESH', 'HERO', 'WIZARD', 'INFANTRY', 'SHARDSPEAKER OF SLAANESH']
+      },
+      {
+        id: 'sl-ld-slickblade-seekers',
+        name: 'Slickblade Seekers',
+        role: 'Cavalry',
+        modelCount: 5,
+        baseSize: '75x42mm',
+        move: '12"',
+        health: 4,
+        save: '5+',
+        control: 1,
+        isReinforcement: true,
+        reinforcementNote: 'Reinforcement unit (5 models)',
+        weapons: [
+          {
+            name: 'Slickblade Glaive',
+            type: 'Melee',
+            range: '1"',
+            attacks: 3,
+            toHit: '3+',
+            toWound: '4+',
+            rend: '-1',
+            damage: '1',
+            ability: 'Charge (+1 Damage)'
+          },
+          {
+            name: 'Exalted Steed’s Poisoned Tongue',
+            type: 'Melee',
+            range: '1"',
+            attacks: 3,
+            toHit: '3+',
+            toWound: '4+',
+            rend: '0',
+            damage: '1',
+            ability: 'Companion'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Unrivalled Velocity',
+            phase: 'Charge',
+            type: 'Passive',
+            effect: 'Passive\nEffect: You can re-roll charge rolls for this unit.'
+          }
+        ],
+        keywords: ['CHAOS', 'HEDONITES OF SLAANESH', 'CAVALRY', 'REINFORCEMENTS', 'SLICKBLADE SEEKERS']
+      },
+      {
+        id: 'sl-ld-slaangor-fiendbloods',
+        name: 'Slaangor Fiendbloods',
+        role: 'Infantry',
+        modelCount: 3,
+        baseSize: '40mm',
+        move: '6"',
+        health: 3,
+        save: '5+',
+        control: 1,
+        isReinforcement: true,
+        reinforcementNote: 'Reinforcement unit (2 models with Razor-sharp Claws, 1 model with Razor-sharp Claw and Gilded Weapon)',
+        weapons: [
+          {
+            name: 'Razor-sharp Claws',
+            type: 'Melee',
+            range: '1"',
+            attacks: 4,
+            toHit: '4+',
             toWound: '3+',
+            rend: '-1',
+            damage: '2'
+          },
+          {
+            name: 'Razor-sharp Claw and Gilded Weapon',
+            type: 'Melee',
+            range: '1"',
+            attacks: 5,
+            toHit: '4+',
+            toWound: '3+',
+            rend: '-1',
+            damage: '2'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Slaughter at Any Cost',
+            phase: 'Shooting',
+            type: 'Active',
+            effect: 'Enemy Shooting Phase\nDeclare: This unit can use this ability if any damage points were allocated to it this turn.\nEffect: This unit can use the "Normal Move" ability as if it were your movement phase.'
+          }
+        ],
+        keywords: ['CHAOS', 'HEDONITES OF SLAANESH', 'INFANTRY', 'REINFORCEMENTS', 'SLAANGOR FIENDBLOODS']
+      },
+      {
+        id: 'sl-ld-blissbarb-archers-a',
+        name: 'Blissbarb Archers - Unit A',
+        role: 'Infantry',
+        modelCount: 6,
+        baseSize: '28.5mm',
+        move: '6"',
+        health: 1,
+        save: '6+',
+        control: 1,
+        isReinforcement: true,
+        reinforcementNote: 'Reinforcement unit: 5 Blissbarb Archers and 1 Blissbrew Homonculus',
+        weapons: [
+          {
+            name: 'Blissbarb Bow',
+            type: 'Ranged',
+            range: '18"',
+            attacks: 2,
+            toHit: '3+',
+            toWound: '4+',
+            rend: '-1',
+            damage: '1'
+          },
+          {
+            name: 'Sybarite Blade',
+            type: 'Melee',
+            range: '1"',
+            attacks: 1,
+            toHit: '3+',
+            toWound: '4+',
             rend: '0',
             damage: '1'
           }
         ],
         abilities: [
           {
-            name: 'Shadows of Distortion',
-            phase: 'Hero',
-            type: 'Active',
-            effect: 'Roll a D6. On 3+, enemy unit within 12" suffers -1 to Save rolls.'
+            name: 'Light-Footed Killers',
+            phase: 'Shooting',
+            type: 'Passive',
+            effect: 'Passive\nEffect: This unit can use Shoot abilities even if it used a Run ability in the same turn.'
           }
         ],
-        keywords: ['CHAOS', 'HEDONITES OF SLAANESH', 'HERO', 'WIZARD', 'SHARDSPEAKER']
+        keywords: ['CHAOS', 'HEDONITES OF SLAANESH', 'INFANTRY', 'REINFORCEMENTS', 'BLISSBARB ARCHERS']
       },
       {
-        id: 'sl-slickblade',
-        name: 'Slickblade Seekers',
-        role: 'Cavalry',
-        modelCount: 3,
-        baseSize: '75x42mm',
-        move: '14"',
-        health: 9,
-        save: '4+',
-        control: 3,
+        id: 'sl-ld-blissbarb-archers-b',
+        name: 'Blissbarb Archers - Unit B',
+        role: 'Infantry',
+        modelCount: 5,
+        baseSize: '28.5mm',
+        move: '6"',
+        health: 1,
+        save: '6+',
+        control: 1,
+        isReinforcement: true,
+        reinforcementNote: 'Reinforcement unit: 5 Blissbarb Archers',
         weapons: [
           {
-            name: 'Slickblade Glaive & Tongues',
+            name: 'Blissbarb Bow',
+            type: 'Ranged',
+            range: '18"',
+            attacks: 2,
+            toHit: '3+',
+            toWound: '4+',
+            rend: '-1',
+            damage: '1'
+          },
+          {
+            name: 'Sybarite Blade',
             type: 'Melee',
-            range: '2"',
-            attacks: 9,
+            range: '1"',
+            attacks: 1,
+            toHit: '3+',
+            toWound: '4+',
+            rend: '0',
+            damage: '1'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Light-Footed Killers',
+            phase: 'Shooting',
+            type: 'Passive',
+            effect: 'Passive\nEffect: This unit can use Shoot abilities even if it used a Run ability in the same turn.'
+          }
+        ],
+        keywords: ['CHAOS', 'HEDONITES OF SLAANESH', 'INFANTRY', 'REINFORCEMENTS', 'BLISSBARB ARCHERS']
+      }
+    ]
+  },
+
+  // 12b. HEDONITES OF SLAANESH - Epicurean Revellers
+  {
+    id: 'slaanesh-epicurean',
+    name: 'Hedonites of Slaanesh',
+    subTitle: 'Epicurean Revellers',
+    grandAlliance: 'CHAOS',
+    accentColor: 'from-fuchsia-900 via-pink-700 to-indigo-900',
+    flavorQuote: '‘The taste of a sweet peach. A bite torn from a still-beating heart. Both are desires. The question is merely one of degrees.’ — Sae’Tiss, Who Tends The Galleries Of Ten Thousand Screams',
+    battleTraits: [
+      {
+        name: 'Favour Most Fickle',
+        description: 'Passive\nEffect: The following effects apply based on the number of friendly units on the battlefield. These effects are not cumulative:\n• 5 or more units: Add 2 to the Control characteristic of friendly units.\n• 4 units: Add 1 to hit rolls and wound rolls for friendly units’ combat attacks, including attacks made with Companion weapons.\n• 3 units: Add 1 to run rolls and charge rolls for friendly units.\n• 2 units: Friendly units have Ward (5+).\n• 1 unit: Add 2 to the Attacks characteristic of friendly units’ melee weapons, including Companion weapons.'
+      }
+    ],
+    regimentAbilities: [
+      {
+        name: 'Bringers of Degradation',
+        description: 'Passive\nEffect: When players are alternating picking units to use a Fight ability, when it is your turn to pick a unit, you can pick 2 friendly Daemonettes units instead of 1 unit. Resolve the second Fight ability immediately after the first.'
+      },
+      {
+        name: 'Daemonic Onslaught',
+        description: 'Once Per Battle, Deployment Phase\nDeclare: Pick a friendly Seekers or Fiends unit wholly within 12" of your general to be the target.\nEffect: The target can use the "Normal Move" ability as if it were your movement phase.'
+      }
+    ],
+    heroTraits: [
+      {
+        id: 'sl-er-ht1',
+        name: 'Twisted Grace',
+        type: 'Hero Trait',
+        effect: 'Passive\nEffect: When your general makes a pile-in move, if they charged in the same turn, add D6" to the distance they can move.'
+      },
+      {
+        id: 'sl-er-ht2',
+        name: 'High Courtiers',
+        type: 'Hero Trait',
+        effect: 'Passive\nEffect: While your general is wholly within the combat range of a friendly Daemonettes unit, both units have Ward (5+).'
+      }
+    ],
+    artefacts: [
+      {
+        id: 'sl-er-art1',
+        name: 'Excess of Violence',
+        type: 'Artefact of Power',
+        effect: 'Once Per Battle, Any Combat Phase\nDeclare: Pick a visible friendly unit wholly within 12" of your general to be the target.\nEffect: The target’s melee weapons, including Companion weapons, have Crit (2 Hits) until the start of your next turn.'
+      },
+      {
+        id: 'sl-er-art2',
+        name: 'Irresistible Soul-Musk',
+        type: 'Artefact of Power',
+        effect: 'Once Per Battle, Your Movement Phase\nDeclare: Pick a visible friendly Seekers or Fiends unit wholly within 12" of your general to be the target.\nEffect: Remove the target from the battlefield and set it up again on the battlefield more than 6" from all enemy units.'
+      }
+    ],
+    units: [
+      {
+        id: 'sl-er-thricefold-discord',
+        name: 'Thricefold Discord',
+        role: 'Hero',
+        modelCount: 3,
+        baseSize: '25mm',
+        move: '6"',
+        health: 3,
+        save: '5+',
+        ward: '5+',
+        control: 2,
+        weapons: [
+          {
+            name: 'Thricefold Arsenal',
+            type: 'Melee',
+            range: '1"',
+            attacks: 3,
             toHit: '3+',
             toWound: '3+',
             rend: '-1',
@@ -1368,46 +2133,167 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
         ],
         abilities: [
           {
-            name: 'Uncanny Rapidity',
-            phase: 'Charge',
+            name: 'Thricefold Court',
+            phase: 'Passive',
             type: 'Passive',
-            effect: 'Can retreat and charge in the same turn.'
+            effect: 'Passive\nEffect: Each model in this unit is treated as an individual unit when determining the effect of the "Favour Most Fickle" battle trait.'
+          },
+          {
+            name: 'Dispensers of Favour',
+            phase: 'Hero',
+            type: 'Active',
+            effect: 'Your Hero Phase\nDeclare: Pick up to X different friendly units wholly within 12" of this unit to be the targets, where X is the number of models in this unit. Then, make a casting roll of 2D6.\nEffect: On a 6+, apply the relevant effect to each target:\n• Daemonettes: The target’s weapons have Anti-charge (+1 Rend) until the start of your next turn.\n• Seekers: Add 2" to the target’s Move characteristic until the start of your next turn.\n• Fiends: Add 1 to hit rolls for the target’s combat attacks until the start of your next turn.'
           }
         ],
-        keywords: ['CHAOS', 'HEDONITES OF SLAANESH', 'CAVALRY', 'SLICKBLADES']
+        keywords: ['CHAOS', 'HEDONITES OF SLAANESH', 'HERO', 'WIZARD', 'INFANTRY', 'WARD (5+)', 'THRICEFOLD DISCORD']
       },
       {
-        id: 'sl-daemonettes',
-        name: 'Daemonettes of Slaanesh',
+        id: 'sl-er-fiends',
+        name: 'Fiends',
+        role: 'Cavalry',
+        modelCount: 3,
+        baseSize: '75x42mm',
+        move: '10"',
+        health: 4,
+        save: '5+',
+        ward: '6+',
+        control: 1,
+        weapons: [
+          {
+            name: 'Deadly Pincers and Barbed Stinger',
+            type: 'Melee',
+            range: '1"',
+            attacks: 4,
+            toHit: '4+',
+            toWound: '3+',
+            rend: '-1',
+            damage: 'D3'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Soporific Musk',
+            phase: 'Charge',
+            type: 'Active',
+            effect: 'Once Per Turn (Army), Any Charge Phase\nDeclare: If this unit is not in combat, pick a visible enemy unit within 9" of it to be the target. If this unit is in combat, pick an enemy unit in combat with it to be the target.\nEffect: Roll a dice. On a 4+, the target has Strike-last for the rest of the turn.'
+          }
+        ],
+        keywords: ['CHAOS', 'HEDONITES OF SLAANESH', 'BEAST', 'WARD (6+)', 'FIENDS']
+      },
+      {
+        id: 'sl-er-daemonettes-a',
+        name: 'Daemonettes - Unit A',
         role: 'Infantry',
         modelCount: 10,
         baseSize: '25mm',
-        move: '7"',
-        health: 10,
-        save: '5+',
-        control: 5,
+        move: '6"',
+        health: 1,
+        save: '6+',
+        ward: '6+',
+        control: 1,
+        isReinforcement: true,
+        reinforcementNote: 'Reinforcement unit (10 models)',
         weapons: [
           {
             name: 'Piercing Claws',
             type: 'Melee',
             range: '1"',
-            attacks: 20,
+            attacks: 2,
             toHit: '3+',
             toWound: '4+',
             rend: '-1',
-            damage: '1',
-            ability: 'Crit (2 Hits)'
+            damage: '1'
           }
         ],
         abilities: [
           {
-            name: 'Litany of Excess',
+            name: 'Lithe and Swift',
             phase: 'Combat',
             type: 'Passive',
-            effect: 'Add 1 to attack characteristics when fighting damaged units.'
+            effect: 'Passive\nEffect: Add 1 to the Attacks characteristic of this unit’s Piercing Claws if it charged in the same turn.'
           }
         ],
-        keywords: ['CHAOS', 'HEDONITES OF SLAANESH', 'INFANTRY', 'DAEMON', 'DAEMONETTES']
+        keywords: ['CHAOS', 'HEDONITES OF SLAANESH', 'INFANTRY', 'REINFORCEMENTS', 'WARD (6+)', 'DAEMONETTES']
+      },
+      {
+        id: 'sl-er-daemonettes-b',
+        name: 'Daemonettes - Unit B',
+        role: 'Infantry',
+        modelCount: 10,
+        baseSize: '25mm',
+        move: '6"',
+        health: 1,
+        save: '6+',
+        ward: '6+',
+        control: 1,
+        isReinforcement: true,
+        reinforcementNote: 'Reinforcement unit (10 models)',
+        weapons: [
+          {
+            name: 'Piercing Claws',
+            type: 'Melee',
+            range: '1"',
+            attacks: 2,
+            toHit: '3+',
+            toWound: '4+',
+            rend: '-1',
+            damage: '1'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Lithe and Swift',
+            phase: 'Combat',
+            type: 'Passive',
+            effect: 'Passive\nEffect: Add 1 to the Attacks characteristic of this unit’s Piercing Claws if it charged in the same turn.'
+          }
+        ],
+        keywords: ['CHAOS', 'HEDONITES OF SLAANESH', 'INFANTRY', 'REINFORCEMENTS', 'WARD (6+)', 'DAEMONETTES']
+      },
+      {
+        id: 'sl-er-seekers',
+        name: 'Seekers',
+        role: 'Cavalry',
+        modelCount: 5,
+        baseSize: '60x35mm',
+        move: '14"',
+        health: 3,
+        save: '6+',
+        ward: '6+',
+        control: 1,
+        weapons: [
+          {
+            name: 'Agonising Claws',
+            type: 'Melee',
+            range: '1"',
+            attacks: 3,
+            toHit: '3+',
+            toWound: '4+',
+            rend: '-1',
+            damage: '1',
+            ability: 'Anti-Cavalry (+1 Rend)'
+          },
+          {
+            name: 'Steed’s Poisoned Tongue',
+            type: 'Melee',
+            range: '1"',
+            attacks: 2,
+            toHit: '3+',
+            toWound: '4+',
+            rend: '0',
+            damage: '1',
+            ability: 'Companion'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Quicksilver Speed',
+            phase: 'Movement',
+            type: 'Passive',
+            effect: 'Passive\nEffect: When making run rolls for this unit, if you roll a 1-3, you can use a value of 4 instead.'
+          }
+        ],
+        keywords: ['CHAOS', 'HEDONITES OF SLAANESH', 'CAVALRY', 'WARD (6+)', 'SEEKERS']
       }
     ]
   },
@@ -1415,53 +2301,59 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
   // 13. HELSMITHS OF HASHUT - Helforge Host
   {
     id: 'hashut-helforge',
-    name: 'Helsmiths of Hashut',
+    name: 'Helmsmiths of Hashut',
     subTitle: 'Helforge Host',
     grandAlliance: 'CHAOS',
-    accentColor: 'from-amber-800 to-stone-900',
-    flavorQuote: 'The Father of Darkness demands sacrifice in magma and steam! Slaves to the furnace!',
+    accentColor: 'from-amber-900 via-red-950 to-stone-900',
+    flavorQuote: '‘Lord Borlok desires seventeen caches of emberstone. He desires the tomb-ash of this land’s old princes and queens. Most fervently, he desires the thuggish brutes squatting here be chastised. See it done.’ — Vurgen, Second Son of Clan Gutar',
     battleTraits: [
       {
-        name: 'Demonic Engine Overheat',
-        description: 'Daemon engines can stoke hellish fires: add +1 Damage to weapons, taking 1 mortal wound on an unmodified hit roll of 1.'
+        name: 'Harness Daemonic Power',
+        description: 'Once Per Turn (Army), Your Hero Phase\nEffect: Remove all daemonic power points (DPP) from each friendly unit. Then, you gain an amount of DPP equal to the current battle round number + 1. Allocate those DPP to friendly units (to a maximum of 3 DPP per unit). All unallocated DPP are lost.'
+      }
+    ],
+    regimentAbilities: [
+      {
+        name: 'Grinding Advance',
+        description: 'Once Per Battle, Deployment Phase\nDeclare: Pick up to 2 friendly Infernal Cohort units to be the targets.\nEffect: Each target can immediately move up to 3", but cannot use Charge abilities in the first battle round.'
       },
       {
-        name: 'Hashut’s Branding',
-        description: 'Friendly units contesting objectives ignore the first point of Rend from incoming attacks.'
+        name: 'Suppressive Bombardment',
+        description: 'Once Per Turn, Your Shooting Phase\nDeclare: Pick an enemy Infantry unit that had any damage points allocated to it this turn from shooting attacks made by a friendly Tormentor Bombard to be the target.\nEffect: Until the start of your next turn, subtract 1 from the charge roll for each charge ability used by the target (to a minimum of 1).'
       }
     ],
     heroTraits: [
       {
         id: 'ha-hf-ht1',
-        name: 'Forgemaster of Zharr',
+        name: 'Amulet of Burning Hate',
         type: 'Hero Trait',
-        effect: 'Heals 2 wounds on a friendly war engine at the start of your Hero phase.'
+        effect: 'Once Per Battle, Any Combat Phase\nEffect: For the rest of the turn, the general’s weapons have Crit (Mortal) on an unmodified hit roll of 5+, rather than only on an unmodified hit roll of 6.'
       },
       {
         id: 'ha-hf-ht2',
-        name: 'Tyrant of the Smelting Pits',
+        name: 'Chalice of Darkness',
         type: 'Hero Trait',
-        effect: 'Friendly infantry within 9" of General add +1 to their melee attack characteristic.'
+        effect: 'Once Per Battle, Your Shooting Phase\nDeclare: Pick a visible enemy unit within 12" of the general to be the target.\nEffect: Inflict D3 mortal damage on the target.'
       }
     ],
     artefacts: [
       {
         id: 'ha-hf-art1',
-        name: 'Furnace Maul',
+        name: 'Talisman of Obsidian',
         type: 'Artefact of Power',
-        effect: 'Bearer’s attacks inflict Crit (Mortal 2).'
+        effect: 'Passive\nEffect: Ignore the first damage point allocated to your general in each phase.'
       },
       {
         id: 'ha-hf-art2',
-        name: 'Obsidian Plate of Hashut',
+        name: 'Scroll of Petrification',
         type: 'Artefact of Power',
-        effect: 'Bearer gains a 3+ save and 5+ Ward.'
+        effect: 'Once Per Battle, Any Hero Phase\nEffect: For the rest of the turn, the general has Ward (2+), but cannot use abilities and cannot be picked as the target of friendly abilities.'
       }
     ],
     units: [
       {
-        id: 'ha-warpriest',
-        name: 'Hashut Daemonsmith Warpriest',
+        id: 'ha-hf-war-despot',
+        name: 'War Despot',
         role: 'Hero',
         modelCount: 1,
         baseSize: '32mm',
@@ -1471,99 +2363,196 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
         control: 2,
         weapons: [
           {
-            name: 'Hellforged Sceptre & Hammer',
+            name: 'Daemonflame Glaive',
             type: 'Melee',
             range: '1"',
+            attacks: 5,
+            toHit: '3+',
+            toWound: '3+',
+            rend: '-1',
+            damage: '2',
+            ability: 'Crit (Mortal)'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Black-hearted Conqueror',
+            phase: 'Passive',
+            type: 'Passive',
+            effect: 'Passive\nEffect: While this unit has any DPP, friendly units with 0 DPP count as having 1 DPP while they are wholly within 6" of this unit and visible to it. For each DPP this unit has, add 3" to the range of this ability.'
+          }
+        ],
+        keywords: ['CHAOS', 'HELSMITHS OF HASHUT', 'HERO', 'INFANTRY', 'WAR DESPOT']
+      },
+      {
+        id: 'ha-hf-dominator-engine',
+        name: 'Dominator Engine with Immolation Cannons',
+        role: 'Warmachine',
+        modelCount: 1,
+        baseSize: '105x70mm',
+        move: '6"',
+        health: 10,
+        save: '2+',
+        control: 2,
+        isReinforcement: true,
+        reinforcementNote: 'Reinforcement unit: Arrives in Battle Round 3',
+        weapons: [
+          {
+            name: 'Immolation Cannons',
+            type: 'Ranged',
+            range: '8"',
+            attacks: 5,
+            toHit: '2+',
+            toWound: '4+',
+            rend: '-1',
+            damage: 'D3',
+            ability: 'Shoot in Combat'
+          },
+          {
+            name: 'Horns and Pummelling Strikes',
+            type: 'Melee',
+            range: '1"',
+            attacks: 3,
+            toHit: '4+',
+            toWound: '3+',
+            rend: '-1',
+            damage: 'D3'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Daemonic Strength',
+            phase: 'Passive',
+            type: 'Passive',
+            effect: 'Passive\nEffect: For each DPP this unit has:\n• Add 1" to this unit’s Move characteristic.\n• Add 1 to the Attacks characteristic of this unit’s weapons.'
+          }
+        ],
+        keywords: ['CHAOS', 'HELSMITHS OF HASHUT', 'WAR MACHINE', 'REINFORCEMENTS', 'DOMINATOR ENGINE']
+      },
+      {
+        id: 'ha-hf-tormentor-bombard',
+        name: 'Tormentor Bombard',
+        role: 'Warmachine',
+        modelCount: 1,
+        baseSize: '100mm',
+        move: '4"',
+        health: 8,
+        save: '3+',
+        control: 2,
+        weapons: [
+          {
+            name: 'Torrent of Ruinous Energy',
+            type: 'Ranged',
+            range: '30"',
             attacks: 4,
             toHit: '3+',
             toWound: '3+',
             rend: '-1',
-            damage: '2'
-          }
-        ],
-        abilities: [
-          {
-            name: 'Blood-fire Rite',
-            phase: 'Hero',
-            type: 'Active',
-            effect: 'Pick 1 friendly warmachine within 12"; it adds 1 to hit and 1 to wound.'
-          }
-        ],
-        keywords: ['CHAOS', 'HELSMITHS OF HASHUT', 'HERO', 'PRIEST', 'DAEMONSMITH']
-      },
-      {
-        id: 'ha-infernal-guard',
-        name: 'Infernal Guard with Fireglaives',
-        role: 'Infantry',
-        modelCount: 10,
-        baseSize: '28mm',
-        move: '4"',
-        health: 10,
-        save: '4+',
-        control: 5,
-        weapons: [
-          {
-            name: 'Fireglaive (Shooting)',
-            type: 'Ranged',
-            range: '12"',
-            attacks: 10,
-            toHit: '4+',
-            toWound: '3+',
-            rend: '-1',
-            damage: '1'
+            damage: 'D3',
+            ability: 'Anti-Cavalry (+1 Rend), Anti-Infantry (+1 Rend)'
           },
           {
-            name: 'Fireglaive (Melee)',
+            name: 'Artillerist Weapons',
             type: 'Melee',
             range: '1"',
-            attacks: 10,
+            attacks: 3,
             toHit: '4+',
-            toWound: '3+',
-            rend: '-1',
+            toWound: '4+',
+            rend: '0',
             damage: '1'
           }
         ],
         abilities: [
           {
-            name: 'Shieldwall of Ash',
-            phase: 'Combat',
+            name: 'Calculated Trajectory',
+            phase: 'Shooting',
             type: 'Passive',
-            effect: 'Save characteristic improves to 3+ while this unit did not make a charge or run move.'
+            effect: 'Passive\nEffect: Add 1 to hit rolls for shooting attacks made by this unit that target an enemy unit that has 5 or more models and is more than 12" from this unit.'
+          },
+          {
+            name: 'Ruinous Bombardment',
+            phase: 'Shooting',
+            type: 'Active',
+            effect: 'Once Per Turn (Army), Your Shooting Phase\nDeclare: If this unit used a Shoot ability this phase, pick the enemy unit that was targeted by all of this unit’s shooting attacks to be the target. Then, you can pick a number of other visible enemy units within 6" of the target up to this unit’s DPP to also be targets.\nEffect: Roll a dice for each target. On a 3+, subtract 3 from that target’s control score for the rest of the turn.'
           }
         ],
-        keywords: ['CHAOS', 'HELSMITHS OF HASHUT', 'INFANTRY', 'INFERNAL GUARD']
+        keywords: ['CHAOS', 'HELSMITHS OF HASHUT', 'WAR MACHINE', 'TORMENTOR BOMBARD']
       },
       {
-        id: 'ha-bull-centaurs',
-        name: 'Bull Centaur Renders',
-        role: 'Monster',
-        modelCount: 3,
-        baseSize: '90x52mm',
-        move: '8"',
-        health: 15,
-        save: '4+',
-        control: 3,
+        id: 'ha-hf-infernal-cohort-a',
+        name: 'Infernal Cohort with Hashutite Spears - Unit A',
+        role: 'Infantry',
+        modelCount: 5,
+        baseSize: '28.5mm',
+        move: '4"',
+        health: 1,
+        save: '3+',
+        control: 1,
+        isReinforcement: true,
+        reinforcementNote: 'Reinforcement unit (5 models + Gong Carrier token)',
         weapons: [
           {
-            name: 'Spite-axes & Hooves',
+            name: 'Hashutite Spear',
             type: 'Melee',
             range: '1"',
-            attacks: 12,
+            attacks: 2,
             toHit: '3+',
-            toWound: '3+',
-            rend: '-1',
-            damage: '2'
+            toWound: '4+',
+            rend: '0',
+            damage: '1',
+            ability: 'Anti-charge (+1 Rend)'
           }
         ],
         abilities: [
           {
-            name: 'Trample and Gore',
-            phase: 'Charge',
+            name: 'Strike the Gongs',
+            phase: 'Hero',
             type: 'Active',
-            effect: 'Roll 3 dice on charge: for each 4+, target unit suffers D3 mortal wounds.'
+            effect: 'Once Per Battle, Any Hero Phase\nDeclare: This unit has a Gong Carrier token. You can use this ability if this unit has a Gong Carrier.\nEffect: Remove this unit’s Gong Carrier from the battlefield. Return D3 slain models to this unit.'
+          },
+          {
+            name: 'Daemonic Resilience',
+            phase: 'Combat',
+            type: 'Passive',
+            effect: 'Passive\nEffect: While this unit has DPP, it has the following abilities based on the number of DPP it has:\n• 1 DPP: This unit has Ward (6+).\n• 2 DPP: This unit has Ward (5+).\n• 3 DPP: This unit has Ward (5+). In addition, ignore the first damage point allocated to this unit in each phase.'
           }
         ],
-        keywords: ['CHAOS', 'HELSMITHS OF HASHUT', 'MONSTER', 'BULL CENTAURS']
+        keywords: ['CHAOS', 'HELSMITHS OF HASHUT', 'INFANTRY', 'REINFORCEMENTS', 'INFERNAL COHORT']
+      },
+      {
+        id: 'ha-hf-infernal-cohort-b',
+        name: 'Infernal Cohort with Hashutite Spears - Unit B',
+        role: 'Infantry',
+        modelCount: 5,
+        baseSize: '28.5mm',
+        move: '4"',
+        health: 1,
+        save: '3+',
+        control: 1,
+        isReinforcement: true,
+        reinforcementNote: 'Reinforcement unit (5 models)',
+        weapons: [
+          {
+            name: 'Hashutite Spear',
+            type: 'Melee',
+            range: '1"',
+            attacks: 2,
+            toHit: '3+',
+            toWound: '4+',
+            rend: '0',
+            damage: '1',
+            ability: 'Anti-charge (+1 Rend)'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Daemonic Resilience',
+            phase: 'Combat',
+            type: 'Passive',
+            effect: 'Passive\nEffect: While this unit has DPP, it has the following abilities based on the number of DPP it has:\n• 1 DPP: This unit has Ward (6+).\n• 2 DPP: This unit has Ward (5+).\n• 3 DPP: This unit has Ward (5+). In addition, ignore the first damage point allocated to this unit in each phase.'
+          }
+        ],
+        keywords: ['CHAOS', 'HELSMITHS OF HASHUT', 'INFANTRY', 'REINFORCEMENTS', 'INFERNAL COHORT']
       }
     ]
   },
@@ -1574,128 +2563,89 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
     name: 'Maggotkin of Nurgle',
     subTitle: 'Bleak Host',
     grandAlliance: 'CHAOS',
-    accentColor: 'from-emerald-800 to-lime-800',
-    flavorQuote: 'Rejoice in Grandfather’s generous gifts! Rotting boils, blessed flies, and bountiful decay.',
+    accentColor: 'from-emerald-900 via-lime-950 to-stone-900',
+    flavorQuote: '‘Seven strikes for seven foes. Bless them with disease and woes.’ — Spoilpox Scrivener Bloscus the Bloodless',
     battleTraits: [
       {
-        name: 'Disgustingly Resilient',
-        description: 'All friendly Maggotkin models have a 5+ Ward save against all damage.'
+        name: 'The Infectious Hosts',
+        description: 'Passive\nEffect: One of your Pusgoyle Blightlords and one of your Plaguebearers units are not set up during the deployment phase. Instead, from the third battle round onwards, they can use the following ability:\n\nDAEMONIC SUMMONING: Your Movement Phase\nEffect: Set up this unit anywhere on the battlefield more than 6" from all enemy units.\nKeywords: Core'
       },
       {
-        name: 'Diseased Vectors',
-        description: 'At the end of each turn, roll a D6 for each enemy unit within 3" of friendly units: on 4+, that unit suffers D3 mortal wounds from pestilence.'
+        name: 'Diseased',
+        description: 'Passive\nEffect: Each time an attack made by a friendly model scores a critical hit, you receive 1 disease point, to a maximum of 7.'
+      },
+      {
+        name: 'Nurgle’s Embrace',
+        description: 'End of Any Turn\nEffect: Spend any number of your disease points. For each disease point you spend, pick an enemy unit that is in combat with any of your units and roll a dice. On a 4+, inflict 1 mortal damage on that unit (you can pick the same enemy unit more than once).'
+      }
+    ],
+    regimentAbilities: [
+      {
+        name: 'Locus of Fecundity',
+        description: 'Once Per Phase, Your Hero Phase\nDeclare: Pick a friendly unit.\nEffect: Heal (D3) that unit.'
+      },
+      {
+        name: 'Infested with Wonders',
+        description: 'Passive\nEffect: Each time a friendly model is slain, before it is removed from play, you can pick an enemy unit within 1" of it and roll a dice. On a 4+, inflict 1 mortal damage on that unit.'
       }
     ],
     heroTraits: [
       {
         id: 'nu-bh-ht1',
-        name: 'Grandfather’s Favourite',
+        name: 'Summoner of Plaguebearers',
         type: 'Hero Trait',
-        effect: 'At the start of your Hero phase, heal D3 wounds on your General.'
+        effect: 'End of Any Turn\nDeclare: Pick a friendly Plaguebearers unit wholly within 14" of your general.\nEffect: Return 1 slain model to that unit.'
       },
       {
         id: 'nu-bh-ht2',
-        name: 'Pestilent Scrivener',
+        name: 'Gardener of Nurgle',
         type: 'Hero Trait',
-        effect: 'Friendly Plaguebearers within 12" add +1 to their melee wound rolls.'
+        effect: 'Your Movement Phase\nDeclare: If your general is contesting an objective not contested by any enemy models, roll a dice.\nEffect: On a 3+, that objective is considered by you to be desecrated. Friendly units have Ward (4+) while they are contesting a desecrated objective. If your opponent gains control of a desecrated objective, it is no longer desecrated.'
       }
     ],
     artefacts: [
       {
         id: 'nu-bh-art1',
-        name: 'Rustfang',
+        name: 'Pestilent Breath',
         type: 'Artefact of Power',
-        effect: 'Pick 1 enemy unit in combat: permanently worsen its Save characteristic by 1.'
+        effect: 'Your Shooting Phase\nDeclare: Pick an enemy unit within 7" of your general and roll a dice for each model in that unit.\nEffect: For each 5+, inflict 1 mortal damage on that unit.'
       },
       {
         id: 'nu-bh-art2',
-        name: 'Tome of Thousand Poxes',
+        name: 'Gift of Febrile Frenzy',
         type: 'Artefact of Power',
-        effect: 'Bearer knows 1 additional Lore of Malignance spell.'
+        effect: 'Once Per Battle, Any Combat Phase\nEffect: Until the end of the phase, add 1 to the Attacks characteristic of melee weapons used by friendly units while they are wholly within 7" of your general.'
       }
     ],
     units: [
       {
-        id: 'nu-scrivener',
+        id: 'nu-bh-spoilpox-scrivener',
         name: 'Spoilpox Scrivener',
         role: 'Hero',
         modelCount: 1,
         baseSize: '40mm',
         move: '4"',
-        health: 6,
-        save: '4+',
+        health: 5,
+        save: '5+',
+        ward: '5+',
         control: 2,
         weapons: [
           {
-            name: 'Plutos Quill & Maw',
-            type: 'Melee',
-            range: '1"',
-            attacks: 4,
-            toHit: '4+',
-            toWound: '3+',
-            rend: '0',
-            damage: '2'
-          }
-        ],
-        abilities: [
-          {
-            name: 'Keep Counting, Worms!',
-            phase: 'Combat',
-            type: 'Active',
-            effect: 'Pick 1 friendly Plaguebearer unit within 12"; add 1 to their attack characteristics.'
-          }
-        ],
-        keywords: ['CHAOS', 'MAGGOTKIN OF NURGLE', 'HERO', 'DAEMON', 'SPOILPOX SCRIVENER']
-      },
-      {
-        id: 'nu-plaguebearers',
-        name: 'Plaguebearers of Nurgle',
-        role: 'Infantry',
-        modelCount: 10,
-        baseSize: '32mm',
-        move: '4"',
-        health: 10,
-        save: '5+',
-        control: 5,
-        weapons: [
-          {
-            name: 'Plagueswords',
-            type: 'Melee',
-            range: '1"',
-            attacks: 10,
-            toHit: '4+',
-            toWound: '3+',
+            name: 'Disgusting Sneezes',
+            type: 'Ranged',
+            range: '7"',
+            attacks: 'D6',
+            toHit: '2+',
+            toWound: '4+',
             rend: '0',
             damage: '1',
-            ability: 'Diseased'
-          }
-        ],
-        abilities: [
+            ability: 'Shoot in Combat'
+          },
           {
-            name: 'Cloud of Flies',
-            phase: 'Combat',
-            type: 'Passive',
-            effect: 'Enemy units targeting this unit with missile weapons suffer -1 to hit.'
-          }
-        ],
-        keywords: ['CHAOS', 'MAGGOTKIN OF NURGLE', 'INFANTRY', 'DAEMON', 'PLAGUEBEARERS']
-      },
-      {
-        id: 'nu-plague-drones',
-        name: 'Plague Drones',
-        role: 'Cavalry',
-        modelCount: 3,
-        baseSize: '60mm',
-        move: '8"',
-        health: 15,
-        save: '4+',
-        control: 3,
-        weapons: [
-          {
-            name: 'Rotwood Stinger & Proboscis',
+            name: 'Distended Maw',
             type: 'Melee',
             range: '1"',
-            attacks: 12,
+            attacks: 3,
             toHit: '4+',
             toWound: '3+',
             rend: '-1',
@@ -1704,13 +2654,206 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
         ],
         abilities: [
           {
-            name: 'Foul Buzzing',
-            phase: 'Combat',
-            type: 'Passive',
-            effect: 'Add 1 to attack characteristics while within 6" of any Nurgle HERO.'
+            name: 'Keep Counting, I’m Watching You',
+            phase: 'Hero',
+            type: 'Active',
+            effect: 'Your Hero Phase\nDeclare: Pick a friendly Plaguebearers unit wholly within 14" of this unit to be the target.\nEffect: Pick 1 of the following. The effect lasts until the start of your next turn:\n• Tally of Blows: Add 1 to the Attacks characteristic of the target unit’s melee weapons.\n• Recorded Stamina: Add 1 to save rolls for the target unit.'
           }
         ],
-        keywords: ['CHAOS', 'MAGGOTKIN OF NURGLE', 'FLY', 'CAVALRY', 'DAEMON', 'PLAGUE DRONES']
+        keywords: ['CHAOS', 'MAGGOTKIN OF NURGLE', 'HERO', 'INFANTRY', 'WARD (5+)', 'SPOILPOX SCRIVENER']
+      },
+      {
+        id: 'nu-bh-pusgoyle-a',
+        name: 'Pusgoyle Blightlord - Unit A',
+        role: 'Cavalry',
+        modelCount: 1,
+        baseSize: '60mm',
+        move: '8"',
+        health: 8,
+        save: '4+',
+        ward: '5+',
+        control: 2,
+        weapons: [
+          {
+            name: 'Blighted Scythe',
+            type: 'Melee',
+            range: '1"',
+            attacks: 3,
+            toHit: '3+',
+            toWound: '3+',
+            rend: '-2',
+            damage: '1'
+          },
+          {
+            name: 'Rot Fly’s Mouthparts and Sting',
+            type: 'Melee',
+            range: '1"',
+            attacks: 6,
+            toHit: '4+',
+            toWound: '2+',
+            rend: '0',
+            damage: '1',
+            ability: 'Companion'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Wrack and Ruin',
+            phase: 'Charge',
+            type: 'Active',
+            effect: 'Any Charge Phase\nDeclare: If this unit charged this phase, pick an enemy unit within 1" of it to be the target and roll a dice.\nEffect: On a 2+, inflict D3 mortal damage on the target.'
+          }
+        ],
+        keywords: ['CHAOS', 'MAGGOTKIN OF NURGLE', 'CAVALRY', 'FLY', 'WARD (5+)', 'PUSGOYLE BLIGHTLORD']
+      },
+      {
+        id: 'nu-bh-pusgoyle-b',
+        name: 'Pusgoyle Blightlord - Unit B',
+        role: 'Cavalry',
+        modelCount: 1,
+        baseSize: '60mm',
+        move: '8"',
+        health: 8,
+        save: '4+',
+        ward: '5+',
+        control: 2,
+        isReinforcement: true,
+        reinforcementNote: 'Reinforcement unit: Arrives from the third battle round onwards via Daemonic Summoning',
+        weapons: [
+          {
+            name: 'Blighted Scythe',
+            type: 'Melee',
+            range: '1"',
+            attacks: 3,
+            toHit: '3+',
+            toWound: '3+',
+            rend: '-2',
+            damage: '1'
+          },
+          {
+            name: 'Rot Fly’s Mouthparts and Sting',
+            type: 'Melee',
+            range: '1"',
+            attacks: 6,
+            toHit: '4+',
+            toWound: '2+',
+            rend: '0',
+            damage: '1',
+            ability: 'Companion'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Wrack and Ruin',
+            phase: 'Charge',
+            type: 'Active',
+            effect: 'Any Charge Phase\nDeclare: If this unit charged this phase, pick an enemy unit within 1" of it to be the target and roll a dice.\nEffect: On a 2+, inflict D3 mortal damage on the target.'
+          }
+        ],
+        keywords: ['CHAOS', 'MAGGOTKIN OF NURGLE', 'CAVALRY', 'FLY', 'WARD (5+)', 'REINFORCEMENTS', 'PUSGOYLE BLIGHTLORD']
+      },
+      {
+        id: 'nu-bh-putrid-blightkings',
+        name: 'Putrid Blightkings',
+        role: 'Infantry',
+        modelCount: 5,
+        baseSize: '40mm',
+        move: '4"',
+        health: 3,
+        save: '3+',
+        ward: '5+',
+        control: 1,
+        weapons: [
+          {
+            name: 'Blighted Weapon',
+            type: 'Melee',
+            range: '1"',
+            attacks: 4,
+            toHit: '3+',
+            toWound: '3+',
+            rend: '-1',
+            damage: '1'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Relentless Attackers',
+            phase: 'End of Turn',
+            type: 'Active',
+            effect: 'End of Any Turn\nDeclare: Pick an enemy Infantry unit in combat with this unit to be the target and roll a dice for each model in this unit that is within the target unit’s combat range.\nEffect: For each roll that exceeds the target’s Health characteristic, inflict 1 mortal damage on it.'
+          }
+        ],
+        keywords: ['CHAOS', 'MAGGOTKIN OF NURGLE', 'INFANTRY', 'WARD (5+)', 'PUTRID BLIGHTKINGS']
+      },
+      {
+        id: 'nu-bh-plaguebearers-a',
+        name: 'Plaguebearers - Unit A',
+        role: 'Infantry',
+        modelCount: 5,
+        baseSize: '32mm',
+        move: '4"',
+        health: 2,
+        save: '6+',
+        ward: '5+',
+        control: 1,
+        weapons: [
+          {
+            name: 'Plaguesword',
+            type: 'Melee',
+            range: '1"',
+            attacks: 1,
+            toHit: '4+',
+            toWound: '3+',
+            rend: '0',
+            damage: '1',
+            ability: 'Crit (Mortal)'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Cloud of Flies',
+            phase: 'Passive',
+            type: 'Passive',
+            effect: 'Passive\nEffect: Subtract 1 from hit rolls for shooting attacks that target this unit.'
+          }
+        ],
+        keywords: ['CHAOS', 'MAGGOTKIN OF NURGLE', 'INFANTRY', 'WARD (5+)', 'PLAGUEBEARERS']
+      },
+      {
+        id: 'nu-bh-plaguebearers-b',
+        name: 'Plaguebearers - Unit B',
+        role: 'Infantry',
+        modelCount: 5,
+        baseSize: '32mm',
+        move: '4"',
+        health: 2,
+        save: '6+',
+        ward: '5+',
+        control: 1,
+        isReinforcement: true,
+        reinforcementNote: 'Reinforcement unit: Arrives from the third battle round onwards via Daemonic Summoning',
+        weapons: [
+          {
+            name: 'Plaguesword',
+            type: 'Melee',
+            range: '1"',
+            attacks: 1,
+            toHit: '4+',
+            toWound: '3+',
+            rend: '0',
+            damage: '1',
+            ability: 'Crit (Mortal)'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Cloud of Flies',
+            phase: 'Passive',
+            type: 'Passive',
+            effect: 'Passive\nEffect: Subtract 1 from hit rolls for shooting attacks that target this unit.'
+          }
+        ],
+        keywords: ['CHAOS', 'MAGGOTKIN OF NURGLE', 'INFANTRY', 'WARD (5+)', 'REINFORCEMENTS', 'PLAGUEBEARERS']
       }
     ]
   },
@@ -1721,143 +2864,233 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
     name: 'Maggotkin of Nurgle',
     subTitle: 'Bubonic Cell',
     grandAlliance: 'CHAOS',
-    accentColor: 'from-green-800 to-amber-900',
-    flavorQuote: 'The mortal champions of Nurgle stride forth, swollen with pustules and clad in rust-caked iron plate.',
+    accentColor: 'from-lime-900 via-yellow-950 to-stone-900',
+    flavorQuote: '‘Ah, my creatures. I see a fresh vista beckoning us – lands that have yet to be touched by the Grandfather. Let us not be frugal with his gifts. Roam forth and let earth, air and water feel his caress.’ — Glor’ak, Sorcerer of the Tripartite Wound',
     battleTraits: [
       {
-        name: 'Unstoppable Virulence',
-        description: 'Friendly Blightkings heal 1 wound at the end of each player turn.'
+        name: 'Cycle of Corruption',
+        description: 'Passive\nEffect: If it is the first battle round, roll a dice to determine which Cycle ability can be used this battle round. If you roll a 5 or 6, roll again. If it is not the first battle round, the next Cycle ability in the sequence is used this battle round instead of any previous Cycle abilities:\n\n1. Numberless Pests (Passive): Subtract 1 from hit rolls for attacks that target friendly units.\n2. Plague of Misery (Passive): While enemy units are within 6" of any friendly units, they cannot use abilities that heal or return slain models to a unit.\n3. Burgeoning Filth (Passive): Subtract 3 from the control scores of enemy units while they are in combat with any friendly units.\n4. Nauseous Revulsion (Passive): Subtract 1 from charge rolls for enemy units.'
+      }
+    ],
+    regimentAbilities: [
+      {
+        name: 'Corruption of the Land',
+        description: 'Once Per Turn (Army), End of Your Turn\nDeclare: Pick a terrain feature, then roll a dice for each enemy unit within 3" of that terrain feature.\nEffect: On a 4+, inflict D3 mortal damage on that enemy unit.'
       },
       {
-        name: 'Cycle of Corruption',
-        description: 'Each round, one of Nurgle’s cyclic blessings is active, bolstering mortal saves and granting bonus mortal wounds.'
+        name: 'Putrefied Ground',
+        description: 'Once Per Battle, Enemy Hero Phase\nEffect: For the rest of the turn:\n• Subtract 1 from the Move characteristic of enemy units.\n• Subtract 1 from run rolls for enemy units.'
       }
     ],
     heroTraits: [
       {
         id: 'nu-bc-ht1',
-        name: 'Lord of the Rotflies',
+        name: 'Unnatural Vitality',
         type: 'Hero Trait',
-        effect: 'Pusgoyle Blightlords within 9" of General add 2" to their Movement.'
+        effect: 'Passive\nEffect: Your general has Ward (4+).'
       },
       {
         id: 'nu-bc-ht2',
-        name: 'Fleshy Citadel',
+        name: 'Subcutaneous Suppuration',
         type: 'Hero Trait',
-        effect: 'Your General adds 3 to their Health characteristic.'
+        effect: 'Passive\nEffect: Subtract 1 from wound rolls for attacks that target your general.'
       }
     ],
     artefacts: [
       {
         id: 'nu-bc-art1',
-        name: 'The Splithorn Bell',
+        name: 'Gaseous Emanation',
         type: 'Artefact of Power',
-        effect: 'Enemy units in combat cannot use command abilities.'
+        effect: 'Once Per Battle, Any Combat Phase\nDeclare: Pick an enemy unit within your general’s combat range to be the target.\nEffect: The target has Strike-last for the rest of the turn.'
       },
       {
         id: 'nu-bc-art2',
-        name: 'Filthbringer Flail',
+        name: 'Overripe Death’s Heads',
         type: 'Artefact of Power',
-        effect: 'Bearer’s weapons have Rend -2 and Damage 2.'
+        effect: 'Your Shooting Phase\nDeclare: If your general is not in combat, pick a visible enemy unit within 7" of them to be the target.\nEffect: Roll a dice. On a 4+, inflict 1 mortal damage on the target.'
       }
     ],
     units: [
       {
-        id: 'nu-lord-blights',
-        name: 'Lord of Blights',
+        id: 'nu-bc-rotbringer-sorcerer',
+        name: 'Rotbringer Sorcerer',
         role: 'Hero',
         modelCount: 1,
-        baseSize: '40mm',
+        baseSize: '32mm',
         move: '4"',
-        health: 7,
-        save: '3+',
+        health: 6,
+        save: '5+',
+        ward: '6+',
         control: 2,
         weapons: [
           {
-            name: 'Bubotic Blade & Munificent Shield',
+            name: 'Rotwood Staff',
             type: 'Melee',
             range: '1"',
-            attacks: 4,
-            toHit: '3+',
+            attacks: 3,
+            toHit: '4+',
             toWound: '3+',
             rend: '-1',
-            damage: '2'
+            damage: 'D3'
           }
         ],
         abilities: [
           {
-            name: 'Throwing Heads',
-            phase: 'Shooting',
+            name: 'Fleshy Abundance',
+            phase: 'Hero',
             type: 'Active',
-            effect: 'Target unit within 9" suffers D3 mortal wounds on a 3+.'
+            effect: 'Your Hero Phase\nDeclare: Pick a friendly unit wholly within 12" of this unit to be the target, then make a casting roll of 2D6.\nEffect: On a 6+, subtract 1 from wound rolls for attacks that target that friendly unit until the start of your next turn.'
           }
         ],
-        keywords: ['CHAOS', 'MAGGOTKIN OF NURGLE', 'HERO', 'MORTAL', 'LORD OF BLIGHTS']
+        keywords: ['CHAOS', 'MAGGOTKIN OF NURGLE', 'HERO', 'WIZARD', 'INFANTRY', 'WARD (6+)', 'ROTBRINGER SORCERER']
       },
       {
-        id: 'nu-blightkings',
-        name: 'Putrid Blightkings',
+        id: 'nu-bc-nurglings-a',
+        name: 'Nurglings - Unit A',
         role: 'Infantry',
-        modelCount: 5,
+        modelCount: 3,
         baseSize: '40mm',
         move: '4"',
-        health: 15,
-        save: '3+',
-        control: 5,
+        health: 4,
+        save: '6+',
+        ward: '5+',
+        control: 1,
         weapons: [
           {
-            name: 'Blighted Weapons',
+            name: 'Tiny Razor-Sharp Teeth',
             type: 'Melee',
             range: '1"',
-            attacks: 15,
-            toHit: '3+',
-            toWound: '3+',
-            rend: '-1',
-            damage: '2',
-            ability: 'Crit (Mortal)'
+            attacks: 5,
+            toHit: '5+',
+            toWound: '5+',
+            rend: '0',
+            damage: '1',
+            ability: 'Crit (Auto-wound)'
           }
         ],
         abilities: [
           {
-            name: 'Virulent Discharge',
+            name: 'Endless Swarm',
             phase: 'End of Turn',
-            type: 'Active',
-            effect: 'Roll a D6 for each enemy unit within 3": on 4+, that unit suffers D3 mortal wounds.'
+            type: 'Passive',
+            effect: 'End of Any Turn\nPassive\nEffect: Heal (D3) this unit.'
           }
         ],
-        keywords: ['CHAOS', 'MAGGOTKIN OF NURGLE', 'INFANTRY', 'MORTAL', 'BLIGHTKINGS']
+        keywords: ['CHAOS', 'MAGGOTKIN OF NURGLE', 'BEAST', 'WARD (5+)', 'NURGLINGS']
       },
       {
-        id: 'nu-pusgoyle',
-        name: 'Pusgoyle Blightlords',
-        role: 'Monster',
-        modelCount: 2,
-        baseSize: '60mm',
-        move: '8"',
-        health: 14,
-        save: '3+',
-        control: 3,
+        id: 'nu-bc-nurglings-b',
+        name: 'Nurglings - Unit B',
+        role: 'Infantry',
+        modelCount: 3,
+        baseSize: '40mm',
+        move: '4"',
+        health: 4,
+        save: '6+',
+        ward: '5+',
+        control: 1,
         weapons: [
           {
-            name: 'Blighted Flail & Rotfly Stinger',
+            name: 'Tiny Razor-Sharp Teeth',
             type: 'Melee',
-            range: '2"',
-            attacks: 8,
-            toHit: '3+',
-            toWound: '3+',
-            rend: '-1',
-            damage: '2'
+            range: '1"',
+            attacks: 5,
+            toHit: '5+',
+            toWound: '5+',
+            rend: '0',
+            damage: '1',
+            ability: 'Crit (Auto-wound)'
           }
         ],
         abilities: [
           {
-            name: 'Corrosive Slime',
-            phase: 'Charge',
-            type: 'Active',
-            effect: 'On turns this unit completes a charge, attacks gain +1 Damage.'
+            name: 'Endless Swarm',
+            phase: 'End of Turn',
+            type: 'Passive',
+            effect: 'End of Any Turn\nPassive\nEffect: Heal (D3) this unit.'
           }
         ],
-        keywords: ['CHAOS', 'MAGGOTKIN OF NURGLE', 'FLY', 'MONSTER', 'PUSGOYLE']
+        keywords: ['CHAOS', 'MAGGOTKIN OF NURGLE', 'BEAST', 'WARD (5+)', 'NURGLINGS']
+      },
+      {
+        id: 'nu-bc-beast-of-nurgle',
+        name: 'Beast of Nurgle',
+        role: 'Monster',
+        modelCount: 1,
+        baseSize: '60mm',
+        move: '7"',
+        health: 8,
+        save: '5+',
+        ward: '5+',
+        control: 1,
+        weapons: [
+          {
+            name: 'Filthy Claws and Slobbering Maw',
+            type: 'Melee',
+            range: '1"',
+            attacks: 5,
+            toHit: '4+',
+            toWound: '3+',
+            rend: '-1',
+            damage: 'D3',
+            ability: 'Companion'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Attention Seekers',
+            phase: 'Charge',
+            type: 'Active',
+            effect: 'Any Charge Phase\nDeclare: If this unit charged this phase, pick an enemy unit in combat with it to be the target.\nEffect: Roll a D3. On a 2+, inflict an amount of mortal damage on the target equal to the roll.'
+          }
+        ],
+        keywords: ['CHAOS', 'MAGGOTKIN OF NURGLE', 'BEAST', 'WARD (5+)', 'BEAST OF NURGLE']
+      },
+      {
+        id: 'nu-bc-rotmire-creed',
+        name: 'Rotmire Creed',
+        role: 'Infantry',
+        modelCount: 10,
+        baseSize: '28.5mm',
+        move: '5"',
+        health: 1,
+        save: '6+',
+        ward: '6+',
+        control: 1,
+        isReinforcement: true,
+        reinforcementNote: 'Reinforcement unit (10 models)',
+        weapons: [
+          {
+            name: 'Contagion Blowpipes',
+            type: 'Ranged',
+            range: '12"',
+            attacks: 2,
+            toHit: '4+',
+            toWound: '3+',
+            rend: '0',
+            damage: '1',
+            ability: 'Crit (Auto-wound)'
+          },
+          {
+            name: 'Bilewood Weapons',
+            type: 'Melee',
+            range: '1"',
+            attacks: 2,
+            toHit: '4+',
+            toWound: '4+',
+            rend: '0',
+            damage: '1'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Bilewood Stilts',
+            phase: 'Passive',
+            type: 'Passive',
+            effect: 'Passive\nEffect: No mortal damage is inflicted on this unit when it uses Retreat abilities.'
+          }
+        ],
+        keywords: ['CHAOS', 'MAGGOTKIN OF NURGLE', 'INFANTRY', 'WARD (6+)', 'REINFORCEMENTS', 'ROTMIRE CREED']
       }
     ]
   },
@@ -1869,49 +3102,55 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
     subTitle: 'Bloodwind Legion',
     grandAlliance: 'CHAOS',
     accentColor: 'from-zinc-900 to-red-950',
-    flavorQuote: 'Steel and sorcery in the name of the Everchosen! We shall drown the realms in blood and iron.',
+    flavorQuote: '‘They will see me. Even if I have to damn a million souls, they will see me.’ — Chaos Lord Eris Bloodwrath',
     battleTraits: [
       {
         name: 'Eye of the Gods',
-        description: 'When your Hero slays an enemy Hero or Monster, roll on the Eye of the Gods table for permanent buffs (Daemonhood, +1 Save, +1 Attack, Ward).'
+        description: 'Once Per Turn, End of Any Turn\nDeclare: Pick one of the following friendly units to use this ability:\n• A unit that is contesting an objective not controlled by your opponent and is not in combat.\n• A unit that destroyed an enemy unit this turn.\nEffect: Roll once on the Eye of the Gods table for that unit. That unit gains the Eye of the Gods passive ability that corresponds to the roll (the unit keeps all Eye of the Gods abilities gained in previous turns). If the same unit gains the same ability more than once in the battle, the effects are not cumulative.\n\n1: Snubbed by the Gods: No effect.\n2: Ward of Tzeentch: This unit has Ward (6+).\n3: Grace of Slaanesh: Add 1 to run rolls for this unit.\n4: Blessing of Nurgle: Subtract 1 from wound rolls for attacks that target this unit.\n5: Fury of Khorne: Add 1 to the Rend characteristic of this unit’s melee weapons.\n6: Champion of Chaos: Pick any ability from the table.'
+      }
+    ],
+    regimentAbilities: [
+      {
+        name: 'The Dread Banner',
+        description: 'Once Per Battle, Start of the First Battle Round\nDeclare: Pick a friendly Chaos Warriors or Chaos Knights unit.\nEffect: You can immediately roll on the Eye of the Gods table for that unit.'
       },
       {
-        name: 'Marks of Chaos',
-        description: 'Units bear the Mark of Khorne (+1 Attack on charge) or Nurgle (-1 to be wounded).'
+        name: 'Fierce Conquerors',
+        description: 'Passive\nEffect: Add 3 to the control scores of friendly Chaos Warriors units.'
       }
     ],
     heroTraits: [
       {
         id: 'std-bw-ht1',
-        name: 'Idolater Warlord',
+        name: 'Mark of Khorne',
         type: 'Hero Trait',
-        effect: 'Friendly Chaos Warriors within 12" can reroll failed charge rolls.'
+        effect: 'Passive\nEffect: Add 1 to the Rend characteristic of your general’s melee weapons if they charged in the same turn.'
       },
       {
         id: 'std-bw-ht2',
-        name: 'Favoured of the Pantheon',
+        name: 'Mark of Slaanesh',
         type: 'Hero Trait',
-        effect: 'Add 1 to rolls on the Eye of the Gods table for your General.'
+        effect: 'Passive\nEffect: Your general has Strike-first.'
       }
     ],
     artefacts: [
       {
         id: 'std-bw-art1',
-        name: 'Hellflame Sword',
+        name: 'Mark of Tzeentch',
         type: 'Artefact of Power',
-        effect: 'Bearer’s attacks inflict mortal wounds on unmodified hit rolls of 5+.'
+        effect: 'Once Per Battle, Your Movement Phase\nDeclare: Pick a friendly unit on the battlefield. You cannot pick your general.\nEffect: Remove that unit from the battlefield and set it up again wholly within 6" of your general and more than 6" from all enemy units. It cannot use Move abilities for the rest of the phase.'
       },
       {
         id: 'std-bw-art2',
-        name: 'Crown of the Conqueror',
+        name: 'Mark of Nurgle',
         type: 'Artefact of Power',
-        effect: 'Bearer adds 2 to Health and gains 5+ Ward.'
+        effect: 'Passive\nEffect: Subtract 1 from wound rolls for combat attacks that target your general.'
       }
     ],
     units: [
       {
-        id: 'std-lord',
-        name: 'Chaos Lord on Foot',
+        id: 'std-bw-chaos-lord',
+        name: 'Chaos Lord',
         role: 'Hero',
         modelCount: 1,
         baseSize: '40mm',
@@ -1921,42 +3160,102 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
         control: 2,
         weapons: [
           {
-            name: 'Reaperblade & Daemonbound Steel',
+            name: 'Reaperblade',
             type: 'Melee',
             range: '1"',
             attacks: 5,
             toHit: '3+',
             toWound: '3+',
-            rend: '-2',
-            damage: '2'
+            rend: '-1',
+            damage: '2',
+            ability: 'Crit (Mortal)'
           }
         ],
         abilities: [
           {
-            name: 'The Will of the Gods',
+            name: 'Favoured of the Pantheon',
+            phase: 'Hero',
+            type: 'Active',
+            effect: 'Your Hero Phase\nEffect: Roll a dice. On a 4+, you can roll on the Eye of the Gods table for this unit.'
+          },
+          {
+            name: 'Iron-willed Champion',
             phase: 'Combat',
             type: 'Active',
-            effect: 'In the combat phase, pick 1 friendly Chaos Warriors unit: it fights immediately after this model.'
+            effect: 'Any Combat Phase\nDeclare: Pick a friendly unit wholly within 12" of this unit to be the target and roll a dice. You cannot pick this unit.\nEffect: On a 2+, add 1 to hit rolls for attacks made by the target unit this phase.'
           }
         ],
-        keywords: ['CHAOS', 'SLAVES TO DARKNESS', 'HERO', 'CHAOS LORD']
+        keywords: ['CHAOS', 'SLAVES TO DARKNESS', 'HERO', 'INFANTRY', 'CHAOS LORD']
       },
       {
-        id: 'std-warriors',
-        name: 'Chaos Warriors with Runeshields',
-        role: 'Infantry',
-        modelCount: 10,
-        baseSize: '32mm',
-        move: '5"',
-        health: 10,
-        save: '3+',
-        control: 5,
+        id: 'std-bw-chaos-chariot',
+        name: 'Chaos Chariot',
+        role: 'Warmachine',
+        modelCount: 1,
+        baseSize: '120x92mm',
+        move: '10"',
+        health: 7,
+        save: '4+',
+        control: 2,
         weapons: [
           {
-            name: 'Chaos Runeblades',
+            name: 'Chaos War-flail',
             type: 'Melee',
             range: '1"',
-            attacks: 10,
+            attacks: 6,
+            toHit: '3+',
+            toWound: '3+',
+            rend: '0',
+            damage: '1'
+          },
+          {
+            name: 'Driver’s Lashing Whip',
+            type: 'Melee',
+            range: '1"',
+            attacks: 2,
+            toHit: '4+',
+            toWound: '4+',
+            rend: '0',
+            damage: '1'
+          },
+          {
+            name: 'Warhorses’ Trampling Hooves',
+            type: 'Melee',
+            range: '1"',
+            attacks: 4,
+            toHit: '5+',
+            toWound: '3+',
+            rend: '0',
+            damage: '1',
+            ability: 'Companion'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Swift Death',
+            phase: 'Charge',
+            type: 'Active',
+            effect: 'Your Charge Phase\nDeclare: If this unit charged this phase, pick an enemy unit within 1" of it to be the target and roll a dice.\nEffect: On a 2+, inflict D3 mortal damage on the target.'
+          }
+        ],
+        keywords: ['CHAOS', 'SLAVES TO DARKNESS', 'WARMACHINE', 'CHAOS CHARIOT']
+      },
+      {
+        id: 'std-bw-chaos-warriors-a',
+        name: 'Chaos Warriors - Unit A',
+        role: 'Infantry',
+        modelCount: 5,
+        baseSize: '32mm',
+        move: '5"',
+        health: 2,
+        save: '3+',
+        control: 1,
+        weapons: [
+          {
+            name: 'Rune-etched Halberd',
+            type: 'Melee',
+            range: '1"',
+            attacks: 2,
             toHit: '3+',
             toWound: '3+',
             rend: '-1',
@@ -1965,42 +3264,86 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
         ],
         abilities: [
           {
-            name: 'Legion of the Damned Runeshields',
-            phase: 'Combat',
+            name: 'Bringers of Desolation',
+            phase: 'Passive',
             type: 'Passive',
-            effect: '5+ Ward save against mortal wounds and spells.'
+            effect: 'Passive\nEffect: Add 1 to wound rolls for combat attacks made by this unit that target an enemy unit that is contesting an objective you do not control.'
           }
         ],
         keywords: ['CHAOS', 'SLAVES TO DARKNESS', 'INFANTRY', 'CHAOS WARRIORS']
       },
       {
-        id: 'std-knights',
-        name: 'Chaos Knights with Cursed Lances',
-        role: 'Cavalry',
+        id: 'std-bw-chaos-warriors-b',
+        name: 'Chaos Warriors - Unit B',
+        role: 'Infantry',
         modelCount: 5,
-        baseSize: '75x42mm',
-        move: '10"',
-        health: 15,
+        baseSize: '32mm',
+        move: '5"',
+        health: 2,
         save: '3+',
-        control: 5,
+        control: 1,
         weapons: [
           {
-            name: 'Cursed Lance & Steed Hooves',
+            name: 'Rune-etched Halberd',
             type: 'Melee',
             range: '1"',
-            attacks: 15,
+            attacks: 2,
             toHit: '3+',
             toWound: '3+',
-            rend: '-2',
-            damage: '2'
+            rend: '-1',
+            damage: '1'
           }
         ],
         abilities: [
           {
-            name: 'Doom Knight Charge',
-            phase: 'Charge',
+            name: 'Bringers of Desolation',
+            phase: 'Passive',
             type: 'Passive',
-            effect: 'Lances have Damage 3 on the turn this unit makes a charge move.'
+            effect: 'Passive\nEffect: Add 1 to wound rolls for combat attacks made by this unit that target an enemy unit that is contesting an objective you do not control.'
+          }
+        ],
+        keywords: ['CHAOS', 'SLAVES TO DARKNESS', 'INFANTRY', 'CHAOS WARRIORS']
+      },
+      {
+        id: 'std-bw-chaos-knights',
+        name: 'Chaos Knights',
+        role: 'Cavalry',
+        modelCount: 5,
+        baseSize: '75x42mm',
+        move: '10"',
+        health: 4,
+        save: '3+',
+        control: 1,
+        weapons: [
+          {
+            name: 'Cursed Lance',
+            type: 'Melee',
+            range: '1"',
+            attacks: 3,
+            toHit: '3+',
+            toWound: '3+',
+            rend: '-1',
+            damage: '1',
+            ability: 'Charge (+1 Damage)'
+          },
+          {
+            name: 'Chaos Steed’s Trampling Hooves',
+            type: 'Melee',
+            range: '1"',
+            attacks: 2,
+            toHit: '5+',
+            toWound: '3+',
+            rend: '0',
+            damage: '1',
+            ability: 'Companion'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Impaling Charge',
+            phase: 'Passive',
+            type: 'Passive',
+            effect: 'Passive\nEffect: Add 1 to the Rend characteristic of this unit’s Cursed Lances if it charged in the same turn.'
           }
         ],
         keywords: ['CHAOS', 'SLAVES TO DARKNESS', 'CAVALRY', 'CHAOS KNIGHTS']
@@ -2014,95 +3357,185 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
     name: 'Slaves to Darkness',
     subTitle: 'Darkoath Raiders',
     grandAlliance: 'CHAOS',
-    accentColor: 'from-amber-900 to-stone-800',
-    flavorQuote: 'By blood and oath we swear to tear down civilization and burn the false gods’ monuments!',
+    accentColor: 'from-amber-950 via-stone-900 to-red-950',
+    flavorQuote: '‘The Darkoath Raiders charge into the fray screaming oaths to the dark powers, their borrowed strength awesome and terrifying to behold. Their arrival heralds ruin, for they are but the vanguard of an approaching Chaos horde.’',
     battleTraits: [
       {
-        name: 'Darkoath Vows',
-        description: 'At the start of each round, swear 1 vow (e.g., slay a champion, control an enemy objective). If completed, all Darkoath units gain +1 Attack and 5+ Ward for the rest of the game.'
+        name: 'Oaths of Darkness',
+        description: 'Once Per Turn (Army), Your Hero Phase\nEffect: You can reveal 1 battle tactic card in your hand to your opponent. If you do so, that battle tactic card becomes your oath for the rest of the turn.\n\nWhile this battle tactic card is your oath, you can still use the command on it, or attempt to score the battle tactic on it, as normal.\n\nIf you score the battle tactic on your oath this turn, your oath is fulfilled. Instead of discarding the card, it is placed to one side but you can still use the command on it. Once you do so, the card is discarded as normal. Fulfilled oaths placed to one side in this way do not count towards the 3 battle tactic cards you can have in your hand.\n\nIf you use the command on your oath before it is scored, it is discarded as normal. At the end of the turn, if the oath is still in your hand and that oath has not been fulfilled, it ceases to be your oath.'
+      }
+    ],
+    regimentAbilities: [
+      {
+        name: 'Rage of Arkhar',
+        description: 'Once Per Turn (Army), Any Combat Phase\nDeclare: Pick a friendly unit in combat to be the target.\nEffect: For the rest of the turn, add 1 to the Attacks and Rend characteristics of the target’s melee weapons.\n\nDesigner’s Note: This does not affect Companion weapons.'
       },
       {
-        name: 'Feral Ambush',
-        description: 'Darkoath units can run and charge in the same turn.'
+        name: 'Fearless Invaders',
+        description: 'Once Per Turn (Army), Your Movement Phase\nDeclare: Pick a friendly unit in combat to be the target.\nEffect: If the target uses a Retreat ability this turn, no mortal damage is inflicted on it and it can still use Charge abilities later in the turn.'
       }
     ],
     heroTraits: [
       {
         id: 'std-do-ht1',
-        name: 'Wilder-marked Chieftain',
+        name: 'Bloodthirsty Blade',
         type: 'Hero Trait',
-        effect: 'Your General adds 2 to Health and gains 6+ Ward.'
+        effect: 'Passive\nEffect: The Rend characteristic of your general’s Rune-etched Axe is 2.'
       },
       {
         id: 'std-do-ht2',
-        name: 'Oathsworn Leader',
+        name: 'Godshadow Talisman',
         type: 'Hero Trait',
-        effect: 'Completing vows gives +2 Command Points.'
+        effect: 'Passive\nEffect: Your general has Ward (4+).'
       }
     ],
     artefacts: [
       {
         id: 'std-do-art1',
-        name: 'Totem of the First Beast',
+        name: 'Champion of Raids',
         type: 'Artefact of Power',
-        effect: 'Friendly Darkoath units within 9" add 1 to their melee wound rolls.'
+        effect: 'Your Charge Phase\nDeclare: Pick another friendly unit wholly within 12" of your general to be the target.\nEffect: The target can re-roll charge rolls for the rest of the turn.'
       },
       {
         id: 'std-do-art2',
-        name: 'Chieftain’s Broadaxe',
+        name: 'Fell Ritualist',
         type: 'Artefact of Power',
-        effect: 'Bearer’s weapon has Rend -2 and Damage 3.'
+        effect: 'Passive\nEffect: Each time you draw battle tactic cards, if your general is on the battlefield, you can choose to draw 1 additional battle tactic card, then put 1 of your battle tactic cards in your hand back at the bottom of your battle tactic deck.'
       }
     ],
     units: [
       {
-        id: 'std-chieftain',
-        name: 'Darkoath Chieftain on Warsteed',
+        id: 'std-do-darkoath-warqueen',
+        name: 'Darkoath Warqueen',
         role: 'Hero',
         modelCount: 1,
-        baseSize: '60x35mm',
-        move: '10"',
-        health: 7,
-        save: '4+',
+        baseSize: '32mm',
+        move: '5"',
+        health: 5,
+        save: '5+',
+        ward: '5+',
         control: 2,
         weapons: [
           {
-            name: 'Chieftain’s Broadsword',
+            name: 'Rune-etched Axe',
             type: 'Melee',
             range: '1"',
             attacks: 5,
-            toHit: '3+',
+            toHit: '4+',
             toWound: '3+',
             rend: '-1',
-            damage: '2'
+            damage: '2',
+            ability: 'Crit (Mortal)'
           }
         ],
         abilities: [
           {
-            name: 'Deathblow',
-            phase: 'Combat',
-            type: 'Passive',
-            effect: 'Each enemy model slain by this model allows friendly Darkoath within 6" to fight immediately.'
+            name: 'Oath of Supremacy',
+            phase: 'Hero',
+            type: 'Active',
+            effect: 'Your Hero Phase\nDeclare: Pick a friendly unit wholly within 12" of your general to be the target.\nEffect: Until the start of your next turn, add 1 to hit rolls for attacks made by the target.'
           }
         ],
-        keywords: ['CHAOS', 'SLAVES TO DARKNESS', 'HERO', 'CAVALRY', 'DARKOATH']
+        keywords: ['CHAOS', 'SLAVES TO DARKNESS', 'HERO', 'INFANTRY', 'WARD (5+)', 'DARKOATH WARQUEEN']
       },
       {
-        id: 'std-marauders',
+        id: 'std-do-darkoath-savagers',
+        name: 'Darkoath Savagers',
+        role: 'Infantry',
+        modelCount: 10,
+        baseSize: '28.5mm',
+        move: '5"',
+        health: 1,
+        save: '5+',
+        control: 1,
+        reinforcementNote: '1 model in this unit is a Godspeaker.',
+        weapons: [
+          {
+            name: 'Darkoath Weapons',
+            type: 'Melee',
+            range: '1"',
+            attacks: 2,
+            toHit: '4+',
+            toWound: '3+',
+            rend: '0',
+            damage: '1',
+            ability: 'Crit (Mortal)'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Visions of Glory',
+            phase: 'Hero',
+            type: 'Active',
+            effect: 'Your Hero Phase\nEffect: If this unit includes a Godspeaker, roll 8 dice. For each 4+, until the start of your next turn, you can re-roll 1 hit roll, 1 wound roll, 1 run roll or 1 save roll for this unit.'
+          }
+        ],
+        keywords: ['CHAOS', 'SLAVES TO DARKNESS', 'INFANTRY', 'DARKOATH SAVAGERS']
+      },
+      {
+        id: 'std-do-darkoath-fellriders',
+        name: 'Darkoath Fellriders',
+        role: 'Cavalry',
+        modelCount: 5,
+        baseSize: '60x35mm',
+        move: '12"',
+        health: 3,
+        save: '5+',
+        control: 1,
+        isReinforcement: true,
+        reinforcementNote: 'Reinforcement unit (5 models)',
+        weapons: [
+          {
+            name: 'Fellrider Blades',
+            type: 'Melee',
+            range: '1"',
+            attacks: 2,
+            toHit: '4+',
+            toWound: '3+',
+            rend: '0',
+            damage: '1',
+            ability: 'Charge (+1 Damage)'
+          },
+          {
+            name: 'Warsteed’s Hooves',
+            type: 'Melee',
+            range: '1"',
+            attacks: 2,
+            toHit: '5+',
+            toWound: '3+',
+            rend: '0',
+            damage: '1',
+            ability: 'Companion'
+          }
+        ],
+        abilities: [
+          {
+            name: 'Swift Attackers',
+            phase: 'Passive',
+            type: 'Passive',
+            effect: 'Passive\nEffect: Subtract 1 from hit rolls for shooting attacks that target this unit.'
+          }
+        ],
+        keywords: ['CHAOS', 'SLAVES TO DARKNESS', 'CAVALRY', 'REINFORCEMENTS', 'DARKOATH FELLRIDERS']
+      },
+      {
+        id: 'std-do-darkoath-marauders',
         name: 'Darkoath Marauders',
         role: 'Infantry',
         modelCount: 10,
-        baseSize: '28mm',
-        move: '6"',
-        health: 10,
+        baseSize: '28.5mm',
+        move: '5"',
+        health: 1,
         save: '5+',
-        control: 5,
+        control: 1,
+        isReinforcement: true,
+        reinforcementNote: 'Reinforcement unit (10 models)',
         weapons: [
           {
-            name: 'Darkoath Axes & Broadswords',
+            name: 'Raider Weapons',
             type: 'Melee',
             range: '1"',
-            attacks: 20,
+            attacks: 2,
             toHit: '4+',
             toWound: '3+',
             rend: '0',
@@ -2111,45 +3544,13 @@ export const CHAOS_FACTIONS: SpearheadFaction[] = [
         ],
         abilities: [
           {
-            name: 'Sworn Warriors',
-            phase: 'Combat',
+            name: 'Glorious Death',
+            phase: 'Passive',
             type: 'Passive',
-            effect: 'Add 1 to hit rolls while wholly within 12" of your General.'
+            effect: 'Passive\nEffect: Each time a model in this unit is slain by a combat attack and that model was in combat with the attacking unit, roll a dice. On a 5+, inflict 1 mortal damage on the attacking unit after the Fight ability has been resolved.'
           }
         ],
-        keywords: ['CHAOS', 'SLAVES TO DARKNESS', 'INFANTRY', 'DARKOATH']
-      },
-      {
-        id: 'std-fellriders',
-        name: 'Darkoath Fellriders',
-        role: 'Cavalry',
-        modelCount: 5,
-        baseSize: '60x35mm',
-        move: '12"',
-        health: 10,
-        save: '5+',
-        control: 5,
-        weapons: [
-          {
-            name: 'Javelins & Broadswords',
-            type: 'Melee',
-            range: '1"',
-            attacks: 10,
-            toHit: '3+',
-            toWound: '4+',
-            rend: '0',
-            damage: '1'
-          }
-        ],
-        abilities: [
-          {
-            name: 'Outflank',
-            phase: 'Movement',
-            type: 'Active',
-            effect: 'Can enter the battlefield from any edge at the end of round 1 or 2 movement phase.'
-          }
-        ],
-        keywords: ['CHAOS', 'SLAVES TO DARKNESS', 'CAVALRY', 'DARKOATH FELLRIDERS']
+        keywords: ['CHAOS', 'SLAVES TO DARKNESS', 'INFANTRY', 'REINFORCEMENTS', 'DARKOATH MARAUDERS']
       }
     ]
   }
