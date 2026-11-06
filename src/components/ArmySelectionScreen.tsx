@@ -12,10 +12,12 @@ interface ArmySelectionScreenProps {
     p1FactionId: string;
     p1HeroTraitId: string;
     p1ArtefactId: string;
+    p1RegimentAbilityName?: string;
     p2Name: string;
     p2FactionId: string;
     p2HeroTraitId: string;
     p2ArtefactId: string;
+    p2RegimentAbilityName?: string;
   }) => void;
   isInitialSetup?: boolean;
   onCancel?: () => void;
@@ -35,12 +37,14 @@ export const ArmySelectionScreen: React.FC<ArmySelectionScreenProps> = ({
   const [p1Name, setP1Name] = useState<string>('Lord-Commander');
   const [p1HeroTraitId, setP1HeroTraitId] = useState<string>(SPEARHEAD_FACTIONS[0].heroTraits[0]?.id || '');
   const [p1ArtefactId, setP1ArtefactId] = useState<string>(SPEARHEAD_FACTIONS[0].artefacts[0]?.id || '');
+  const [p1RegimentAbilityName, setP1RegimentAbilityName] = useState<string>(SPEARHEAD_FACTIONS[0].regimentAbilities?.[0]?.name || '');
 
   // Player 2 (Opponent's Army)
   const [p2FactionId, setP2FactionId] = useState<string>(SPEARHEAD_FACTIONS[1]?.id || SPEARHEAD_FACTIONS[0].id);
   const [p2Name, setP2Name] = useState<string>('Enemy Warlord');
   const [p2HeroTraitId, setP2HeroTraitId] = useState<string>(SPEARHEAD_FACTIONS[1]?.heroTraits[0]?.id || '');
   const [p2ArtefactId, setP2ArtefactId] = useState<string>(SPEARHEAD_FACTIONS[1]?.artefacts[0]?.id || '');
+  const [p2RegimentAbilityName, setP2RegimentAbilityName] = useState<string>(SPEARHEAD_FACTIONS[1]?.regimentAbilities?.[0]?.name || '');
 
   // Active step: 'p1' (Your Army) -> 'p2' (Opponent & Realm)
   const [activeStep, setActiveStep] = useState<'p1' | 'p2'>('p1');
@@ -68,12 +72,14 @@ export const ArmySelectionScreen: React.FC<ArmySelectionScreenProps> = ({
     setP1FactionId(faction.id);
     setP1HeroTraitId(faction.heroTraits[0]?.id || '');
     setP1ArtefactId(faction.artefacts[0]?.id || '');
+    setP1RegimentAbilityName(faction.regimentAbilities?.[0]?.name || '');
   };
 
   const handleSelectP2Faction = (faction: SpearheadFaction) => {
     setP2FactionId(faction.id);
     setP2HeroTraitId(faction.heroTraits[0]?.id || '');
     setP2ArtefactId(faction.artefacts[0]?.id || '');
+    setP2RegimentAbilityName(faction.regimentAbilities?.[0]?.name || '');
   };
 
   const handleDeploy = () => {
@@ -83,10 +89,12 @@ export const ArmySelectionScreen: React.FC<ArmySelectionScreenProps> = ({
       p1FactionId,
       p1HeroTraitId: p1HeroTraitId || p1Faction.heroTraits[0]?.id || '',
       p1ArtefactId: p1ArtefactId || p1Faction.artefacts[0]?.id || '',
+      p1RegimentAbilityName: p1RegimentAbilityName || p1Faction.regimentAbilities?.[0]?.name,
       p2Name: p2Name.trim() || 'Enemy Warlord',
       p2FactionId,
       p2HeroTraitId: p2HeroTraitId || p2Faction.heroTraits[0]?.id || '',
       p2ArtefactId: p2ArtefactId || p2Faction.artefacts[0]?.id || '',
+      p2RegimentAbilityName: p2RegimentAbilityName || p2Faction.regimentAbilities?.[0]?.name,
     });
   };
 
@@ -282,7 +290,7 @@ export const ArmySelectionScreen: React.FC<ArmySelectionScreenProps> = ({
               <span className="text-xs text-zinc-400 font-mono">Grand Alliance: {p1Faction.grandAlliance}</span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {/* Commander Name */}
               <div>
                 <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
@@ -355,6 +363,42 @@ export const ArmySelectionScreen: React.FC<ArmySelectionScreenProps> = ({
                       </button>
                     );
                   })}
+                </div>
+              </div>
+
+              {/* Regiment Ability */}
+              <div>
+                <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
+                  Regiment Ability (Pick 1)
+                </label>
+                <div className="space-y-2">
+                  {(p1Faction.regimentAbilities && p1Faction.regimentAbilities.length > 0) ? (
+                    p1Faction.regimentAbilities.map(ra => {
+                      const isPicked = p1RegimentAbilityName === ra.name;
+                      return (
+                        <button
+                          key={ra.name}
+                          type="button"
+                          onClick={() => setP1RegimentAbilityName(ra.name)}
+                          className={`w-full text-left p-2.5 rounded-lg border transition-all ${
+                            isPicked
+                              ? 'border-amber-500 bg-amber-500/10 text-zinc-100'
+                              : 'border-zinc-800 bg-zinc-950/60 text-zinc-400 hover:text-zinc-200'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-bold">{ra.name}</span>
+                            {isPicked && <Check className="h-3.5 w-3.5 text-amber-400" />}
+                          </div>
+                          <p className="text-[11px] text-zinc-400 mt-1">{ra.description}</p>
+                        </button>
+                      );
+                    })
+                  ) : (
+                    <div className="p-2.5 rounded-lg border border-zinc-800 bg-zinc-950/40 text-xs text-zinc-500 italic">
+                      Standard regiment configuration
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -483,6 +527,27 @@ export const ArmySelectionScreen: React.FC<ArmySelectionScreenProps> = ({
                   {p2Faction.artefacts.find(a => a.id === p2ArtefactId)?.effect}
                 </p>
               </div>
+
+              {/* Opponent Regiment Ability */}
+              {p2Faction.regimentAbilities && p2Faction.regimentAbilities.length > 0 && (
+                <div>
+                  <label className="block text-xs text-zinc-400 mb-1">Opponent Regiment Ability</label>
+                  <select
+                    value={p2RegimentAbilityName}
+                    onChange={e => setP2RegimentAbilityName(e.target.value)}
+                    className="w-full rounded-lg border border-zinc-800 bg-zinc-950 px-3 py-2 text-xs text-zinc-100 focus:border-rose-500 focus:outline-none"
+                  >
+                    {p2Faction.regimentAbilities.map(ra => (
+                      <option key={ra.name} value={ra.name}>
+                        {ra.name}
+                      </option>
+                    ))}
+                  </select>
+                  <p className="mt-1 text-[11px] text-zinc-400">
+                    {p2Faction.regimentAbilities.find(r => r.name === p2RegimentAbilityName)?.description}
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Battlefield Realm Selection */}

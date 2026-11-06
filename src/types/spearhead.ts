@@ -88,11 +88,14 @@ export interface BattleTacticCard {
   commandEffect: string;
 }
 
+export type TurnPhase = 'Hero' | 'Movement' | 'Shooting' | 'Charge' | 'Combat' | 'End of Turn';
+
 export interface PlayerState {
   name: string;
   factionId: string;
   selectedHeroTraitId: string;
   selectedArtefactId: string;
+  selectedRegimentAbilityName?: string;
   score: number;
   commandPoints: number;
   hand: BattleTacticCard[];
@@ -109,6 +112,7 @@ export interface MatchState {
   realm: 'Aqshy' | 'Ghyran';
   round: number; // 1 to 4
   currentTurn: 'P1' | 'P2';
+  currentPhase?: TurnPhase;
   roundInitiativeWinner: 'P1' | 'P2';
   activeTwist: TwistCard | null;
   deck: BattleTacticCard[];

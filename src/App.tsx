@@ -35,7 +35,9 @@ function createInitialMatch(
   p2Name = 'Clawlord Vrik',
   p2FactionId = 'skaven-gnawfeast',
   p2HeroTraitId = 'sk-ht-1',
-  p2ArtefactId = 'sk-art-1'
+  p2ArtefactId = 'sk-art-1',
+  p1RegimentAbilityName?: string,
+  p2RegimentAbilityName?: string
 ): MatchState {
   const shuffled = shuffleDeck(BATTLE_TACTICS_DECK);
   const p1Hand = shuffled.slice(0, 3);
@@ -76,6 +78,7 @@ function createInitialMatch(
     realm,
     round: 1,
     currentTurn: 'P1',
+    currentPhase: 'Hero',
     roundInitiativeWinner: 'P1',
     activeTwist,
     deck: remainingDeck,
@@ -91,6 +94,7 @@ function createInitialMatch(
       factionId: p1FactionId,
       selectedHeroTraitId: p1HeroTraitId,
       selectedArtefactId: p1ArtefactId,
+      selectedRegimentAbilityName: p1RegimentAbilityName || p1Faction.regimentAbilities?.[0]?.name,
       score: 0,
       commandPoints: 1,
       hand: p1Hand,
@@ -103,6 +107,7 @@ function createInitialMatch(
       factionId: p2FactionId,
       selectedHeroTraitId: p2HeroTraitId,
       selectedArtefactId: p2ArtefactId,
+      selectedRegimentAbilityName: p2RegimentAbilityName || p2Faction.regimentAbilities?.[0]?.name,
       score: 0,
       commandPoints: 1,
       hand: p2Hand,
@@ -179,10 +184,12 @@ export default function App() {
     p1FactionId: string;
     p1HeroTraitId: string;
     p1ArtefactId: string;
+    p1RegimentAbilityName?: string;
     p2Name: string;
     p2FactionId: string;
     p2HeroTraitId: string;
     p2ArtefactId: string;
+    p2RegimentAbilityName?: string;
   }) => {
     const newMatch = createInitialMatch(
       config.realm,
@@ -193,7 +200,9 @@ export default function App() {
       config.p2Name,
       config.p2FactionId,
       config.p2HeroTraitId,
-      config.p2ArtefactId
+      config.p2ArtefactId,
+      config.p1RegimentAbilityName,
+      config.p2RegimentAbilityName
     );
     setCurrentMatch(newMatch);
     setIsSelectingArmy(false);

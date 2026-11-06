@@ -12,10 +12,12 @@ interface SetupMatchModalProps {
     p1FactionId: string;
     p1HeroTraitId: string;
     p1ArtefactId: string;
+    p1RegimentAbilityName?: string;
     p2Name: string;
     p2FactionId: string;
     p2HeroTraitId: string;
     p2ArtefactId: string;
+    p2RegimentAbilityName?: string;
   }) => void;
 }
 
@@ -29,11 +31,13 @@ export const SetupMatchModal: React.FC<SetupMatchModalProps> = ({
   const [p1FactionId, setP1FactionId] = useState<string>(SPEARHEAD_FACTIONS[0].id);
   const [p1HeroTraitId, setP1HeroTraitId] = useState<string>(SPEARHEAD_FACTIONS[0].heroTraits[0]?.id || '');
   const [p1ArtefactId, setP1ArtefactId] = useState<string>(SPEARHEAD_FACTIONS[0].artefacts[0]?.id || '');
+  const [p1RegimentAbilityName, setP1RegimentAbilityName] = useState<string>(SPEARHEAD_FACTIONS[0].regimentAbilities?.[0]?.name || '');
 
   const [p2Name, setP2Name] = useState<string>('Commander 2');
   const [p2FactionId, setP2FactionId] = useState<string>(SPEARHEAD_FACTIONS[1]?.id || SPEARHEAD_FACTIONS[0].id);
   const [p2HeroTraitId, setP2HeroTraitId] = useState<string>(SPEARHEAD_FACTIONS[1]?.heroTraits[0]?.id || '');
   const [p2ArtefactId, setP2ArtefactId] = useState<string>(SPEARHEAD_FACTIONS[1]?.artefacts[0]?.id || '');
+  const [p2RegimentAbilityName, setP2RegimentAbilityName] = useState<string>(SPEARHEAD_FACTIONS[1]?.regimentAbilities?.[0]?.name || '');
 
   if (!isOpen) return null;
 
@@ -46,6 +50,7 @@ export const SetupMatchModal: React.FC<SetupMatchModalProps> = ({
     if (f) {
       setP1HeroTraitId(f.heroTraits[0]?.id || '');
       setP1ArtefactId(f.artefacts[0]?.id || '');
+      setP1RegimentAbilityName(f.regimentAbilities?.[0]?.name || '');
     }
   };
 
@@ -55,6 +60,7 @@ export const SetupMatchModal: React.FC<SetupMatchModalProps> = ({
     if (f) {
       setP2HeroTraitId(f.heroTraits[0]?.id || '');
       setP2ArtefactId(f.artefacts[0]?.id || '');
+      setP2RegimentAbilityName(f.regimentAbilities?.[0]?.name || '');
     }
   };
 
@@ -65,10 +71,12 @@ export const SetupMatchModal: React.FC<SetupMatchModalProps> = ({
       p1FactionId,
       p1HeroTraitId,
       p1ArtefactId,
+      p1RegimentAbilityName,
       p2Name,
       p2FactionId,
       p2HeroTraitId,
-      p2ArtefactId
+      p2ArtefactId,
+      p2RegimentAbilityName
     });
   };
 
@@ -206,6 +214,27 @@ export const SetupMatchModal: React.FC<SetupMatchModalProps> = ({
                   {p1Faction.artefacts.find(a => a.id === p1ArtefactId)?.effect}
                 </p>
               </div>
+
+              {/* Regiment Ability */}
+              {p1Faction.regimentAbilities && p1Faction.regimentAbilities.length > 0 && (
+                <div>
+                  <label className="block text-xs text-zinc-400 mb-1">Regiment Ability</label>
+                  <select
+                    value={p1RegimentAbilityName}
+                    onChange={e => setP1RegimentAbilityName(e.target.value)}
+                    className="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-xs text-zinc-100 focus:border-blue-500 focus:outline-none"
+                  >
+                    {p1Faction.regimentAbilities.map(ra => (
+                      <option key={ra.name} value={ra.name}>
+                        {ra.name}
+                      </option>
+                    ))}
+                  </select>
+                  <p className="mt-1 text-[11px] text-zinc-400">
+                    {p1Faction.regimentAbilities.find(r => r.name === p1RegimentAbilityName)?.description}
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Player 2 */}
@@ -281,6 +310,27 @@ export const SetupMatchModal: React.FC<SetupMatchModalProps> = ({
                   {p2Faction.artefacts.find(a => a.id === p2ArtefactId)?.effect}
                 </p>
               </div>
+
+              {/* Regiment Ability */}
+              {p2Faction.regimentAbilities && p2Faction.regimentAbilities.length > 0 && (
+                <div>
+                  <label className="block text-xs text-zinc-400 mb-1">Regiment Ability</label>
+                  <select
+                    value={p2RegimentAbilityName}
+                    onChange={e => setP2RegimentAbilityName(e.target.value)}
+                    className="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-xs text-zinc-100 focus:border-rose-500 focus:outline-none"
+                  >
+                    {p2Faction.regimentAbilities.map(ra => (
+                      <option key={ra.name} value={ra.name}>
+                        {ra.name}
+                      </option>
+                    ))}
+                  </select>
+                  <p className="mt-1 text-[11px] text-zinc-400">
+                    {p2Faction.regimentAbilities.find(r => r.name === p2RegimentAbilityName)?.description}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
 

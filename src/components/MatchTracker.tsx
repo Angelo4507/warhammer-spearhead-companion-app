@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { MatchState, BattleTacticCard, SpearheadUnit } from '../types/spearhead';
+import { MatchState, BattleTacticCard, SpearheadUnit, TurnPhase } from '../types/spearhead';
 import { SPEARHEAD_FACTIONS, BATTLE_TACTICS_DECK, TWIST_CARDS } from '../data/spearheadData';
 import { UnitWarscrollModal } from './UnitWarscrollModal';
 import { ReinforcementsBadge, isUnitReinforceable } from './ReinforcementsBadge';
+import { PhaseReminderAssistant } from './PhaseReminderAssistant';
 import {
   Swords,
   Shield,
@@ -317,17 +318,36 @@ export const MatchTracker: React.FC<MatchTrackerProps> = ({
     }));
   };
 
+  // Change active turn phase
+  const currentPhase: TurnPhase = match.currentPhase || 'Hero';
+  const handleSelectPhase = (phase: TurnPhase) => {
+    setMatch(prev => ({
+      ...prev,
+      currentPhase: phase,
+      roundLogs: [
+        ...prev.roundLogs,
+        {
+          round: prev.round,
+          text: `${prev[prev.currentTurn === 'P1' ? 'p1' : 'p2'].name} entered ${phase} Phase`,
+          timestamp: new Date().toLocaleTimeString()
+        }
+      ]
+    }));
+  };
+
   // Switch Turn or Advance Round
   const advanceTurnOrRound = () => {
     if (match.currentTurn === 'P1') {
+      setActivePlayerTab('P2');
       setMatch(prev => ({
         ...prev,
         currentTurn: 'P2',
+        currentPhase: 'Hero',
         roundLogs: [
           ...prev.roundLogs,
           {
             round: prev.round,
-            text: `Turn passed to ${prev.p2.name}`,
+            text: `Turn passed to ${prev.p2.name} (Hero Phase)`,
             timestamp: new Date().toLocaleTimeString()
           }
         ]
@@ -339,6 +359,7 @@ export const MatchTracker: React.FC<MatchTrackerProps> = ({
         onFinishMatch();
       } else {
         const nextRound = match.round + 1;
+        setActivePlayerTab('P1');
         // Reset round primary objective checklist for the new round (max 3 VP / round)
         setRoundObjectives({
           P1: { hold1: false, hold2: false, holdMore: false },
@@ -359,6 +380,7 @@ export const MatchTracker: React.FC<MatchTrackerProps> = ({
           ...prev,
           round: nextRound,
           currentTurn: 'P1',
+          currentPhase: 'Hero',
           activeTwist: nextTwist,
           p1: {
             ...prev.p1,
@@ -372,7 +394,7 @@ export const MatchTracker: React.FC<MatchTrackerProps> = ({
             ...prev.roundLogs,
             {
               round: nextRound,
-              text: `Round ${nextRound} began! Twist: ${nextTwist.name}`,
+              text: `Round ${nextRound} began! Twist: ${nextTwist.name} (${prev.p1.name}'s Hero Phase)`,
               timestamp: new Date().toLocaleTimeString()
             }
           ]
@@ -517,7 +539,14 @@ export const MatchTracker: React.FC<MatchTrackerProps> = ({
               <h3 className="font-cinzel text-base font-bold text-zinc-100 truncate max-w-[160px]">
                 {match.p1.name}
               </h3>
-              <span className="text-[11px] text-zinc-400">{p1Faction.name}</span>
+              <div className="flex items-center gap-1.5 flex-wrap mt-0.5">
+                <span className="text-[11px] text-zinc-400">{p1Faction.name}</span>
+                {match.p1.selectedRegimentAbilityName && (
+                  <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-blue-900/50 text-blue-300 border border-blue-800/60" title={`Regiment Ability: ${match.p1.selectedRegimentAbilityName}`}>
+                    {match.p1.selectedRegimentAbilityName}
+                  </span>
+                )}
+              </div>
             </div>
             {p1IsUnderdog && (
               <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
@@ -599,7 +628,14 @@ export const MatchTracker: React.FC<MatchTrackerProps> = ({
               <h3 className="font-cinzel text-base font-bold text-zinc-100 truncate max-w-[160px]">
                 {match.p2.name}
               </h3>
-              <span className="text-[11px] text-zinc-400">{p2Faction.name}</span>
+              <div className="flex items-center gap-1.5 flex-wrap mt-0.5">
+                <span className="text-[11px] text-zinc-400">{p2Faction.name}</span>
+                {match.p2.selectedRegimentAbilityName && (
+                  <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-rose-900/50 text-rose-300 border border-rose-800/60" title={`Regiment Ability: ${match.p2.selectedRegimentAbilityName}`}>
+                    {match.p2.selectedRegimentAbilityName}
+                  </span>
+                )}
+              </div>
             </div>
             {p2IsUnderdog && (
               <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
@@ -707,6 +743,30 @@ export const MatchTracker: React.FC<MatchTrackerProps> = ({
           </div>
         </div>
       )}
+
+      {/* Turn Phases & Ability Reminder Assistant */}
+      <PhaseReminderAssistant
+        currentPhase={currentPhase}
+        onSelectPhase={handleSelectPhase}
+        activePlayer={match.currentTurn}
+        match={match}
+        p1Faction={p1Faction}
+        p2Faction={p2Faction}
+        onPlayCommand={(player, card) => playCommandReaction(player, card)}
+        onScoreTactic={(player, card) => scoreTacticCard(player, card)}
+        onCallReinforcements={(player, unitId, unitName) => handleCallReinforcements(player, unitId, unitName)}
+        onViewUnit={(unit) => {
+          const playerKey = match.currentTurn === 'P1' ? 'p1' : 'p2';
+          const health = match[playerKey].unitHealth[unit.id]?.currentHealth;
+          setSelectedUnitForModal(unit);
+          setSelectedUnitHealth(health);
+        }}
+        onAdvanceTurnOrRound={advanceTurnOrRound}
+        roundObjectives={roundObjectives}
+        onToggleObjective={toggleObjective}
+        getPrimaryScore={getPrimaryScore}
+        roundSecondaryVP={roundSecondaryVP}
+      />
 
       {/* Streamlined End-of-Turn Primary Objectives Scoring Console (Max 3 VP per round) */}
       <div className="rounded-xl border border-zinc-800 bg-zinc-900/90 p-4 shadow-md space-y-4">
